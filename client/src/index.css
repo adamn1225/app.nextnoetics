@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --primary: #238d9b;
+  --secondary: #46d1db;
+  --foreground: #060f0f;
+  --background: #e7e7e7;
+  --radius: 0.5rem;
+}
+
+.hero-gradient {
+  background: linear-gradient(45deg, #238d9b, #46d1db);
+}
+
+.btn-gradient {
+  background: linear-gradient(45deg, #238d9b, #46d1db);
+  font-weight: bold !important;
+  color: white !important;
+}
+
+.nn-gradient {
+  background: linear-gradient(45deg, #238d9b, #46d1db);
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #238d9b, #46d1db);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide the nextjs-portal element */
+nextjs-portal {
+  display: none;
+}
+
+/* Add this CSS to your stylesheet */
+.url-converter-sidebar {
+  position: relative;
+  top: 100px; /* Adjust this value as needed */
+  right: 20px; /* Adjust this value as needed */
+  width: 20vw !important; /* Adjust this value as needed */
+  max-width: 20vw !important; /* Adjust this value as needed */
+  min-width: 20vw !important; /* Adjust this value as needed */
+  background-color: #1a1a1a; /* Adjust this value as needed */
+  padding: 10px; /* Adjust this value as needed */
+  z-index: 1000; /* Ensure it is above other elements */
+}

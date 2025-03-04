@@ -1,0 +1,14 @@
+{
+  "name": "app-nextnoetics",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
+    "build": "npm run build --prefix client",
+    "test": "npm run test --prefix client",
+    "eject": "npm run eject --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
