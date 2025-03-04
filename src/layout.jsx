@@ -1,5 +1,4 @@
 import SideNav from './components/SideNav';
-import TopNav from './components/TopNav'; // Import the TopNav component
 import React from 'react';
 import "./globals.css";
 
