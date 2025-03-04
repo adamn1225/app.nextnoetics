@@ -4,8 +4,9 @@ import { Rnd } from "react-rnd";
 import { useNode } from "@craftjs/core";
 import FetchImages from './FetchImages';
 import { Link2, Link2Off } from 'lucide-react';
+import defaultImage from "../../../assets/default-image.jpg";
 
-export const ImageUpload = ({ src = '/chamber-crane.jpeg', alt = '', width = 'auto', height = 'auto', objectFit = 'contain', objectPosition = 'center', overlayColor = 'transparent', overlayOpacity = 0.4, children }) => {
+export const ImageUpload = ({ src = defaultImage, alt = '', width = 'auto', height = 'auto', objectFit = 'contain', objectPosition = 'center', overlayColor = 'transparent', overlayOpacity = 0.4, children }) => {
   const { connectors: { connect, drag }, actions: { setProp } } = useNode();
   const ref = useRef(null);
 
@@ -33,7 +34,7 @@ export const ImageUpload = ({ src = '/chamber-crane.jpeg', alt = '', width = 'au
         style={{ width: '100%', height: '100%', position: 'relative' }}
       >
         <img
-          src={src || '/default-image.jpg'}
+          src={src || {defaultImage}}
           alt={alt}
           style={{ width: '100%', height: '100%', objectFit, objectPosition }}
           className="z-0"
@@ -211,7 +212,7 @@ export const ImageUploadSettings = () => {
 };
 
 ImageUpload.craft = {
-  props: { src: '/chamber-crane.jpeg', alt: '', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'center', overlayColor: '#000', overlayOpacity: 0.4 },
+  props: { src: {defaultImage}, alt: '', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'center', overlayColor: '#000', overlayOpacity: 0.4 },
   related: {
     settings: ImageUploadSettings
   },

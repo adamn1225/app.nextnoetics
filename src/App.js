@@ -1,10 +1,14 @@
 import './App.css';
 import SmmCards from './components/SmmCards';
+import SideNav from './components/SideNav';
 
 function App() {
   return (
     <div className="App">
-      <SmmCards />
+      <div className='flex'>
+        <SideNav />
+        <SmmCards />
+      </div>
     </div>
   );
 }

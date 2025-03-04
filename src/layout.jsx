@@ -1,6 +1,5 @@
-import SideNav from './components/SideNav';
+
 import React from 'react';
-import "./globals.css";
 
 const RootLayout = ({ children }) => {
   return (
@@ -8,11 +7,10 @@ const RootLayout = ({ children }) => {
       <head>
         {/* Add any head elements here */}
       </head>
-      <body className="flex w-screen h-screen bg-gray-100 dark:bg-gray-800 overflow-x-hidden">
-        <SideNav />
-        <div className="flex-1 flex flex-col h-screen w-screen">
-         
-          <div className="flex overflow-auto h-screen w-full">
+      <body className="">
+        
+        <div className="">
+          <div className="">
             {children}
           </div>
         </div>

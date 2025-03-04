@@ -7,6 +7,7 @@ import { ImageUpload } from "./user/ImageUpload";
 import { TwoColumnContainer } from "./user/gridlayouts/TwoColumnContainer";
 import { ThreeColumnContainer } from "./user/gridlayouts/ThreeColumnContainer";
 import { Square } from "lucide-react";
+import simpleBlue from '../../assets/simple-blue.png';
 
 const DraggableButton = forwardRef((props, ref) => (
   <button ref={ref} {...props} />
@@ -43,7 +44,8 @@ export const CardTools = () => {
           <div className="grid grid-cols-2 gap-x-4 gap-y-2 w-full text-nowrap mx-2 ">
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <Header text="Header" />); }} className="p-2 btn-gradient rounded text-center">Text</DraggableButton>  
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <Container padding={0} background="#fff" canvas>{null}</Container>); }} className="p-2 btn-gradient rounded text-center">Container</DraggableButton>
-            <DraggableButton ref={ref => { if (ref) connectors.create(ref, <ImageUpload src="/simple-blue.png"  alt="" width={200} height={200} overlayOpacity={0} />); }} className="p-2 btn-gradient rounded text-center">Image Upload</DraggableButton>
+            <DraggableButton ref={ref => { if (ref) connectors.create(ref, <ImageUpload src={simpleBlue} alt="" width={200} height={200} overlayOpacity={0} />); }} className="p-2 btn-gradient rounded text-center">Image Upload</DraggableButton>
+
       
           </div>
         </>

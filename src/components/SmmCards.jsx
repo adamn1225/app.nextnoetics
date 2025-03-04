@@ -57,7 +57,7 @@ const SmmCards = () => {
         
 
               {selectedCard === 'Facebook' && (
-               <div className='flex flex-col justify-normal items-center h-full w-full ml-3'>
+               <div className='flex flex-col justify-normal items-center h-full w-full ml-4'>
                   <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
                     <Element is={FbContainer} canvas>
@@ -81,10 +81,10 @@ const SmmCards = () => {
               </div>
               )}
           </div>
-          <div className='fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-stone-900 h-full overflow-y-auto'>
+          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-stone-900 h-full overflow-y-auto'>
             <Topbar />
             <div className='flex flex-col justify-center items-center gap-1 px-2 overflow-y-auto'>
-              <h1 className='text-white text-2xl font-bold'>Social Media Card Types</h1>
+              <h1 className='text-white text-xl text-center font-bold'>Social Media Card Types</h1>
               <select className='bg-white border border-gray-300 rounded-md p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
                 <option value="Facebook">Facebook Card</option>
                 <option value="Instagram">Instagram Card</option>

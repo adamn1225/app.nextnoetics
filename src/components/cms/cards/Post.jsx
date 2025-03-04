@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { Element, useNode } from "@craftjs/core";
 import { Header } from "../user/Header";
 import { ImageUpload } from "../user/ImageUpload";
+import defaultImage from "../../../assets/default-image.jpg";
 
 export const PostTop = ({ children }) => {
     const { connectors: { connect } } = useNode();
@@ -21,7 +22,7 @@ PostTop.craft = {
     }
 };
 
-export const Post = ({ background, padding = 0, borderColor = 'gray-400', height = 'auto', width = 'auto', containerType, h1, h2, img }) => {
+export const Post = ({ background, padding = 0, borderColor = 'gray-400', height = 'auto', width = 'auto', containerType, h1, h2, img = defaultImage }) => {
     const { connectors: { connect, drag } } = useNode();
     const ref = useRef(null);
 
@@ -54,7 +55,7 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
          <div> <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 28 : 24} className="mb-4" /></div>
           <div><Element is={Header} text={h2 || "Subtitle"} fontSize={isFacebook ? 20 : 18} id="subtitle" background={background} className="mt-4" /></div>
         </div>
-        <Element is={ImageUpload} id="image" src={img || '/default-image.jpg'} width={isFacebook ? 1200 : 1350} height={isFacebook ? 628 : 1080} alt="" canvas style={{ position: 'absolute', bottom: '10px', left: '10px' }} />
+        <Element is={ImageUpload} id="image" src={img} width={isFacebook ? 1200 : 1350} height={isFacebook ? 628 : 1080} alt="" canvas style={{ position: 'absolute', bottom: '10px', left: '10px' }} />
       </div>
     );
 };
@@ -93,7 +94,8 @@ Post.craft = {
         padding: 20,
         gap: 0,
         height: "auto",
-        width: "auto"
+        width: "auto",
+        img: defaultImage,
     },
     related: {
         settings: PostSettings
