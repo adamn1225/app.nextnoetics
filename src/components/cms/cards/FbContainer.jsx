@@ -24,7 +24,7 @@ export const FbContainer = ({ background, padding = 0, margin = 0, layout = "fle
 };
 
 export const FbContainerSettings = () => {
-  const { actions: { setProp }, background, padding, margin, layout } = useNode((node) => ({
+  const { actions: { setProp }, background, padding, margin } = useNode((node) => ({
     background: node.data.props.background,
     padding: node.data.props.padding,
     margin: node.data.props.margin,

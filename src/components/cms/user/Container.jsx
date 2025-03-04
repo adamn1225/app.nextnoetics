@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 import { useNode } from "@craftjs/core";
 
 export const Container = ({ background, padding = 0, margin = 0, layout = "flex", children }) => {
-    const { connectors: { connect, drag }, actions: { setProp } } = useNode();
+    const { connectors: { connect, drag } } = useNode();
     const ref = useRef(null);
 
     useEffect(() => {

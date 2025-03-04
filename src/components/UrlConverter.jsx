@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DraggableImages from './DraggableImages';
 
@@ -21,7 +21,7 @@ const UrlConverter = ({ onConvert }) => {
         formattedUrl = 'http://' + formattedUrl;
       }
 
-      const response = await axios.get(`http://localhost:3001/fetch-url?url=${encodeURIComponent(formattedUrl)}`);
+      const response = await axios.get(`/.netlify/functions/fetch-urls?url=${encodeURIComponent(formattedUrl)}`);
       console.log('Response data:', response.data); // Debugging: Log the response data
 
       const { images = [], h1 = '', h2 = '' } = response.data;

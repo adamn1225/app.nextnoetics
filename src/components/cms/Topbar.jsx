@@ -33,7 +33,7 @@ export const Topbar = () => {
         try {
             const jsonData = query.serialize();
 
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('templates')
                 .insert([{ name: templateName, sections: jsonData, user_id: user.id }]);
 

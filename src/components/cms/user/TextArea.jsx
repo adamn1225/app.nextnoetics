@@ -6,9 +6,7 @@ import { Slider } from '@mui/material';
 import { AlignCenter, AlignLeft, AlignRight } from 'lucide-react';
 
 export const TextArea = ({ text, fontSize, textAlign, color, fontWeight, fontStyle, height = '250px', width = 'auto' }) => {
-    const { connectors: { connect, drag }, hasSelectedNode, actions: { setProp } } = useNode((state) => ({
-        hasSelectedNode: state.events.selected,
-    }));
+    const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     return (
         <div>
@@ -33,7 +31,7 @@ export const TextArea = ({ text, fontSize, textAlign, color, fontWeight, fontSty
 };
 
 const TextAreaSettings = () => {
-    const { actions: { setProp }, fontSize, textAlign, color, fontWeight, fontStyle } = useNode((node) => ({
+    const { actions: { setProp }, fontSize, color, fontWeight, fontStyle } = useNode((node) => ({
         fontSize: node.data.props.fontSize,
         textAlign: node.data.props.textAlign,
         color: node.data.props.color,

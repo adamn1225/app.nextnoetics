@@ -1,10 +1,9 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { Element, useNode } from "@craftjs/core";
-import { Container, ContainerSettings } from "./Container";
-import { TextArea, TextAreaSettings } from "./TextArea";
-import { Header, HeaderSettings } from "./Header";
-import { Button, ButtonSettings } from "./Button";
+import { TextArea } from "./TextArea";
+import { Header } from "./Header";
+import { Button } from "./Button";
 
 export const CardTop = ({ children }) => {
     const { connectors: { connect } } = useNode();

@@ -23,7 +23,6 @@ export const ButtonSettings = () => {
         background,
         textColor,
         borderRadius,
-        alignment,
         fontWeight,
         url,
     } = useNode((node) => ({
@@ -100,10 +99,6 @@ export const ButtonSettings = () => {
 
 Button.craft = {
     props: { alignment: 'center'},
-    related: {
-        settings: ButtonSettings,
-    },
-    
     related: {
         settings: ButtonSettings,
     },

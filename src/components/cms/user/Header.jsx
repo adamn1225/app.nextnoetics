@@ -7,9 +7,7 @@ import { AlignCenter, AlignLeft, AlignRight } from 'lucide-react';
 import { Rnd } from "react-rnd";
 
 export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle, tagName }) => {
-    const { connectors: { connect, drag }, hasSelectedNode, actions: { setProp } } = useNode((state) => ({
-        hasSelectedNode: state.events.selected,
-    }));
+    const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     const onResizeStop = (e, direction, ref, delta, position) => {
         setProp(props => {
@@ -43,7 +41,7 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
 };
 
 const HeaderSettings = () => {
-    const { actions: { setProp }, fontSize, textAlign, color, fontWeight, fontStyle, tagName } = useNode((node) => ({
+    const { actions: { setProp }, fontSize, color, fontWeight, fontStyle, tagName } = useNode((node) => ({
         fontSize: node.data.props.fontSize,
         textAlign: node.data.props.textAlign,
         color: node.data.props.color,
@@ -80,6 +78,10 @@ const HeaderSettings = () => {
         setProp((props) => props.tagName = e.target.value);
     };
 
+    const handleTextAlignChange = (align) => {
+        setProp((props) => props.textAlign = align);
+    };
+
     return (
         <div>
             <div className="flex justify-center space-x-2 text-gray-100">
@@ -97,19 +99,18 @@ const HeaderSettings = () => {
                 </button>
             </div>
             <div className={activeTab === 'slider' ? 'space-y-2 mt-6' : 'hidden'}>
-            
                 <div className="flex items-center justify-center gap-1">
-                    
                     <div className="flex items-center justify-stretch w-full gap-2">
-                         <label className="w-full font-semibold text-sm underline text-gray-100">Font Size
-                        <Slider
-                            value={fontSize ? parseInt(fontSize, 10) : 0}
-                            onChange={(e, value) => handleFontSizeChange(value.toString())}
-                            step={1}
-                            min={7}
-                            max={100}
-                            valueLabelDisplay="auto"
-                        /></label>
+                        <label className="w-full font-semibold text-sm underline text-gray-100">Font Size
+                            <Slider
+                                value={fontSize ? parseInt(fontSize, 10) : 0}
+                                onChange={(e, value) => handleFontSizeChange(value.toString())}
+                                step={1}
+                                min={7}
+                                max={100}
+                                valueLabelDisplay="auto"
+                            />
+                        </label>
                         <input
                             value={fontSize ? parseInt(fontSize, 10) : 0}
                             onChange={(e) => handleFontSizeChange(e.target.value)}
@@ -144,48 +145,44 @@ const HeaderSettings = () => {
                         </select>
                     </div>
                     <div className="flex flex-col items-center justify-center gap-1">
-                            <label className="underline font-semibold text-normal text-gray-100">Font Weight</label>
-                            <select
-                                value={fontWeight}
-                                onChange={handleFontWeightChange}
-                                className="border border-gray-300 rounded-sm p-1 text-zinc-900"
-                            >
-                                <option value="normal">Normal</option>
-                                <option value="bold">Bold</option>
-                                <option value="bolder">Bolder</option>
-                                <option value="lighter">Lighter</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col items-center justify-center gap-1">
-                            <label className="underline font-semibold text-sm text-gray-100">Font Style</label>
-                            <select
-                                value={fontStyle}
-                                onChange={handleFontStyleChange}
-                                className="border border-gray-300 rounded-md p-1 text-zinc-900"
-                            >
-                                <option value="normal">Normal</option>
-                                <option value="italic">Italic</option>
-                                <option value="oblique">Oblique</option>
-                            </select>
-                        </div>
-                        <div className="flex flex-col items-start justify-center gap-1">
-                            <label className="underline text-sm font-semibold text-gray-100">Color</label>
-                            <input className="w-6" type="color" value={color} onChange={handleColorChange} />
-                        </div>
+                        <label className="underline font-semibold text-normal text-gray-100">Font Weight</label>
+                        <select
+                            value={fontWeight}
+                            onChange={handleFontWeightChange}
+                            className="border border-gray-300 rounded-sm p-1 text-zinc-900"
+                        >
+                            <option value="normal">Normal</option>
+                            <option value="bold">Bold</option>
+                            <option value="bolder">Bolder</option>
+                            <option value="lighter">Lighter</option>
+                        </select>
+                    </div>
+                    <div className="flex flex-col items-center justify-center gap-1">
+                        <label className="underline font-semibold text-sm text-gray-100">Font Style</label>
+                        <select
+                            value={fontStyle}
+                            onChange={handleFontStyleChange}
+                            className="border border-gray-300 rounded-md p-1 text-zinc-900"
+                        >
+                            <option value="normal">Normal</option>
+                            <option value="italic">Italic</option>
+                            <option value="oblique">Oblique</option>
+                        </select>
+                    </div>
+                    <div className="flex flex-col items-start justify-center gap-1">
+                        <label className="underline text-sm font-semibold text-gray-100">Color</label>
+                        <input className="w-6" type="color" value={color} onChange={handleColorChange} />
+                    </div>
                 </div>
-                
-                <div className="flex items-center justify-center gap-2">
-
-                </div>
+                <div className="flex items-center justify-center gap-2"></div>
                 <div className="flex flex-col items-center gap-2">
                     <label className="font-semibold underline text-lg text-gray-100">Text Alignment</label>
                     <div className="flex space-x-4">
-                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => setProp((props) => props.textAlign = 'left')}><AlignLeft /></button>
-                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => setProp((props) => props.textAlign = 'center')}><AlignCenter /></button>
-                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => setProp((props) => props.textAlign = 'right')}><AlignRight /></button>
+                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => handleTextAlignChange('left')}><AlignLeft /></button>
+                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => handleTextAlignChange('center')}><AlignCenter /></button>
+                        <button className="bg-zinc-950 px-2 py-1 text-gray-100 rounded-md shadow-sm shadow-secondary" onClick={() => handleTextAlignChange('right')}><AlignRight /></button>
                     </div>
                 </div>
-
             </div>
             <div className={activeTab === 'css' ? 'flex flex-col gap-1' : 'hidden'}>
                 <label className="font-semibold text-sm underline">Custom Class</label>

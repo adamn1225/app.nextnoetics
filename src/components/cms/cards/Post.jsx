@@ -32,7 +32,6 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
     }, [connect, drag]);
 
     const isFacebook = containerType === 'facebook';
-    const isInstagram = containerType === 'instagram';
 
     const containerStyles = {
         background,
@@ -61,7 +60,7 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
 };
 
 export const PostSettings = () => {
-    const { actions: { setProp }, background, padding, height, width, gap } = useNode((node) => ({
+    const { actions: { setProp }, background, padding, gap } = useNode((node) => ({
         background: node.data.props.background,
         padding: node.data.props.padding,
         height: node.data.props.height,
