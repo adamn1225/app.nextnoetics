@@ -3,12 +3,81 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run start --prefix server\" \"npm run start --prefix client\"",
-    "build": "npm run build --prefix client",
-    "test": "npm run test --prefix client",
-    "eject": "npm run eject --prefix client"
+    "dev": "npm run start",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@craftjs/core": "^0.2.12",
+    "@craftjs/layers": "^0.2.7",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.14.0",
+    "@heroicons/react": "^2.2.0",
+    "@mui/material": "^6.4.4",
+    "@mui/material-nextjs": "^6.4.3",
+    "@supabase/supabase-js": "^2.49.1",
+    "@tailwindcss/typography": "^0.5.16",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.8.1",
+    "classnames": "^2.5.1",
+    "copy-to-clipboard": "^3.3.3",
+    "crypto-browserify": "^3.12.1",
+    "fs": "^0.0.1-security",
+    "jsdom": "^26.0.0",
+    "lucide-react": "^0.475.0",
+    "lzutf8": "^0.6.3",
+    "net-browserify": "^0.2.4",
+    "netlify": "^13.3.3",
+    "path-browserify": "^1.0.1",
+    "querystring-es3": "^0.2.1",
+    "react": "^19.0.0",
+    "react-contenteditable": "^3.3.7",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-modal": "^3.16.3",
+    "react-rnd": "^10.5.1",
+    "react-scripts": "5.0.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "styled-components": "^6.1.15",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "autoprefixer": "^10.4.0",
+    "concurrently": "^9.1.2",
+    "postcss": "^8.4.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^7.0.0",
+    "react-app-rewired": "^2.2.1",
+    "tailwindcss": "^3.4.17"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

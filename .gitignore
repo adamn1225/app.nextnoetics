@@ -30,3 +30,5 @@ server/node_modules/
 .env
 client/.env
 server/.env
+# Local Netlify folder
+.netlify
