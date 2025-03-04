@@ -68,7 +68,7 @@ const SmmCards = () => {
               )}
               {selectedCard === 'Instagram' && (
               <div className='flex flex-col justify-normal items-center h-full w-full'>
-                    <h1 className='text-rose-700 text-center py-5 text-xl font-bold'>Instagram Image Card Preview</h1>
+                    <h1 className='text-rose-700 text-center py-5 text-xl font-bold'>Instagram Image Card Preview </h1>
                   <Frame key={`instagram-${JSON.stringify(convertedData)}`}>
                     <div className='flex justify-center items-start h-full w-full'>
                       <div style={{ transform: 'scale(0.5)', transformOrigin: 'top' }}>
