@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useEditor } from "@craftjs/core";
 
@@ -6,13 +6,21 @@ const SaveTemplate = () => {
   const [templateName, setTemplateName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
   const { query } = useEditor();
 
-  // Use a valid UUID from your authentication table for testing
-  const user = {
-    id: process.env.NEXT_PUBLIC_UUID,
-    email: 'parkwaydrive1225@gmail.com'
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        setError(error.message);
+      } else {
+        setUser(user);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleSaveTemplate = async () => {
     setLoading(true);
@@ -47,7 +55,7 @@ const SaveTemplate = () => {
         onChange={(e) => setTemplateName(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded mb-2"
       />
-      <button onClick={handleSaveTemplate} disabled={loading} className="bg-blue-500 text-white p-2 rounded">
+      <button onClick={handleSaveTemplate} disabled={loading || !user} className="bg-blue-500 text-white p-2 rounded">
         {loading ? 'Saving...' : 'Save Template'}
       </button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
