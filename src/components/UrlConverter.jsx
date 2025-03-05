@@ -54,7 +54,7 @@ const UrlConverter = ({ onConvert }) => {
   }, [selectedImage, onConvert]);
 
   return (
-    <div className="flex flex-col gap-1 items-center justify-start py-2 px-1 bg-zinc-800 w-min h-full">
+    <div className="flex flex-col gap-1 items-center justify-center py-2 px-1 bg-zinc-800 w-min h-full">
       <h1 className='text-white text-sm font-semibold'>URL to SMM Card Generator</h1>
 
       <input
@@ -62,11 +62,11 @@ const UrlConverter = ({ onConvert }) => {
         value={url}
         onChange={(e) => setUrl(e.target.value)}
         placeholder="Enter website URL"
-        className="border border-gray-300 rounded-md py-[1.75px] px-2 w-fit"
+        className="border border-gray-300 rounded-md py-[1.75px] px-1 w-fit"
       />
       <button
         onClick={handleConvert}
-        className="btn-gradient text-white py-[1.75px] px-4 rounded"
+        className="btn-gradient text-white py-[1.75px] px-2 rounded"
         disabled={loading}
       >
         {loading ? 'Converting...' : 'Convert'}
@@ -75,14 +75,14 @@ const UrlConverter = ({ onConvert }) => {
 
       {images.length > 0 && (
         <div className="mt-4">
-          <h2 className="text-white text-sm font-semibold">Select an Image</h2>
-          <div className="flex flex-wrap gap-2 mt-2">
+          <h2 className="text-white text-sm font-semibold text-center">Select an Image</h2>
+          <div className="flex flex-wrap justify-center gap-2 mt-2">
             {images.map((src, index) => (
               <DraggableImages
                 key={index}
                 src={src}
                 alt={`Option ${index + 1}`}
-                className={`w-24 h-24 object-cover cursor-pointer ${selectedImage === src ? 'border-2 border-blue-500' : 'border'}`}
+                className={`w-20 h-20 object-cover cursor-pointer ${selectedImage === src ? 'border-2 border-blue-500' : 'border'}`}
                 onClick={() => handleImageSelect(src)}
               />
             ))}

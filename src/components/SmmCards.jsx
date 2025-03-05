@@ -15,7 +15,6 @@ import { ImageUpload, ImageUploadSettings } from './cms/user/ImageUpload';
 import { OneColumnContainer, OneColumnContainerSettings } from './cms/user/gridlayouts/OneColumnContainer';
 import { TwoColumnContainerSettings, TwoColumnContainer } from './cms/user/gridlayouts/TwoColumnContainer';
 import { ThreeColumnContainer, ThreeColumnContainerSettings } from './cms/user/gridlayouts/ThreeColumnContainer';
-import SaveTemplate from './SaveTemplate';
 import StoredTemplates from './StoredTemplates';
 import CustomModal from './CustomModal';
 import { Topbar } from './cms/Topbar';
@@ -57,7 +56,7 @@ const SmmCards = () => {
         
 
               {selectedCard === 'Facebook' && (
-               <div className='flex flex-col justify-normal items-center h-full w-full ml-4'>
+               <div className='flex flex-col justify-normal items-center h-full w-full ml-12'>
                   <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
                     <Element is={FbContainer} canvas>
@@ -81,31 +80,32 @@ const SmmCards = () => {
               </div>
               )}
           </div>
-          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-stone-900 h-full overflow-y-auto'>
-            <Topbar />
+          <div className='fixed right-0 top-0 z-10 w-[15vw] max-w-[15vw] min-w-[15vw] bg-zinc-800 h-full overflow-y-auto pt-6'>
             <div className='flex flex-col justify-center items-center gap-1 px-2 overflow-y-auto'>
-              <h1 className='text-white text-xl text-center font-bold'>Social Media Card Types</h1>
-              <select className='bg-white border border-gray-300 rounded-md p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
+              <h1 className='text-white text-base text-center font-medium'>Select SM Card Type</h1>
+              <select className='bg-white border border-gray-300 rounded-sm p-1' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
                 <option value="Facebook">Facebook Card</option>
                 <option value="Instagram">Instagram Card</option>
               </select>
               <CardTools />
               <SettingsPanel />
               <span className='bg-white w-full mt-4'><Layers expanded/></span>
-              <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
-                Save Template
-              </button>
-              <div className='w-full mt-8 bg-white p-4'>
-                <StoredTemplates />
+              <div className='flex flex-col gap-2 mt-12 w-full'>
+                <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
+                  Save Template
+                </button>             
+                  <div className='w-full bg-white p-4'>
+                    <StoredTemplates />
+                  </div>
               </div>
             </div>
           </div>
         </div>
-      </Editor>
 
-      <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
-        <SaveTemplate />
-      </CustomModal>
+        <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
+          <Topbar />
+        </CustomModal>
+      </Editor>
     </div>
   );
 }

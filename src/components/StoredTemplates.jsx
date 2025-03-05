@@ -64,7 +64,7 @@ const StoredTemplates = () => {
           <li key={template.id} className="p-2 border border-gray-300 rounded mb-2">
             <div>
                 <h3 className="font-medium">{template.name}</h3>
-                {/* <p>{template.sections}</p> */}
+                <p>{template.description}</p>
               </div>
             <div className="flex justify-between items-center">
               

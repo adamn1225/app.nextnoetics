@@ -9,6 +9,7 @@ export const Topbar = () => {
     const { actions, query } = useEditor();
     const [isEnabled, setIsEnabled] = useState(true);
     const [templateName, setTemplateName] = useState('');
+    const [description, setDescription] = useState(''); // New state for description
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -35,7 +36,7 @@ export const Topbar = () => {
 
             const { error } = await supabase
                 .from('templates')
-                .insert([{ name: templateName, sections: jsonData, user_id: user.id }]);
+                .insert([{ name: templateName, description, sections: jsonData, user_id: user.id }]); // Include description
 
             if (error) {
                 setError(error.message);
@@ -71,37 +72,40 @@ export const Topbar = () => {
     };
 
     return (
-        <div className="mb-2 py-2 bg-gray-950 text-gray-100 w-full">
+        <div className="mb-2 py-4 px-12 bg-gray-50 text-gray-950 w-full shadow-lg rounded-sm">
             <div className="flex flex-col justify-center items-center gap-1">
-                <div className="flex-1">
+                <div className="hidden flex-1">
                     <label className="flex items-center">
                         <input type="checkbox" checked={isEnabled} onChange={handleToggle} className="mr-2" />
                         <span>Enable JSON</span>
                     </label>
                 </div>
-                    <input
-                        type="text"
-                        placeholder="Template Name"
-                        value={templateName}
-                        onChange={(e) => setTemplateName(e.target.value)}
-                        className="w-fit p-2 border border-gray-300 rounded mb-2"
-                    />
+                <h3 className="text-gray-950 font-semibold text-lg">Save Template</h3>
+                <input
+                    type="text"
+                    placeholder="Template Name"
+                    value={templateName}
+                    onChange={(e) => setTemplateName(e.target.value)}
+                    className="w-fit p-2 border border-gray-300 rounded mb-2"
+                />
+                <textarea
+                    type="text"
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded mb-2"
+                />
                 <div className="flex flex-wrap justify-center gap-1 text-gray-950">
                     <button
-                        className="text-sm px-1 py-1 border border-primary text-primary hover:bg-gray-300 hover:text-zinc-800"
+                        className="text-sm px-1 py-1 borderbg-blue-500 shadow-md text-white hover:bg-blue-600 hover:text-white bg-blue-500"
                         onClick={handleSaveTemplate}
                         disabled={loading}
                     >
                         {loading ? 'Saving...' : 'Save Template'}
                     </button>
+
                     <button
-                        className="text-sm px-1 py-1 border border-primary text-primary hover:bg-gray-300 hover:text-zinc-800"
-                        onClick={() => setDialogOpen(true)}
-                    >
-                        Load State
-                    </button>
-                    <button
-                        className="text-sm px-1 py-1 border border-primary text-primary hover:bg-gray-300 hover:text-zinc-800"
+                        className="text-sm px-1 py-1 border shadow-md text-white hover:bg-blue-600 hover:text-white bg-blue-500"
                         onClick={() => setShowAdvanced(!showAdvanced)}
                     >
                         {showAdvanced ? 'Hide Advanced' : 'Show Advanced'}
@@ -111,15 +115,21 @@ export const Topbar = () => {
             </div>
 
             {showAdvanced && (
-                <div className="mt-2">
+                <div className="mt-2 flex gap-1 justify-center">
                     <button
-                        className="text-sm px-1 py-1 border border-primary text-primary hover:bg-gray-300 hover:text-zinc-800"
+                        className="text-sm px-1 py-1 border bg-blue-500 shadow-md text-white hover:bg-blue-600 hover:text-white"
                         onClick={handleSerialize}
                     >
                         Serialize JSON to console
                     </button>
                     <button
-                        className="text-sm px-1 py-1 border border-primary text-primary hover:bg-gray-300 hover:text-zinc-800"
+                        className="text-sm px-1 py-1 border shadow-md text-white hover:bg-blue-600 hover:text-white bg-blue-500"
+                        onClick={() => setDialogOpen(true)}
+                    >
+                        Load State
+                    </button>
+                    <button
+                        className="text-sm px-1 py-1 border shadow-md text-white hover:bg-blue-600 hover:text-white bg-blue-500"
                         onClick={handleCopyState}
                     >
                         Copy State

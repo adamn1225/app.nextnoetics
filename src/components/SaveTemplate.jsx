@@ -4,6 +4,7 @@ import { useEditor } from "@craftjs/core";
 
 const SaveTemplate = () => {
   const [templateName, setTemplateName] = useState('');
+  const [description, setDescription] = useState(''); // New state for description
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
@@ -31,7 +32,7 @@ const SaveTemplate = () => {
 
       const { error } = await supabase
         .from('templates')
-        .insert([{ name: templateName, sections: jsonData, user_id: user.id }]);
+        .insert([{ name: templateName, description, sections: jsonData, user_id: user.id }]); // Include description
 
       if (error) {
         setError(error.message);
@@ -53,6 +54,13 @@ const SaveTemplate = () => {
         placeholder="Template Name"
         value={templateName}
         onChange={(e) => setTemplateName(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded mb-2"
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded mb-2"
       />
       <button onClick={handleSaveTemplate} disabled={loading || !user} className="bg-blue-500 text-white p-2 rounded">

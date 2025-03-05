@@ -1,7 +1,7 @@
 import React from 'react';
 import { CircleX } from 'lucide-react';
 
-const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, posts }) => {
+const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, templates }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-6 w-full max-w-lg">
@@ -86,18 +86,18 @@ const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, 
                         />
                     </div>
                     <div>
-                        <label htmlFor="blog_post_id" className="block text-sm font-medium  text-gray-950 dark:text-primary">Blog Post</label>
+                        <label htmlFor="template_id" className="block text-sm font-medium  text-gray-950 dark:text-primary">Template</label>
                         <select
-                            id="blog_post_id"
-                            name="blog_post_id"
-                            value={formValues.blog_post_id || ''}
+                            id="template_id"
+                            name="template_id"
+                            value={formValues.template_id || ''}
                             onChange={handleChange}
                             className="mt-1 p-1 block w-full text-gray-950 dark:text-primary border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="">None</option>
-                            {posts.map((post) => (
-                                <option key={post.id} value={post.id}>
-                                    {post.title}
+                            {templates.map((template) => (
+                                <option key={template.id} value={template.id}>
+                                    {template.name}
                                 </option>
                             ))}
                         </select>

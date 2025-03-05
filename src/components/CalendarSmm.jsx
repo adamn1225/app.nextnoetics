@@ -12,7 +12,7 @@ const localizer = momentLocalizer(moment);
 
 const CalendarSmm = () => {
     const [events, setEvents] = useState([]);
-    const [posts, setPosts] = useState([]);
+    const [templates, setTemplates] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isEventDetailsModalVisible, setIsEventDetailsModalVisible] = useState(false);
     const [isAccessTokenModalVisible, setIsAccessTokenModalVisible] = useState(false);
@@ -24,7 +24,7 @@ const CalendarSmm = () => {
         sm_platform: 'Facebook',
         status: 'Draft',
         post_automatically: false,
-        blog_post_id: '',
+        template_id: '',
     });
 
     useEffect(() => {
@@ -42,20 +42,20 @@ const CalendarSmm = () => {
         };
         fetchEvents();
 
-        const fetchPosts = async () => {
-            const { data, error } = await supabase.from("blog_posts").select("id, title");
+        const fetchTemplates = async () => {
+            const { data, error } = await supabase.from("templates").select("id, name");
             if (error) {
-                console.error("Error fetching posts:", error);
+                console.error("Error fetching templates:", error);
             } else {
-                setPosts(data);
+                setTemplates(data);
             }
         };
-        fetchPosts();
+        fetchTemplates();
     }, []);
 
     const handleAddEvent = async (e) => {
         e.preventDefault();
-        const { title, description, post_due_date, sm_platform, status, post_automatically, blog_post_id } = formValues;
+        const { title, description, post_due_date, sm_platform, status, post_automatically, template_id } = formValues;
         const { data: { user } } = await supabase.auth.getUser(); // Get the authenticated user
         if (!user) {
             console.error("User not authenticated");
@@ -70,7 +70,7 @@ const CalendarSmm = () => {
         }
 
         const { data, error } = await supabase.from("smm_calendar").insert([
-            { title, description, post_due_date, sm_platform, status, post_automatically, user_id, blog_post_id: blog_post_id || null },
+            { title, description, post_due_date, sm_platform, status, post_automatically, user_id, template_id: template_id || null },
         ]);
 
         if (error) {
@@ -91,17 +91,17 @@ const CalendarSmm = () => {
                 sm_platform: 'Facebook',
                 status: 'Draft',
                 post_automatically: false,
-                blog_post_id: '',
+                template_id: '',
             });
         }
     };
 
     const handleUpdateEvent = async (e) => {
         e.preventDefault();
-        const { title, description, post_due_date, sm_platform, status, post_automatically, blog_post_id } = formValues;
+        const { title, description, post_due_date, sm_platform, status, post_automatically, template_id } = formValues;
         const { error } = await supabase
             .from("smm_calendar")
-            .update({ title, description, post_due_date, sm_platform, status, post_automatically, blog_post_id: blog_post_id || null })
+            .update({ title, description, post_due_date, sm_platform, status, post_automatically, template_id: template_id || null })
             .eq("id", selectedEvent.id);
 
         if (error) {
@@ -236,7 +236,7 @@ const CalendarSmm = () => {
                     formValues={formValues}
                     handleChange={handleChange}
                     handleSubmit={handleAddEvent}
-                    posts={posts}
+                    templates={templates} // Updated prop name
                     setIsModalVisible={setIsModalVisible}
                 />
             )}
@@ -247,7 +247,7 @@ const CalendarSmm = () => {
                     handleChange={handleChange}
                     handleSubmit={handleUpdateEvent}
                     handleDelete={handleDeleteEvent}
-                    posts={posts}
+                    templates={templates} // Updated prop name
                     setIsEventDetailsModalVisible={setIsEventDetailsModalVisible}
                 />
             )}
