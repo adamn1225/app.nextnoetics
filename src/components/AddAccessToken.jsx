@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 
 const AddAccessToken = () => {
@@ -7,15 +7,31 @@ const AddAccessToken = () => {
         access_token: '',
     });
     const [loading, setLoading] = useState(false);
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                setUserId(user.id);
+            }
+        };
+        fetchUserId();
+    }, []);
 
     const handleAddToken = async (e) => {
         e.preventDefault();
         setLoading(true);
         const { platform, access_token } = formValues;
-        const user_id = "current-user-id"; // Replace with actual user ID
+
+        if (!userId) {
+            console.error("User not authenticated");
+            setLoading(false);
+            return;
+        }
 
         const { error } = await supabase.from("user_tokens").insert([
-            { user_id, platform, access_token },
+            { user_id: userId, platform, access_token },
         ]);
 
         setLoading(false);
@@ -39,7 +55,7 @@ const AddAccessToken = () => {
     return (
         <form onSubmit={handleAddToken} className="space-y-4">
             <div>
-                <label htmlFor="platform" className="block text-sm font-medium  text-gray-950 dark:text-primary">
+                <label htmlFor="platform" className="block text-sm font-medium text-gray-950 dark:text-primary">
                     Platform
                 </label>
                 <select
@@ -59,7 +75,7 @@ const AddAccessToken = () => {
                 </select>
             </div>
             <div>
-                <label htmlFor="access_token" className="block text-sm font-medium  text-gray-950 dark:text-primary">
+                <label htmlFor="access_token" className="block text-sm font-medium text-gray-950 dark:text-primary">
                     Access Token
                 </label>
                 <input
