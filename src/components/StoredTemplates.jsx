@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useEditor } from "@craftjs/core";
 
-const StoredTemplates = () => {
+const StoredTemplates = ({ session }) => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,12 +10,15 @@ const StoredTemplates = () => {
 
   useEffect(() => {
     const fetchTemplates = async () => {
+      if (!session) return;
+
       setLoading(true);
       setError(null);
 
       const { data, error } = await supabase
         .from('templates')
-        .select('*');
+        .select('*')
+        .eq('user_id', session.user.id);
 
       if (error) {
         setError(error.message);
@@ -27,7 +30,7 @@ const StoredTemplates = () => {
     };
 
     fetchTemplates();
-  }, []);
+  }, [session]);
 
   const loadTemplate = (template) => {
     try {
@@ -53,6 +56,10 @@ const StoredTemplates = () => {
       }
     }
   };
+
+  if (!session) {
+    return (<p></p>);
+  }
 
   return (
     <div className='text-gray-950 w-full overflow-y-auto' style={{ maxHeight: 'calc(100vh - 200px)' }}>

@@ -54,7 +54,7 @@ const UrlConverter = ({ onConvert }) => {
   }, [selectedImage, onConvert]);
 
   return (
-    <div className="flex flex-col gap-1 items-center justify-center py-2 px-1 bg-zinc-800 w-min h-full">
+    <div className="flex flex-col gap-1 items-center justify-start py-2 px-1 bg-zinc-800 w-min h-full">
       <h1 className='text-white text-sm font-semibold'>URL to SMM Card Generator</h1>
 
       <input

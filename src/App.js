@@ -8,21 +8,42 @@ import { supabase } from "./lib/supabaseClient"; // Ensure you have this import
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState(null);
 
   useEffect(() => {
     const syncSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session }, error } = await supabase.auth.getSession();
 
-      if (!session) {
-        console.log("No session found, redirecting to login...");
-        window.location.href = "https://nextnoetics.com/login"; // Redirect user if no session
-      } else {
-        console.log("Session found!", session);
+      if (error) {
+        console.error("Error fetching session:", error);
         setLoading(false);
+        return;
       }
+
+      if (session) {
+        console.log("Session found!", session);
+        setSession(session);
+      } else {
+        console.log("No session found, continuing as guest...");
+      }
+      setLoading(false);
     };
 
     syncSession();
+
+    // Listen for changes to the authentication state
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        setSession(null);
+      } else if (event === 'SIGNED_IN') {
+        setSession(session);
+      }
+    });
+
+    // Cleanup the listener on component unmount
+    return () => {
+      authListener.unsubscribe();
+    };
   }, []);
 
   if (loading) {
@@ -32,10 +53,10 @@ function App() {
   return (
     <div className="App">
       <div className="flex">
-        <SideNav />
+        <SideNav session={session} />
         <Routes>
           <Route path="/calendar" element={<CalendarSmm />} />
-          <Route path="/" element={<SmmCards />} />
+          <Route path="/" element={<SmmCards session={session} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

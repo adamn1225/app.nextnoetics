@@ -20,18 +20,43 @@ import CustomModal from './CustomModal';
 import { Topbar } from './cms/Topbar';
 import { IgContainer, IgContainerSettings } from './cms/cards/IgContainer';
 import UrlConverter from './UrlConverter';
+import SubscriptionModal from './cms/SubscriptionModal';
+import { supabase } from '../lib/supabaseClient';
 
-const SmmCards = () => {
+const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState('Facebook');
   const [convertedData, setConvertedData] = useState(null);
+  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(false);
 
-  const openModal = () => {
-    setModalIsOpen(true);
+  const openModal = async () => {
+    if (!session) {
+      openSubscriptionModal();
+    } else {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('plan')
+        .eq('id', session.user.id)
+        .single();
+
+      if (error || !profile || profile.plan === 'freemium') {
+        openSubscriptionModal();
+      } else {
+        setModalIsOpen(true);
+      }
+    }
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const openSubscriptionModal = () => {
+    setSubscriptionModalIsOpen(true);
+  };
+
+  const closeSubscriptionModal = () => {
+    setSubscriptionModalIsOpen(false);
   };
 
   const handleCardChange = (card) => {
@@ -46,6 +71,26 @@ const SmmCards = () => {
     // This effect will run whenever convertedData changes
     console.log('Converted data updated:', convertedData);
   }, [convertedData]);
+
+  useEffect(() => {
+    const checkUserPlan = async () => {
+      if (session) {
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('plan')
+          .eq('id', session.user.id)
+          .single();
+
+        if (error || !profile || profile.plan === 'freemium') {
+          openSubscriptionModal();
+        }
+      } else {
+        openSubscriptionModal();
+      }
+    };
+
+    checkUserPlan();
+  }, [session]);
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
@@ -94,8 +139,8 @@ const SmmCards = () => {
                 <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
                   Save Template
                 </button>             
-                  <div className='w-full bg-white p-4'>
-                    <StoredTemplates />
+                  <div className='w-full bg-zinc-800 p-4'>
+                    <StoredTemplates session={session} />
                   </div>
               </div>
             </div>
@@ -103,8 +148,10 @@ const SmmCards = () => {
         </div>
 
         <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
-          <Topbar />
+          <Topbar openSubscriptionModal={openSubscriptionModal} />
         </CustomModal>
+
+        <SubscriptionModal isOpen={subscriptionModalIsOpen} onClose={closeSubscriptionModal} />
       </Editor>
     </div>
   );

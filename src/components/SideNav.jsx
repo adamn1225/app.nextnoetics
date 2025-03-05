@@ -4,13 +4,14 @@ import { TbLayoutGridRemove, TbLayoutGridAdd } from "react-icons/tb";
 import { useLocation, Link } from 'react-router-dom';
 import nextlogo from '../assets/next_noetics.png';
 import logomin from '../assets/next_noetics_ico.png';
+import Logout from './Logout';
 
 const navItems = [
   { name: 'Dashboard', href: '/', icon: MonitorCog },
   { name: 'Calendar', href: '/calendar', icon: CalendarCog },
 ];
 
-const SideNav = () => {
+const SideNav = ({ session }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [loading] = useState(false);
   const location = useLocation();
@@ -62,6 +63,7 @@ const SideNav = () => {
                 <Settings className="mr-2 " />
                 <span className={`${isCollapsed ? 'hidden' : 'block'}`}>Settings</span>
               </Link>
+              {session && <Logout />}
             </li>
           </ul>
         </div>

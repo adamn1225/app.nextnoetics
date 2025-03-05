@@ -5,7 +5,30 @@ import { supabase } from '../../lib/supabaseClient';
 import lz from "lzutf8";
 import copy from 'copy-to-clipboard';
 
-export const Topbar = () => {
+const subscriptionPlans = {
+  freemium: {
+    name: 'Freemium',
+    limit: 0,
+  },
+  free: {
+    name: 'Free',
+    limit: 5,
+  },
+  basic: {
+    name: 'Basic',
+    limit: 10,
+  },
+  pro: {
+    name: 'Pro',
+    limit: 50,
+  },
+  enterprise: {
+    name: 'Enterprise',
+    limit: Infinity, // No limit for enterprise
+  },
+};
+
+export const Topbar = ({ openSubscriptionModal }) => {
     const { actions, query } = useEditor();
     const [isEnabled, setIsEnabled] = useState(true);
     const [templateName, setTemplateName] = useState('');
@@ -25,13 +48,60 @@ export const Topbar = () => {
         setLoading(true);
         setError(null);
 
-        // Use a valid UUID from your authentication table for testing
-        const user = {
-            id: process.env.REACT_APP_UUID,
-            email: 'parkwaydrive1225@gmail.com'
-        };
+        // Fetch the current user
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            setError('You need to be logged in to save templates.');
+            setLoading(false);
+            openSubscriptionModal(); // Open the subscription modal
+            return;
+        }
+
+        // Fetch the user's profile
+        const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('plan')
+            .eq('id', user.id)
+            .single();
+
+        if (profileError) {
+            setError(profileError.message);
+            setLoading(false);
+            return;
+        }
+
+        const userPlan = profile.plan;
+
+        // Check if the user is on the freemium plan
+        if (userPlan === 'freemium') {
+            setError('You need to upgrade your subscription to save templates.');
+            setLoading(false);
+            openSubscriptionModal(); // Open the subscription modal
+            return;
+        }
 
         try {
+            // Fetch the number of templates the user has already saved
+            const { data: templates, error: fetchError } = await supabase
+                .from('templates')
+                .select('*')
+                .eq('user_id', user.id);
+
+            if (fetchError) {
+                setError(fetchError.message);
+                setLoading(false);
+                return;
+            }
+
+            // Check if the user has exceeded their plan's limit
+            const plan = subscriptionPlans[userPlan];
+            if (templates.length >= plan.limit) {
+                setError(`You have reached the limit of ${plan.limit} templates for the ${plan.name} plan. Please upgrade your subscription.`);
+                setLoading(false);
+                openSubscriptionModal(); // Open the subscription modal
+                return;
+            }
+
             const jsonData = query.serialize();
 
             const { error } = await supabase
@@ -97,7 +167,7 @@ export const Topbar = () => {
                 />
                 <div className="flex flex-wrap justify-center gap-1 text-gray-950">
                     <button
-                        className="text-sm px-1 py-1 borderbg-blue-500 shadow-md text-white hover:bg-blue-600 hover:text-white bg-blue-500"
+                        className="text-sm px-1 py-1 border bg-blue-500 shadow-md text-white hover:bg-blue-600 hover:text-white"
                         onClick={handleSaveTemplate}
                         disabled={loading}
                     >
@@ -110,8 +180,8 @@ export const Topbar = () => {
                     >
                         {showAdvanced ? 'Hide Advanced' : 'Show Advanced'}
                     </button>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
                 </div>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
             </div>
 
             {showAdvanced && (
