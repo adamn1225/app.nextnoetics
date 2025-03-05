@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import SmmCards from "./components/SmmCards";
 import SideNav from "./components/SideNav";
+import CalendarSmm from "./components/CalendarSmm";
 import { supabase } from "./lib/supabaseClient"; // Ensure you have this import
 
 function App() {
@@ -31,7 +33,11 @@ function App() {
     <div className="App">
       <div className="flex">
         <SideNav />
-        <SmmCards />
+        <Routes>
+          <Route path="/calendar" element={<CalendarSmm />} />
+          <Route path="/" element={<SmmCards />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </div>
     </div>
   );

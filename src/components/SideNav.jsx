@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { Folder, ClipboardList, Settings, MonitorCog } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Folder, CalendarCog, Settings, MonitorCog } from 'lucide-react';
+import { TbLayoutGridRemove, TbLayoutGridAdd } from "react-icons/tb";
+import { useLocation, Link } from 'react-router-dom';
 import nextlogo from '../assets/next_noetics.png';
 import logomin from '../assets/next_noetics_ico.png';
 
 const navItems = [
-  { name: 'CMS', href: '/', icon: MonitorCog },
+  { name: 'Dashboard', href: '/', icon: MonitorCog },
+  { name: 'Calendar', href: '/calendar', icon: CalendarCog }, // Added Calendar link
   { name: 'File Uploads', href: '/', icon: Folder },
-  { name: 'Tasks', href: '/', icon: ClipboardList },
 ];
 
 const SideNav = () => {
-  const [isCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [loading] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
@@ -23,29 +23,26 @@ const SideNav = () => {
         <div className="absolute top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
       )}
 
-      {/* <div className="flex items-center justify-normal h-14 bg-gray-950">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`text-white font-extrabold flex justify-center w-full text-2xl focus:outline-none underline`}
-          style={{ zIndex: 10 }}
-        >
-          {isCollapsed ? <LayoutPanelLeft /> : <LayoutPanelLeft size={32} />}
-        </button>
-      </div> */}
       <div className={`flex items-center ${isCollapsed ? 'justify-center pt-2 pb-4' : 'justify-start  py-4 pr-4'} gap-1 w-full pl-1`}>
         <img
           src={isCollapsed ? logomin : nextlogo}
           alt="Noetics.io Logo"
-          width={isCollapsed ? 40 : 140} // Adjust the width as needed
-          height={isCollapsed ? 40 : 100} // Adjust the height as needed
+          width={isCollapsed ? 40 : 140}
+          height={isCollapsed ? 40 : 100}
           className="rounded-full "
         />
       </div>
+      <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={`text-white font-extrabold flex justify-center w-full text-3xl focus:outline-none underline`}
+          style={{ zIndex: 10 }}
+        >
+          {isCollapsed ? <TbLayoutGridAdd /> : <TbLayoutGridRemove />}
+        </button>
       <div className="flex flex-col justify-start gap-1 items-start p-4">
         <div className={` ${isCollapsed ? 'hidden' : 'flex flex-nowrap justify-center w-full gap-1'}`}>
         </div>
         <span className=" inline-flex justify-center w-full items-center">
-          {/* <DarkModeToggle /> */}
         </span>
       </div>
       <nav className="flex flex-col justify-between h-full pb-8  text-xs xl:text-base">
