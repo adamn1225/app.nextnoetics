@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Folder, CalendarCog, Settings, MonitorCog } from 'lucide-react';
+import { CalendarCog, Settings, MonitorCog } from 'lucide-react';
 import { TbLayoutGridRemove, TbLayoutGridAdd } from "react-icons/tb";
 import { useLocation, Link } from 'react-router-dom';
 import nextlogo from '../assets/next_noetics.png';
@@ -7,12 +7,11 @@ import logomin from '../assets/next_noetics_ico.png';
 
 const navItems = [
   { name: 'Dashboard', href: '/', icon: MonitorCog },
-  { name: 'Calendar', href: '/calendar', icon: CalendarCog }, // Added Calendar link
-  { name: 'File Uploads', href: '/', icon: Folder },
+  { name: 'Calendar', href: '/calendar', icon: CalendarCog },
 ];
 
 const SideNav = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [loading] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
