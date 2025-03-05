@@ -1,29 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const UNSPLASH_ACCESS_KEY = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+const SHUTTERSTOCK_CLIENT_ID = process.env.REACT_APP_SHUTTERSTOCK_CLIENT_ID;
+const SHUTTERSTOCK_CLIENT_SECRET = process.env.REACT_APP_SHUTTERSTOCK_CLIENT_SECRET;
 
 const FetchImages = ({ onSelectImage }) => {
   const [images, setImages] = useState([]);
   const [query, setQuery] = useState('nature');
+  const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
+    const getAccessToken = async () => {
+      try {
+        const response = await axios.post(
+          'https://api.shutterstock.com/v2/oauth/access_token',
+          new URLSearchParams({
+            grant_type: 'client_credentials',
+            client_id: SHUTTERSTOCK_CLIENT_ID,
+            client_secret: SHUTTERSTOCK_CLIENT_SECRET,
+          }),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        );
+
+        setAccessToken(response.data.access_token);
+      } catch (error) {
+        console.error('Error fetching Shutterstock access token:', error);
+      }
+    };
+
+    getAccessToken();
+  }, []);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
     const fetchImages = async () => {
       try {
-        const response = await axios.get('https://api.unsplash.com/search/photos', {
+        const response = await axios.get('https://api.shutterstock.com/v2/images/search', {
           params: { query, per_page: 10 },
           headers: {
-            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         });
-        setImages(response.data.results);
+
+        setImages(response.data.data);
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error('Error fetching Shutterstock images:', error);
       }
     };
 
     fetchImages();
-  }, [query]);
+  }, [query, accessToken]);
 
   return (
     <div>
@@ -36,8 +63,8 @@ const FetchImages = ({ onSelectImage }) => {
       />
       <div className="grid grid-cols-2 gap-4">
         {images.map((image) => (
-          <div key={image.id} className="cursor-pointer" onClick={() => onSelectImage(image.urls.small)}>
-            <img src={image.urls.small} alt={image.alt_description} className="w-full h-auto" />
+          <div key={image.id} className="cursor-pointer" onClick={() => onSelectImage(image.assets.preview.url)}>
+            <img src={image.assets.preview.url} alt={image.description || 'Shutterstock Image'} className="w-full h-auto" />
           </div>
         ))}
       </div>

@@ -59,12 +59,11 @@ const SubscriptionModal = ({ isOpen, onClose }) => {
 
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'}`}>
-      <div className="bg-white text-gray-950 p-6 rounded-lg shadow-lg relative w-11/12 max-w-6xl">
+      <div className="bg-white text-gray-950 p-6 rounded-lg shadow-lg relative w-11/12 max-w-5xl">
         <button onClick={onClose} className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
           &times;
         </button>
-        <h2 className="text-2xl font-bold mb-4">Upgrade Your Subscription</h2>
-        <p className="mb-6">You have reached the limit of your current plan. Please upgrade your subscription to save more templates and access additional features.</p>
+        <h2 className="text-2xl font-bold mb-4 text-center">Save more templates and access additional features!</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {plans.map((plan) => (
             <div key={plan.name} className="border border-gray-300 rounded-lg p-4 shadow-md flex flex-col">

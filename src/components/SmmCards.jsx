@@ -125,8 +125,8 @@ const SmmCards = ({ session }) => {
               </div>
               )}
           </div>
-          <div className='fixed right-0 top-0 z-10 w-[15vw] max-w-[15vw] min-w-[15vw] bg-zinc-800 h-full overflow-y-auto pt-6'>
-            <div className='flex flex-col justify-center items-center gap-1 px-2 overflow-y-auto'>
+          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-800 h-full overflow-y-auto pt-6'>
+            <div className='flex flex-col justify-center items-center gap-1 px-2 overflow-y-auto h-full'>
               <h1 className='text-white text-base text-center font-medium'>Select SM Card Type</h1>
               <select className='bg-white border border-gray-300 rounded-sm p-1' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
                 <option value="Facebook">Facebook Card</option>
@@ -135,7 +135,7 @@ const SmmCards = ({ session }) => {
               <CardTools />
               <SettingsPanel />
               <span className='bg-white w-full mt-4'><Layers expanded/></span>
-              <div className='flex flex-col gap-2 mt-12 w-full'>
+              <div className='relative bottom-2 flex flex-col gap-2 mt-12 h-full w-full'>
                 <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
                   Save Template
                 </button>             
