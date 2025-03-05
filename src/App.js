@@ -4,7 +4,12 @@ import "./App.css";
 import SmmCards from "./components/SmmCards";
 import SideNav from "./components/SideNav";
 import CalendarSmm from "./components/CalendarSmm";
+import SignupFree from "./components/SignupFree";
+import SignupPro from "./components/SignupPro";
+import SignupBasic from "./components/SignupBasic";
+import LoginPage from "./components/Login";
 import { supabase } from "./lib/supabaseClient"; // Ensure you have this import
+import TopNav from "./components/TopNav";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -42,7 +47,9 @@ function App() {
 
     // Cleanup the listener on component unmount
     return () => {
-      authListener.unsubscribe();
+      if (authListener && typeof authListener.unsubscribe === 'function') {
+        authListener.unsubscribe();
+      }
     };
   }, []);
 
@@ -52,10 +59,15 @@ function App() {
 
   return (
     <div className="App">
+      <TopNav session={session} />
       <div className="flex">
         <SideNav session={session} />
         <Routes>
           <Route path="/calendar" element={<CalendarSmm />} />
+          <Route path="/signup-pro" element={<SignupPro />} />
+          <Route path="/signup-basic" element={<SignupBasic />} />
+          <Route path="/signup-free" element={<SignupFree />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<SmmCards session={session} />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
