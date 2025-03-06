@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect } from 'react';
 import { Editor, Frame, Element } from "@craftjs/core";
 import { CardTools } from './cms/CardTools';
@@ -21,6 +20,7 @@ import { Topbar } from './cms/Topbar';
 import { IgContainer, IgContainerSettings } from './cms/cards/IgContainer';
 import UrlConverter from './UrlConverter';
 import SubscriptionModal from './cms/SubscriptionModal';
+import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
 
 const SmmCards = ({ session }) => {
@@ -28,6 +28,7 @@ const SmmCards = ({ session }) => {
   const [selectedCard, setSelectedCard] = useState('Facebook');
   const [convertedData, setConvertedData] = useState(null);
   const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const openModal = async () => {
     if (!session) {
@@ -87,10 +88,15 @@ const SmmCards = ({ session }) => {
           openSubscriptionModal();
         }
       }
+      setIsLoading(false);
     };
 
     checkUserPlan();
   }, [session]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
