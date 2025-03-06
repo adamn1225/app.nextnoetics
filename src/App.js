@@ -10,6 +10,7 @@ import SignupBasic from "./components/SignupBasic";
 import LoginPage from "./components/Login";
 import { supabase } from "./lib/supabaseClient"; // Ensure you have this import
 import TopNav from "./components/TopNav";
+import Loader from "./components/Loader"; // Import the Loader component
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,7 +55,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading indicator while checking the session
+    return <Loader />; // Show the Loader component while checking the session
   }
 
   return (
