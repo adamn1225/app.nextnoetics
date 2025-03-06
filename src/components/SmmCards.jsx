@@ -53,6 +53,7 @@ const SmmCards = ({ session }) => {
 
   const openSubscriptionModal = () => {
     setSubscriptionModalIsOpen(true);
+    localStorage.setItem('subscriptionModalShown', 'true');
   };
 
   const closeSubscriptionModal = () => {
@@ -74,7 +75,8 @@ const SmmCards = ({ session }) => {
 
   useEffect(() => {
     const checkUserPlan = async () => {
-      if (session) {
+      const subscriptionModalShown = localStorage.getItem('subscriptionModalShown');
+      if (session && !subscriptionModalShown) {
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('plan')
@@ -84,8 +86,6 @@ const SmmCards = ({ session }) => {
         if (error || !profile || profile.plan === 'freemium') {
           openSubscriptionModal();
         }
-      } else {
-        openSubscriptionModal();
       }
     };
 
@@ -105,7 +105,7 @@ const SmmCards = ({ session }) => {
                   <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
                     <Element is={FbContainer} canvas>
-                      <Element is={Post} background={"#fff"} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
+                      <Element is={Post} background={"#adaaaa"} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
                     </Element>
                   </Frame>
                 </div>
@@ -117,7 +117,7 @@ const SmmCards = ({ session }) => {
                     <div className='flex justify-center items-start h-full w-full'>
                       <div style={{ transform: 'scale(0.5)', transformOrigin: 'top' }}>
                         <Element is={IgContainer} canvas>
-                          <Element is={Post} background={"#fff"} containerType="instagram" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
+                          <Element is={Post} background={"#adaaaa"} containerType="instagram" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
                         </Element>
                       </div>
                     </div>

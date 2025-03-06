@@ -4,6 +4,7 @@ import { Element, useNode } from "@craftjs/core";
 import { Header } from "../user/Header";
 import { ImageUpload } from "../user/ImageUpload";
 import defaultImage from "../../../assets/default-image.jpg";
+import { AlignCenter } from "lucide-react";
 
 export const PostTop = ({ children }) => {
     const { connectors: { connect } } = useNode();
@@ -51,9 +52,9 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
         style={containerStyles}
         className={`w-full`}
       >                   
-        <div className="flex flex-col justify-normal items-start gap-y-12">
-         <div> <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 28 : 24} className="mb-4" /></div>
-          <div><Element is={Header} text={h2 || "Subtitle"} fontSize={isFacebook ? 20 : 18} id="subtitle" background={background} className="mt-4" /></div>
+        <div className="flex flex-col items-center gap-y-12 max-w-[1000px]">
+         <div> <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 28 : 24} /></div>
+          <div className="ml-32"><Element is={Header} text={h2 || "Subtitle"} textAlign={AlignCenter} fontSize={isFacebook ? 20 : 18} id="subtitle" background={background} className="w-full" /></div>
         </div>
         <Element is={ImageUpload} id="image" src={img} width={isFacebook ? 1200 : 1350} height={isFacebook ? 628 : 1080} alt="" canvas style={{ position: 'absolute', bottom: '10px', left: '10px' }} />
       </div>
@@ -88,9 +89,9 @@ export const PostSettings = () => {
 };
 
 Post.craft = {
-    displayName: "Post",
+    displayName: "Canvas",
     props: {
-        background: "#b3b3b3",
+        background: "#efefef",
         padding: 20,
         gap: 0,
         height: "auto",

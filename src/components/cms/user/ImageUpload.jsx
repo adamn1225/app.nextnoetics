@@ -212,6 +212,7 @@ export const ImageUploadSettings = () => {
 };
 
 ImageUpload.craft = {
+  displayName: 'Image Upload',
   props: { src: {defaultImage}, alt: '', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'center', overlayColor: '#000', overlayOpacity: 0.4 },
   related: {
     settings: ImageUploadSettings
@@ -220,6 +221,6 @@ ImageUpload.craft = {
     canDrop: () => true,
     canDrag: () => true,
     canMoveIn: () => true,
-    canMoveOut: () => true
+    canMoveOut: () => false
   }
 };

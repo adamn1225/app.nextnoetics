@@ -65,8 +65,9 @@ export const FbContainerSettings = () => {
 };
 
 FbContainer.craft = {
+  displayName: 'Facebook Container',
   props: {
-    background: '#b3b3b3',
+    background: '#efefef',
     padding: 0,
     margin: 0
   },

@@ -64,6 +64,7 @@ export const IgContainerSettings = () => {
 };
 
 IgContainer.craft = {
+  displayName: 'Instagram Container',
   props: {
     background: '#b3b3b3',
     padding: 0,

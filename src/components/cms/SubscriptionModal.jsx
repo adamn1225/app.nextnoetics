@@ -60,7 +60,7 @@ const SubscriptionModal = ({ isOpen, onClose }) => {
   return (
     <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 ${isOpen ? 'block' : 'hidden'}`}>
       <div className="bg-white text-gray-950 p-6 rounded-lg shadow-lg relative w-11/12 max-w-5xl">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
+        <button onClick={onClose} className="absolute top-2 text-3xl right-2 text-gray-800 hover:text-gray-900">
           &times;
         </button>
         <h2 className="text-2xl font-bold mb-4 text-center">Save more templates and access additional features!</h2>
