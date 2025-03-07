@@ -30,7 +30,8 @@ const SmmCards = ({ session }) => {
   const [convertedData, setConvertedData] = useState(null);
   const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [tab, setTab] = useState('components'); 
+  const [tab, setTab] = useState('components');
+  const [urls, setUrls] = useState(['']); // State for URLs
 
   const openModal = async () => {
     if (!session) {
@@ -163,7 +164,7 @@ const SmmCards = ({ session }) => {
                 </div>
                   )}
                                 {tab === "urlConverter" && (
-          <UrlConverter onConvert={handleConvert} />
+          <UrlConverter onConvert={handleConvert} urls={urls} setUrls={setUrls} />
               )}
             </div>
           </div>

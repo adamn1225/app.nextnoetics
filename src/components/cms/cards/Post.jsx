@@ -200,7 +200,7 @@ Post.craft = {
     gap: 0,
     overlayOpacity: 0.7,
     overlayColor: "#000000",
-    objectFit: "cover",
+    objectFit: "contain",
     height: "auto",
     width: "auto",
     img: defaultImage,

@@ -45,7 +45,8 @@ exports.handler = async (event, context) => {
             body: JSON.stringify({ images, h1, h2, h3, h4 }),
         };
     } catch (error) {
-        console.error('Error fetching URL:', error); // Debugging: Log the error
+        console.error('Error fetching URL:', error.message); // Debugging: Log the error message
+        console.error('Error stack:', error.stack); // Debugging: Log the error stack
         return {
             statusCode: 500,
             body: JSON.stringify({ images: [], h1: '', h2: '', h3: '', h4: '', error: 'Failed to fetch the URL' }),

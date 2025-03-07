@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DraggableImages from './DraggableImages';
 
-const UrlConverter = ({ onConvert }) => {
-  const [urls, setUrls] = useState(['']);
+const UrlConverter = ({ onConvert, urls, setUrls }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
   const [headers, setHeaders] = useState({ h1: '', h2: '', h3: '', h4: '' });
+  const [heldFields, setHeldFields] = useState({ h1: false, h2: false, img: false });
+  const [showRegenerate, setShowRegenerate] = useState(false);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -48,6 +49,7 @@ const UrlConverter = ({ onConvert }) => {
       setImages(shuffledImages);
       setHeaders({ h1: mergedData.h1, h2: mergedData.h2, h3: mergedData.h3, h4: mergedData.h4 });
       onConvert({ h1: mergedData.h1 || 'Default Header', h2: mergedData.h2 || 'Default Subtitle', img: shuffledImages[0] || '/default-image.jpg' });
+      setShowRegenerate(true);
     } catch (err) {
       console.error('Error:', err);
       setError('Failed to fetch the URLs. Please try again.');
@@ -73,7 +75,16 @@ const UrlConverter = ({ onConvert }) => {
 
   const handleRefresh = () => {
     const shuffledHeaders = shuffleArray([headers.h1, headers.h2, headers.h3, headers.h4]);
-    onConvert({ h1: shuffledHeaders[0] || 'Default Header', h2: shuffledHeaders[1] || 'Default Subtitle', img: images[0] || '/default-image.jpg' });
+    const shuffledImages = shuffleArray(images);
+    onConvert({
+      h1: heldFields.h1 ? headers.h1 : shuffledHeaders[0] || 'Default Header',
+      h2: heldFields.h2 ? headers.h2 : shuffledHeaders[1] || 'Default Subtitle',
+      img: heldFields.img ? selectedImage : shuffledImages[0] || '/default-image.jpg'
+    });
+  };
+
+  const toggleHoldField = (field) => {
+    setHeldFields((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
   useEffect(() => {
@@ -108,23 +119,50 @@ const UrlConverter = ({ onConvert }) => {
           </button>
         </div>
       </div>
-      <div className='flex justify-around items-center w-full'>
-      <button
-          onClick={handleRefresh}
-          className="bg-blue-500 font-semibold text-white py-[1.75px] px-2 rounded mb-2"
-        >
-          Refresh
-        </button>
+      <div className='flex flex-col items-center w-full'>
         <button
           onClick={handleConvert}
           className="bg-green-500 font-semibold text-white py-[1.75px] px-2 rounded mb-2"
           disabled={loading}
         >
-          {loading ? 'Converting...' : 'Convert'}
+          {loading ? 'Converting...' : 'Generate Card'}
         </button>
+
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
-
+      <div className="mt-4">
+        <h2 className="text-white text-lg font-semibold text-center">Click to Hold Fields!</h2>
+        <div className="flex gap-2 mt-2">
+          <button
+            onClick={() => toggleHoldField('h1')}
+            className={`py-1 px-2 rounded ${heldFields.h1 ? 'bg-green-500' : 'bg-gray-500'} text-white`}
+          >
+            Header 1
+          </button>
+          <button
+            onClick={() => toggleHoldField('h2')}
+            className={`py-1 px-2 rounded ${heldFields.h2 ? 'bg-green-500' : 'bg-gray-500'} text-white`}
+          >
+            Header 2
+          </button>
+          <button
+            onClick={() => toggleHoldField('img')}
+            className={`py-1 px-2 rounded ${heldFields.img ? 'bg-green-500' : 'bg-gray-500'} text-white`}
+          >
+            Image
+          </button>
+        </div>
+        <div className="flex flex-col items-center w-full pt-4">
+          {showRegenerate && (
+            <button
+              onClick={handleRefresh}
+              className="bg-blue-500 font-semibold text-white py-[1.75px] px-2 rounded mb-2"
+            >
+              Regenerate Card
+            </button>
+          )}
+        </div>
+      </div>
       {images.length > 0 && (
         <div className="mt-4">
           <h2 className="text-white text-sm font-semibold text-center">Select an Image</h2>
@@ -141,6 +179,8 @@ const UrlConverter = ({ onConvert }) => {
           </div>
         </div>
       )}
+
+
     </div>
   );
 };
