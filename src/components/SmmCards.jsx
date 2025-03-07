@@ -28,7 +28,7 @@ const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState('Facebook');
   const [convertedData, setConvertedData] = useState(null);
-  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(false);
+  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [tab, setTab] = useState('components'); 
 
