@@ -55,7 +55,6 @@ const SmmCards = ({ session }) => {
 
   const openSubscriptionModal = () => {
     setSubscriptionModalIsOpen(true);
-    localStorage.setItem('subscriptionModalShown', 'true');
   };
 
   const closeSubscriptionModal = () => {
@@ -101,7 +100,7 @@ const SmmCards = ({ session }) => {
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
-      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings  }} >
+      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings }} >
         <div className="grid grid-cols-[3fr_1fr] h-full w-full lg:mb-0">
           <div className='flex justify-center items-normal h-full w-full'>
               <UrlConverter onConvert={handleConvert} className="url-converter-sidebar" />
@@ -109,12 +108,11 @@ const SmmCards = ({ session }) => {
 
               {selectedCard === 'Facebook' && (
                <div className='flex flex-col justify-normal items-center h-full w-full ml-12'>
-                <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
+                  <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
                     <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
-                      <Card />
+                      <Element is={Card} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
                     </Element>
-                
                   </Frame>
                 </div>
               )}
