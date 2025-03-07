@@ -23,6 +23,7 @@ import SubscriptionModal from './cms/SubscriptionModal';
 import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
 import { Card, CardSettings } from './cms/user/Card';
+import EmojiComponent  from './cms/user/EmojiComponent';
 
 const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -103,7 +104,7 @@ const SmmCards = ({ session }) => {
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
-      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings }} >
+      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent }} >
         <div className="grid grid-cols-[3fr_1fr] h-full w-full lg:mb-0">
           <div className='flex justify-center items-normal h-full w-full'>
              
