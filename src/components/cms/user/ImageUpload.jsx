@@ -219,8 +219,8 @@ ImageUpload.craft = {
   },
   rules: {
     canDrop: () => true,
-    canDrag: () => true,
-    canMoveIn: () => true,
+    canDrag: () => false,
+    canMoveIn: () => false,
     canMoveOut: () => false
   }
 };

@@ -3,19 +3,19 @@ import React, { useRef, useEffect } from "react";
 import { useNode } from "@craftjs/core";
 
 export const FbContainer = ({ background, padding = 0, margin = 0, layout = "flex", children }) => {
-  const { connectors: { connect, drag } } = useNode();
+  const { connectors: { connect } } = useNode();
   const ref = useRef(null);
 
   useEffect(() => {
     if (ref.current) {
-      connect(drag(ref.current));
+      connect(ref.current);
     }
-  }, [connect, drag]);
+  }, [connect]);
 
   return (
     <div
       ref={ref}
-      style={{ background, padding: `${padding}px`, margin: `${margin}px`, height: '628px', width: '1200px', overflow: 'hidden' }}
+      style={{ background, padding: `${padding}px`, margin: `${margin}px`, height: '628px', width: '1200px', overflow: 'hidden', position: 'relative' }}
       className={`border-dotted border-2 relative`}
     >
       {children}
@@ -75,10 +75,9 @@ FbContainer.craft = {
     settings: FbContainerSettings
   },
   rules: {
-    canDrop: () => false,
-    canDrag: () => false,
+    canDrop: () => true,
+    canDrag: () => true,
     canMoveIn: () => true,
-    canMoveOut: () => false
-  },
-  isCanvas: true
+    canMoveOut: () => true
+  }
 };

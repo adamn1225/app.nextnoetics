@@ -6,10 +6,10 @@ import { FbContainerSettings, FbContainer } from './cms/cards/FbContainer';
 import { SettingsPanel } from './cms/SettingsPanel';
 import { Container } from './cms/user/Container';
 import { Button, ButtonSettings } from './cms/user/Button';
-import { CardSettings } from './cms/user/Card';
-import { Post, PostTop } from './cms/cards/Post';
+import { Post, PostTop, PostSettings } from './cms/cards/Post';
 import { Header } from './cms/user/Header';
 import { TextArea } from './cms/user/TextArea';
+import { BackgroundImage } from './cms/user/BackgroundImage';
 import { ImageUpload, ImageUploadSettings } from './cms/user/ImageUpload';
 import { OneColumnContainer, OneColumnContainerSettings } from './cms/user/gridlayouts/OneColumnContainer';
 import { TwoColumnContainerSettings, TwoColumnContainer } from './cms/user/gridlayouts/TwoColumnContainer';
@@ -22,6 +22,7 @@ import UrlConverter from './UrlConverter';
 import SubscriptionModal from './cms/SubscriptionModal';
 import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
+import { Card, CardSettings } from './cms/user/Card';
 
 const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -100,7 +101,7 @@ const SmmCards = ({ session }) => {
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
-      <Editor resolver={{ Post, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, CardSettings, IgContainer, IgContainerSettings }} >
+      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings  }} >
         <div className="grid grid-cols-[3fr_1fr] h-full w-full lg:mb-0">
           <div className='flex justify-center items-normal h-full w-full'>
               <UrlConverter onConvert={handleConvert} className="url-converter-sidebar" />
@@ -108,11 +109,12 @@ const SmmCards = ({ session }) => {
 
               {selectedCard === 'Facebook' && (
                <div className='flex flex-col justify-normal items-center h-full w-full ml-12'>
-                  <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
+                <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
-                    <Element is={FbContainer} canvas>
-                      <Element is={Post} background={"#adaaaa"} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
+                    <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
+                      <Card />
                     </Element>
+                
                   </Frame>
                 </div>
               )}
@@ -131,8 +133,8 @@ const SmmCards = ({ session }) => {
               </div>
               )}
           </div>
-          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-800 h-full overflow-y-auto pt-6'>
-            <div className='flex flex-col justify-center items-center gap-1 px-2 overflow-y-auto h-full'>
+          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-800 h-full overflow-y-auto'>
+            <div className='flex flex-col justify-center items-center gap-1 px-2 h-full '>
               <h1 className='text-white text-base text-center font-medium'>Select SM Card Type</h1>
               <select className='bg-white border border-gray-300 rounded-sm p-1' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
                 <option value="Facebook">Facebook Card</option>

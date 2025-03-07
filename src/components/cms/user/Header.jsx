@@ -207,17 +207,6 @@ Header.craft = {
         settings: HeaderSettings
     },
     rules: {
-        canMoveIn: () => {
-            return true; // Allow any node to move in
-        },
-        canMoveOut: () => {
-            return true; // Allow any node to move out
-        },
-        canDrag: () => {
-            return true; // Allow dragging
-        },
-        canDrop: () => {
-            return true; // Allow dropping
-        }
+        canDrag: () => true
     }
 };

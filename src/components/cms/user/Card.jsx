@@ -24,7 +24,7 @@ CardTop.craft = {
     }
 };
 
-export const Card = ({ background, padding = 0, borderColor = 'gray-400', height = '', gap = '4', layout = 'grid' }) => {
+export const Card = ({ containerType, h1, h2, background, padding = 0, borderColor = 'gray-400', height = '', gap = '4', layout = 'grid' }) => {
     const { connectors: { connect, drag } } = useNode();
     const ref = useRef(null);
 
@@ -34,29 +34,33 @@ export const Card = ({ background, padding = 0, borderColor = 'gray-400', height
         }
     }, [connect, drag]);
 
-    const layoutClass = layout === "grid"
-    ? `flex flex-col gap-${gap}`
-    : "flex flex-col gap-2";
+    const isFacebook = containerType === 'facebook';
+
+    const containerStyles = {
+      background,
+      padding: `${padding}px`,
+      borderColor,
+      height: isFacebook ? '628px' : '1080px',
+      width: isFacebook ? '1200px' : '1350px',
+      maxWidth: isFacebook ? '1200px' : '1350px',
+      maxHeight: isFacebook ? '628px' : '1080px',
+      position: 'relative',
+    };
 
     return (    
         <div
         ref={ref}
-        style={{ background, padding: `${padding}px`, borderColor, height: height || 'min-content' }}
-        className={`m-2 border-dotted border-2 w-full ${layoutClass}`}
-    >            <Element is={Header} text="Header"  id="title" background={background} fontSize={20} canvas>
-                  <Header text="Header Title" fontSize={20} canvas />
-                </Element>
-                <Element is={Header} text="Subtitle" id="subtitle" background={background} fontSize={15} canvas>
-                <Header text="Subtitle" fontSize={15} canvas />
-                </Element>
-                <Element is={TextArea} id="textarea" background={background} canvas>
-                <TextArea text="Purpose" />
-                </Element>
-                <Element is={Button} id="button" background={background} canvas>
-                     <Button size="small" variant="contained" color="primary" canvas >
-                         Learn more
-                     </Button>
-                </Element>
+        style={containerStyles}
+        className='w-full h-full'
+    >          
+            <div className="flex flex-col items-center gap-y-12 relative z-20 max-w-[1000px]">
+              <div>
+                <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 28 : 24} />
+              </div>
+              <div className="ml-32">
+                <Element is={Header} text={h2 || "Subtitle"} textAlign={'center'} fontSize={isFacebook ? 20 : 18} id="subtitle" background={background} className="w-full" />
+              </div>
+            </div>
             </div>
     );
 };
@@ -94,7 +98,6 @@ export const CardSettings = () => {
 Card.craft = {
     displayName: "Card",
     props: {
-        background: "#fff",
         padding: 20,
         gap: 0
     },
@@ -102,9 +105,6 @@ Card.craft = {
         settings: CardSettings
     },
     rules: {
-        canMoveOut: (incomingNodes) => incomingNodes.every(incomingNode => incomingNode.data.type === CardTop),
-        canMoveIn: (incomingNodes) => incomingNodes.every(incomingNode => incomingNode.data.type === CardTop),
-        canDrag: () => true,
-        canDrop: () => true
+        canDrag: () => true
     }
 };
