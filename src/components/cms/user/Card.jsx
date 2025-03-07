@@ -54,11 +54,11 @@ export const Card = ({ containerType, h1, h2, background, padding = 0, borderCol
         className='w-full h-full'
     >          
             <div className="flex flex-col items-center gap-y-16 relative z-20 max-w-[1000px]">
-              <div className="mr-14">
-                <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 28 : 40} />
+              <div className="mr-12">
+                <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 40 : 32} />
               </div>
               <div className="ml-32">
-                <Element is={Header} text={h2 || "Subtitle"} textAlign={'center'} fontSize={isFacebook ? 20 : 24} id="subtitle" background={background} className="w-full" />
+                <Element is={Header} text={h2 || "Subtitle"} textAlign={'center'} fontSize={isFacebook ? 24 : 24} id="subtitle" background={background} className="w-full" />
               </div>
             </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CalendarCog, Settings, MonitorCog } from 'lucide-react';
-import { TbLayoutGridRemove, TbLayoutGridAdd } from "react-icons/tb";
+import { LuShrink } from "react-icons/lu";
+import { RiExpandRightFill } from "react-icons/ri";
 import { useLocation, Link } from 'react-router-dom';
 import nextlogo from '../assets/next_noetics.png';
 import logomin from '../assets/next_noetics_ico.png';
@@ -18,27 +19,28 @@ const SideNav = ({ session }) => {
   const currentPath = location.pathname;
 
   return (
-    <aside className={`relative z-50 bg-gray-950 h-screen pb-28 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-36'} overflow-hidden relative z-50`}>
+    <aside className={`relative z-50 bg-gray-950 h-screen pb-28 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-44'} overflow-hidden relative z-50`}>
       {loading && (
         <div className="absolute top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
       )}
 
-      <div className={`flex items-center ${isCollapsed ? 'justify-center pt-2 pb-4' : 'justify-start  py-4 pr-4'} gap-1 w-full pl-1`}>
+
+      <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className={`text-white font-extrabold flex w-full text-3xl pt-2 focus:outline-none underline`}
+          style={{ zIndex: 10 }}
+        >
+          {isCollapsed ? <span className='flex justify-center w-full'> <RiExpandRightFill /></span> : <span className='flex justify-center  w-full'><LuShrink /></span>}
+        </button>
+        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start  py-4 pr-4'} gap-1 w-full pl-1`}>
         <img
           src={isCollapsed ? logomin : nextlogo}
           alt="Noetics.io Logo"
-          width={isCollapsed ? 40 : 140}
-          height={isCollapsed ? 40 : 100}
+          width={isCollapsed ? 40 : 300}
+          height={isCollapsed ? 40 : 200}
           className="rounded-full "
         />
       </div>
-      <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`text-white font-extrabold flex justify-center w-full text-3xl focus:outline-none underline`}
-          style={{ zIndex: 10 }}
-        >
-          {isCollapsed ? <TbLayoutGridAdd /> : <TbLayoutGridRemove />}
-        </button>
       <div className="flex flex-col justify-start gap-1 items-start p-4">
         <div className={` ${isCollapsed ? 'hidden' : 'flex flex-nowrap justify-center w-full gap-1'}`}>
         </div>
@@ -56,17 +58,16 @@ const SideNav = ({ session }) => {
             </li>
           ))}
         </ul>
-        <div className="xl:mb-12 text-xs xl:text-base">
-          <ul className={`flex flex-col gap-1 ${isCollapsed ? 'items-center' : 'items-start 2xl:ml-2'}`}>
+      
+          <ul className='mb-24'>
             <li className="text-xs 2xl:text-base">
-              <Link to="/" className={`flex items-center${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/' ? 'active' : ''}`}>
-                <Settings className="mr-2 " />
+              <Link to="/" className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/' ? 'active' : ''}`}>
+                <Settings className="mr-2" />
                 <span className={`${isCollapsed ? 'hidden' : 'block'}`}>Settings</span>
               </Link>
               {session && <Logout />}
             </li>
           </ul>
-        </div>
       </nav>
     </aside>
   );
