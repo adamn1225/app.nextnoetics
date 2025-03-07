@@ -145,7 +145,7 @@ const SmmCards = ({ session }) => {
                 <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
                   Save Template
                 </button>             
-                  <div className='w-full bg-gray-200 p-4'>
+                  <div className='w-full bg-gray-200 text-gray-950 p-4'>
                     <StoredTemplates session={session} />
                   </div>
               </div>

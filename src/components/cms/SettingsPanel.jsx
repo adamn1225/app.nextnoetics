@@ -24,13 +24,13 @@ export const SettingsPanel = () => {
     console.log('Selected component:', selected);
 
     return selected ? (
-        <div className="bg-gray-300 px-6 py-3 text-gray-950">
+        <div className="bg-zinc-900 px-6 py-3 text-white">
             <div className="flex flex-col space-y-2">
 
                 <div className=' px-6 py-3 shadow-md shadow-secondary'>
                 
-                    <div className="flex items-center justify-center text-white pb-2">
-                            <span className="px-2 py-1 underline underline-offset-4 text-center text-white text-base text-nowrap font-medium">{selected.name} Selected Component </span>
+                    <div className="flex items-center justify-center text-gray-white pb-2">
+                            <span className="px-2 py-1 underline underline-offset-4 text-center text-white text-base text-nowrap font-medium">{selected.name} Component Selected  </span>
                     </div>
                     {selected.settings && React.createElement(selected.settings)}</div>
                 {selected.isDeletable && (
