@@ -28,7 +28,7 @@ const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState('Facebook');
   const [convertedData, setConvertedData] = useState(null);
-  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(true);
+  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [tab, setTab] = useState('components'); 
 
@@ -56,6 +56,7 @@ const SmmCards = ({ session }) => {
 
   const openSubscriptionModal = () => {
     setSubscriptionModalIsOpen(true);
+    localStorage.setItem('subscriptionModalShown', 'true');
   };
 
   const closeSubscriptionModal = () => {
@@ -134,35 +135,37 @@ const SmmCards = ({ session }) => {
           </div>
 
         
-            <div className='pt-12 px-2 fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-900 h-full overflow-y-auto'>
-              <div className='flex justify-center items-center gap-4'>
-                <button onClick={() => setTab('components')} className={`p-2 ${tab === 'components' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>Components</button>
-                <button onClick={() => setTab('urlConverter')} className={`p-2 ${tab === 'urlConverter' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>URL Converter</button>
+            <div className='pt-12 fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
+              <div className='flex w-full justify-center items-center border-b border-gray-700'>
+                <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>Components</button>
+                <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-green-500 text-white' : 'bg-green-600  text-white'}`}>URL Converter</button>
               </div>
            
-            {tab === "components" && (
-              <div className='flex px-4 flex-col justify-center items-center gap-1 h-full pt-10'>
-                <h1 className='text-lg text-center font-semibold text-gray-50'>Select SM Card Type</h1>
-                <select className='bg-white border border-gray-300 rounded-sm p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
-                  <option value="Facebook">Facebook Card</option>
-                  <option value="Instagram">Instagram Card</option>
-                </select>
-                <CardTools />
-                <SettingsPanel />
-                <span className='bg-white w-full mt-4'><Layers expanded/></span>
-                <div className='relative bottom-2 flex flex-col gap-2 mt-12 h-full w-full'>
-                  <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
-                    Save Template
-                  </button>             
-                    <div className='w-full bg-gray-200 text-gray-950 p-4'>
-                      <StoredTemplates session={session} />
-                    </div>
+            <div className='h-full w-full pt-8  bg-zinc-900'>
+              {tab === "components" && (
+                <div className='flex px-4 flex-col justify-center items-center gap-1'>
+                  <h1 className='text-lg text-center font-semibold text-gray-50'>Select SM Card Type</h1>
+                  <select className='bg-white border border-gray-300 rounded-sm p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
+                    <option value="Facebook">Facebook Card</option>
+                    <option value="Instagram">Instagram Card</option>
+                  </select>
+                  <CardTools />
+                  <SettingsPanel />
+                  <span className='bg-white w-full mt-4'><Layers expanded/></span>
+                  <div className='relative bottom-2 flex flex-col gap-2 mt-12 h-full w-full'>
+                    <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
+                      Save Template
+                    </button>             
+                      <div className='w-full text-gray-950 p-4'>
+                        <StoredTemplates session={session} />
+                      </div>
+                  </div>
                 </div>
-              </div>
-                )}
-            {tab === "urlConverter" && (
-              <div className='mt-28 px-2 fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-900 h-full overflow-y-auto'><UrlConverter onConvert={handleConvert} /></div>
-            )}
+                  )}
+                                {tab === "urlConverter" && (
+          <UrlConverter onConvert={handleConvert} />
+              )}
+            </div>
           </div>
           </div>
 
