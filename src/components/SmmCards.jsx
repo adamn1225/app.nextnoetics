@@ -131,10 +131,10 @@ const SmmCards = ({ session }) => {
               </div>
               )}
           </div>
-          <div className='fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-800 h-full overflow-y-auto'>
-            <div className='flex flex-col justify-center items-center gap-1 px-2 h-full '>
-              <h1 className='text-white text-base text-center font-medium'>Select SM Card Type</h1>
-              <select className='bg-white border border-gray-300 rounded-sm p-1' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
+          <div className='px-2 fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-zinc-900 h-full overflow-y-auto'>
+            <div className='flex px-4 flex-col justify-center items-center gap-1 h-full pt-20 '>
+              <h1 className='text-lg text-center font-semibold text-gray-50'>Select SM Card Type</h1>
+              <select className='bg-white border border-gray-300 rounded-sm p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
                 <option value="Facebook">Facebook Card</option>
                 <option value="Instagram">Instagram Card</option>
               </select>
@@ -145,7 +145,7 @@ const SmmCards = ({ session }) => {
                 <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
                   Save Template
                 </button>             
-                  <div className='w-full bg-zinc-800 p-4'>
+                  <div className='w-full bg-gray-200 p-4'>
                     <StoredTemplates session={session} />
                   </div>
               </div>

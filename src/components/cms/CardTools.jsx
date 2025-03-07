@@ -21,15 +21,15 @@ export const CardTools = () => {
   return (
     <div className="py-6">
       <div className="flex flex-col items-center space-y-2">
-       <div className='flex items-center text-sm'>
-          <button onClick={() => setSectionTab('components')} className={` p-1 ${sectionTab === 'components' ? 'btn-gradient' : 'btn-gradient opacity-30 text-white'}`}>Components</button>
-          <button onClick={() => setSectionTab('layouts')} className={`btn-gradient p-1 ${sectionTab === 'layouts' ? 'btn-gradient' : 'btn-gradient opacity-30 text-white'}`}>Layouts</button>
+       <div className='flex items-center text-base gap-1'>
+          <button onClick={() => setSectionTab('components')} className={`shadow-sm p-2 ${sectionTab === 'components' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>Components</button>
+          <button onClick={() => setSectionTab('layouts')} className={`shadow-sm p-2 ${sectionTab === 'layouts' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>Layouts</button>
        </div>
       </div>
       <div className="flex flex-col items-center space-y-1">
         {sectionTab === 'layouts' && (
         <>
-          <span className="text-base font-medium text-gray-100 pt-2">Grid Containers Selection</span>
+          <span className="text-base font-medium text-gray-950 pt-2">Grid Containers Selection</span>
           <div className="flex justify-center items-center w-fit h-auto gap-1 text-sm ">
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <TwoColumnContainer background="#fff" padding={10} />); }} className="btn-gradient p-1 grid grid-cols-2 justify-items-center place items-stretch gap-0 rounded "><Square className='text-gray-950' size={32} /><Square className='text-gray-950' size={32} /></DraggableButton>
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <ThreeColumnContainer background="#fff" padding={5} />); }} className="btn-gradient p-1 justify-items-center grid grid-cols-3 rounded"><Square className='text-gray-950' size={32}/><Square className='text-gray-950' size={32} /><Square className='text-gray-950' size={32} /></DraggableButton>
