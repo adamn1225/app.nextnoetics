@@ -44,32 +44,43 @@ const CalendarSmm = () => {
     fetchEvents();
 
     const fetchTemplates = async () => {
-      const { data, error } = await supabase.from("templates").select("id, name");
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        console.error("User not authenticated");
+        return;
+      }
+    
+      const { data, error } = await supabase
+        .from("templates")
+        .select("id, name")
+        .eq("user_id", user.id);
+    
       if (error) {
         console.error("Error fetching templates:", error);
       } else {
         setTemplates(data);
       }
     };
+
     fetchTemplates();
 
-    const fetchSubscriptionPlan = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("plan")
-          .eq("user_id", user.id)
-          .single();
-        if (error) {
-          console.error("Error fetching subscription plan:", error);
-        } else {
-          setSubscriptionPlan(data.plan);
-        }
+  const fetchSubscriptionPlan = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("user_id", user.id)
+        .single();
+      if (error) {
+        console.error("Error fetching subscription plan:", error);
+      } else {
+        setSubscriptionPlan(data.plan);
       }
-    };
-    fetchSubscriptionPlan();
-  }, []);
+    }
+  };
+  fetchSubscriptionPlan();
+}, []);
 
   const handleAddEvent = async (e) => {
     e.preventDefault();

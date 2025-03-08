@@ -20,6 +20,8 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
         <Rnd
             onResizeStop={onResizeStop}
             style={{ zIndex: 1 }}
+            enableResizing={{ top: false, right: true, bottom: true, left: true }} // Enable vertical resizing only
+            disableDragging={false} // Disable horizontal dragging
         >
             <div
                 ref={ref => { if (ref) connect(drag(ref)); }}

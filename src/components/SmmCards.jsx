@@ -105,13 +105,12 @@ const SmmCards = ({ session }) => {
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
       <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent }} >
-        <div className="grid grid-cols-[3fr_1fr] h-full w-full lg:mb-0">
-          <div className='flex justify-center items-normal h-full w-full'>
+      <div className="grid grid-cols-[5fr_1fr] h-full w-full lg:mb-0">
              
         
 
               {selectedCard === 'Facebook' && (
-               <div className='flex flex-col justify-normal items-center h-full w-full ml-24'>
+               <div className='flex flex-col justify-normal items-center h-full w-full'>
                   <h1 className='text-blue-500 text-center py-5 text-xl font-bold'>Facebook Image Card Preview</h1>
                   <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
                     <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
@@ -134,11 +133,10 @@ const SmmCards = ({ session }) => {
                   </Frame>
               </div>
               )}
-          </div>
 
         
-            <div className='pt-12 fixed right-0 top-0 z-10 w-[17vw] max-w-[17vw] min-w-[17vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
-              <div className='flex w-full justify-center items-center border-b border-gray-700'>
+            <div className='pt-12 fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
+              <div className='flex w-full justify-center items-center border-b border-gray2000'>
                 <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-30 text-white'}`}>Components</button>
                 <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-green-500 text-white' : 'bg-green-600  text-white'}`}>URL Converter</button>
               </div>

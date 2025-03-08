@@ -48,6 +48,7 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
       const shuffledImages = shuffleArray(mergedData.images);
       setImages(shuffledImages);
       setHeaders({ h1: mergedData.h1, h2: mergedData.h2, h3: mergedData.h3, h4: mergedData.h4 });
+      setSelectedImage(shuffledImages[0] || '/default-image.jpg');
       onConvert({ h1: mergedData.h1 || 'Default Header', h2: mergedData.h2 || 'Default Subtitle', img: shuffledImages[0] || '/default-image.jpg' });
       setShowRegenerate(true);
     } catch (err) {
@@ -56,11 +57,6 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleImageSelect = (src) => {
-    setSelectedImage(src);
-    onConvert({ h1: headers.h1 || 'Default Header', h2: headers.h2 || 'Default Subtitle', img: src });
   };
 
   const handleAddUrl = () => {
@@ -73,12 +69,17 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
     setUrls(newUrls);
   };
 
+  const handleRemoveUrl = (index) => {
+    const newUrls = urls.filter((_, i) => i !== index);
+    setUrls(newUrls);
+  };
+
   const handleRefresh = () => {
     const shuffledHeaders = shuffleArray([headers.h1, headers.h2, headers.h3, headers.h4]);
     const shuffledImages = shuffleArray(images);
     onConvert({
-      h1: heldFields.h1 ? headers.h1 : shuffledHeaders[0] || 'Default Header',
-      h2: heldFields.h2 ? headers.h2 : shuffledHeaders[1] || 'Default Subtitle',
+      h1: heldFields.h1 ? headers.h1 : shuffledHeaders.find(header => header) || 'Default Header',
+      h2: heldFields.h2 ? headers.h2 : shuffledHeaders.find(header => header && header !== headers.h1) || 'Default Subtitle',
       img: heldFields.img ? selectedImage : shuffledImages[0] || '/default-image.jpg'
     });
   };
@@ -87,12 +88,6 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
     setHeldFields((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  useEffect(() => {
-    if (selectedImage) {
-      onConvert({ h1: headers.h1 || 'Default Header', h2: headers.h2 || 'Default Subtitle', img: selectedImage });
-    }
-  }, [selectedImage, onConvert, headers]);
-
   return (
     <div className="pt-6 flex flex-col gap-1 items-center justify-start py-2 bg-zinc-900 w-full h-full">
       <h1 className='text-white text-sm font-semibold'>URL to SMM Card Generator</h1>
@@ -100,14 +95,21 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
       <div className='flex justify-normal items-center w-min gap-2'>
         <div>
           {urls.map((url, index) => (
-            <input
-              key={index}
-              type="text"
-              value={url}
-              onChange={(e) => handleUrlChange(index, e.target.value)}
-              placeholder="Enter website URL"
-              className="border border-gray-300 rounded-md py-[1.75px] px-1 w-fit mb-2"
-            />
+            <div key={index} className="flex items-center mb-2">
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => handleUrlChange(index, e.target.value)}
+                placeholder="Enter website URL"
+                className="border border-gray-300 rounded-md py-[1.75px] px-1 w-fit"
+              />
+              <button
+                onClick={() => handleRemoveUrl(index)}
+                className="ml-2 text-red-500"
+              >
+                &times;
+              </button>
+            </div>
           ))}
         </div>
         <div>
@@ -127,7 +129,6 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
         >
           {loading ? 'Converting...' : 'Generate Card'}
         </button>
-
       </div>
       {error && <p className="text-red-500 mt-2">{error}</p>}
       <div className="mt-4">
@@ -173,14 +174,12 @@ const UrlConverter = ({ onConvert, urls, setUrls }) => {
                 src={src}
                 alt={`Option ${index + 1}`}
                 className={`w-20 h-20 object-cover cursor-pointer ${selectedImage === src ? 'border-2 border-blue-500' : 'border'}`}
-                onClick={() => handleImageSelect(src)}
+                onClick={() => setSelectedImage(src)}
               />
             ))}
           </div>
         </div>
       )}
-
-
     </div>
   );
 };

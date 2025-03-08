@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
-import {  useNode } from "@craftjs/core";
+import { useNode } from "@craftjs/core";
 import { Header } from "../user/Header";
 import defaultImage from "../../../assets/default-image.jpg";
 import { BackgroundImage } from "../user/BackgroundImage";
@@ -23,7 +23,7 @@ PostTop.craft = {
   },
 };
 
-export const Post = ({ background, padding = 0, borderColor = 'gray-400', height = 'auto', width = 'auto', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, children }) => {
+export const Post = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, children }) => {
   const { connectors: { connect, drag } } = useNode();
   const ref = useRef(null);
 
@@ -39,13 +39,12 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
     background,
     padding: `${padding}px`,
     borderColor,
-    height: isFacebook ? '628px' : '1080px',
-    width: isFacebook ? '1200px' : '1350px',
-    maxWidth: isFacebook ? '1200px' : '1350px',
-    maxHeight: isFacebook ? '628px' : '1080px',
-    position: 'relative',
+    height: isFacebook ? '400px' : '900px',
+    width: isFacebook ? '800px' : '1150px',
+    maxWidth: isFacebook ? '800px' : '1150px',
+    maxHeight: isFacebook ? '400px' : '900px',
   };
-
+  
   return (    
     <div
       ref={ref}
@@ -61,11 +60,10 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', height
         objectPosition={objectPosition} 
         overlayColor={overlayColor} 
         overlayOpacity={overlayOpacity} 
-        width={isFacebook ? 1200 : 1350} 
-        height={isFacebook ? 628 : 1080}
+        width={isFacebook ? '800px' : '1150px'} 
+        height={isFacebook ? '400px' : '900px'}
       >
-
-        {children}
+        <div className="flex justify-center w-full">{children}</div>
       </BackgroundImage>
     </div>
   );
@@ -200,10 +198,6 @@ Post.craft = {
     gap: 0,
     overlayOpacity: 0.7,
     overlayColor: "#000000",
-    objectFit: "contain",
-    height: "auto",
-    width: "auto",
-    img: defaultImage,
   },
   related: {
     settings: PostSettings,

@@ -15,7 +15,7 @@ export const FbContainer = ({ background, padding = 0, margin = 0, layout = "fle
   return (
     <div
       ref={ref}
-      style={{ background, padding: `${padding}px`, margin: `${margin}px`, height: '628px', width: '1200px', overflow: 'hidden', position: 'relative' }}
+      style={{ background, padding: `${padding}px`, margin: `${margin}px`, height: '500px', width: '1000px', overflow: 'hidden', position: 'relative' }}
       className={`border-dotted border-2 relative`}
     >
       {children}

@@ -37,14 +37,14 @@ export const Card = ({ containerType, h1, h2, background, padding = 0, borderCol
     const isFacebook = containerType === 'facebook';
 
     const containerStyles = {
-      background,
-      padding: `${padding}px`,
-      borderColor,
-      height: isFacebook ? '628px' : '1080px',
-      width: isFacebook ? '1200px' : '1350px',
-      maxWidth: isFacebook ? '1200px' : '1350px',
-      maxHeight: isFacebook ? '628px' : '1080px',
-      position: 'relative',
+        background,
+        padding: `${padding}px`,
+        borderColor,
+        height: isFacebook ? '400px' : '900px',
+        width: isFacebook ? '800px' : '1150px',
+        maxWidth: isFacebook ? '800px' : '1150px',
+        maxHeight: isFacebook ? '400px' : '900px',
+        position: 'relative',
     };
 
     return (    
@@ -53,12 +53,12 @@ export const Card = ({ containerType, h1, h2, background, padding = 0, borderCol
         style={containerStyles}
         className='w-full h-full'
     >          
-            <div className="flex flex-col items-center gap-y-16 relative z-20 max-w-[1000px]">
-              <div className="mr-12">
+            <div className="flex flex-col items-center justify-evenly gap-y-16 w-[700px] max-w-full">
+              <div className="">
                 <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 40 : 32} />
               </div>
-              <div className="ml-32">
-                <Element is={Header} text={h2 || "Subtitle"} textAlign={'center'} fontSize={isFacebook ? 24 : 24} id="subtitle" background={background} className="w-full" />
+              <div className="">
+                <Element is={Header} text={h2 || "Subtitle"} textAlign={'center'} fontSize={isFacebook ? 24 : 24} id="subtitle" background={background} />
               </div>
             </div>
             </div>
