@@ -6,10 +6,10 @@ import EmojiComponent from './EmojiComponent';
 const GetEmojis = () => {
   const [emojis, setEmojis] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [query, setQuery] = useState('smile');
+  const [selectedCategory, setSelectedCategory] = useState('food-drink');
+  const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const emojisPerPage = 25;
+  const emojisPerPage = 24;
   const { connectors } = useEditor();
 
   useEffect(() => {

@@ -43,7 +43,7 @@ export const CardTools = () => {
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <Header text="Text" />); }} className="p-1 btn-gradient rounded text-center">Text</DraggableButton>  
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <Container padding={0} background="#fff" canvas>{null}</Container>); }} className="p-1 btn-gradient rounded text-center">Container</DraggableButton>
             <DraggableButton ref={ref => { if (ref) connectors.create(ref, <ImageUpload src={simpleBlue} alt="" width={200} height={200} overlayOpacity={0} />); }} className="p-1 btn-gradient rounded text-center">Image Upload</DraggableButton>
-            <DraggableButton ref={ref => { if (ref) connectors.create(ref, <EmojiComponent emoji="😀" />); }} className="p-1 btn-gradient rounded text-center">Emoji</DraggableButton>
+            <DraggableButton ref={ref => { if (ref) connectors.create(ref, <EmojiComponent emoji="food" />); }} className="p-1 btn-gradient rounded text-center">Emoji</DraggableButton>
           </div>
           <div className="pt-4">
             <GetEmojis />
