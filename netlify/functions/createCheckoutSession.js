@@ -27,7 +27,7 @@ exports.handler = async (event) => {
         organizationName,
         plan: 'pro', // Indicate that this is for the Pro plan
       },
-      success_url: `${process.env.CLIENT_URL}/?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.CLIENT_URL}/signup-pro?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/signup-cancelled`,
     });
 
@@ -40,7 +40,7 @@ exports.handler = async (event) => {
     console.error('Stripe Checkout Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({ error: error.message, stack: error.stack }),
     };
   }
 };

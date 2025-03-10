@@ -26,7 +26,7 @@ exports.handler = async (event) => {
         password,
         organizationName,
       },
-      success_url: `${process.env.CLIENT_URL}/?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.CLIENT_URL}/signup-basic?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/signup-cancelled`,
     });
 
