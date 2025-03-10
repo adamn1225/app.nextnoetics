@@ -30,7 +30,11 @@ const SignupPro = () => {
     });
 
     if (signUpError) {
-      setError(signUpError.message);
+      if (signUpError.message.includes('duplicate key value violates unique constraint')) {
+        setError('An account with this email already exists.');
+      } else {
+        setError(signUpError.message);
+      }
       return;
     }
 

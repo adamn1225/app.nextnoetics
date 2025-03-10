@@ -16,7 +16,7 @@ exports.handler = async (event) => {
       mode: 'subscription', // or 'payment' for one-time
       line_items: [
         {
-          price: 'price_12345', // Replace with your actual Stripe Price ID
+          price: 'price_1R1DluGdOysuZMcPsRQeeY1u', // Replace with your actual Stripe Price ID
           quantity: 1,
         },
       ],
@@ -24,7 +24,7 @@ exports.handler = async (event) => {
       metadata: {
         userId, // Useful for later identifying the user
       },
-      success_url: `${process.env.CLIENT_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.CLIENT_URL}/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/signup-cancelled`,
     });
 
