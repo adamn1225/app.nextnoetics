@@ -60,7 +60,7 @@ const AccountSettings = () => {
     };
 
     return (
-        <div className="bg-gray-200 dark:bg-zinc-700 min-h-screen flex items-center justify-center w-full">
+        <div className="bg-gray-200 dark:bg-zinc-700 min-h-fit flex items-center justify-center w-full">
             <div className="w-full max-w-md p-8 bg-white dark:bg-zinc-800 rounded shadow">
                 <h1 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-secondary">Account Settings</h1>
                 {error && <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>}
@@ -78,7 +78,7 @@ const AccountSettings = () => {
                     </div>
                 )}
                 {!subscriptionId && (
-                    <div className="mb-4 text-center">
+                    <div className="mb-4 text-center h-min">
                         <p className="text-zinc-900 dark:text-white mb-2">You do not have an active subscription.</p>
                     </div>
                 )}

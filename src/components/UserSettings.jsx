@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import SubscriptionModal from './cms/SubscriptionModal';
+import AccountSettings from './AccountSettings';
 
 const UserSettings = () => {
     const [email] = useState('');
@@ -13,6 +14,7 @@ const UserSettings = () => {
     const [error, setError] = useState(null);
     const [user, setUser] = useState(null);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState('integration');
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -64,80 +66,99 @@ const UserSettings = () => {
                         </button>
                     </div>
                 )}
-                <form onSubmit={handleSave} className="space-y-4">
-                    <div>
-                        <label htmlFor="smmKey" className="block font-medium text-zinc-900 dark:text-white">SMM Key</label>
-                        <input
-                            type="text"
-                            id="smmKey"
-                            name="smmKey"
-                            placeholder='Enter your SMM key'
-                            value={smmKey}
-                            onChange={(e) => setSmmKey(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            disabled={!user}
-                        />
+                {user && (
+                    <div className="mb-4">
+                        <button
+                            className={`px-4 py-2 ${activeTab === 'integration' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'} rounded-l`}
+                            onClick={() => setActiveTab('integration')}
+                        >
+                            Integration Settings
+                        </button>
+                        <button
+                            className={`px-4 py-2 ${activeTab === 'account' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'} rounded-r`}
+                            onClick={() => setActiveTab('account')}
+                        >
+                            Account Settings
+                        </button>
                     </div>
-                    <div>
-                        <label htmlFor="facebookAccessToken" className="block font-medium text-zinc-900 dark:text-white">Facebook Access Token</label>
-                        <input
-                            type="text"
-                            id="facebookAccessToken"
-                            name="facebookAccessToken"
-                            placeholder='Enter your Facebook access token'
-                            value={facebookAccessToken}
-                            onChange={(e) => setFacebookAccessToken(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                )}
+                {activeTab === 'integration' && (
+                    <form onSubmit={handleSave} className="space-y-4">
+                        <div>
+                            <label htmlFor="smmKey" className="block font-medium text-zinc-900 dark:text-white">SMM Key</label>
+                            <input
+                                type="text"
+                                id="smmKey"
+                                name="smmKey"
+                                placeholder='Enter your SMM key'
+                                value={smmKey}
+                                onChange={(e) => setSmmKey(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="facebookAccessToken" className="block font-medium text-zinc-900 dark:text-white">Facebook Access Token</label>
+                            <input
+                                type="text"
+                                id="facebookAccessToken"
+                                name="facebookAccessToken"
+                                placeholder='Enter your Facebook access token'
+                                value={facebookAccessToken}
+                                onChange={(e) => setFacebookAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="twitterAccessToken" className="block font-medium text-zinc-900 dark:text-white">Twitter Access Token</label>
+                            <input
+                                type="text"
+                                id="twitterAccessToken"
+                                name="twitterAccessToken"
+                                placeholder='Enter your Twitter access token'
+                                value={twitterAccessToken}
+                                onChange={(e) => setTwitterAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="linkedinAccessToken" className="block font-medium text-zinc-900 dark:text-white">LinkedIn Access Token</label>
+                            <input
+                                type="text"
+                                id="linkedinAccessToken"
+                                name="linkedinAccessToken"
+                                placeholder='Enter your LinkedIn access token'
+                                value={linkedinAccessToken}
+                                onChange={(e) => setLinkedinAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="instagramAccessToken" className="block font-medium text-zinc-900 dark:text-white">Instagram Access Token</label>
+                            <input
+                                type="text"
+                                id="instagramAccessToken"
+                                name="instagramAccessToken"
+                                placeholder='Enter your Instagram access token'
+                                value={instagramAccessToken}
+                                onChange={(e) => setInstagramAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="shadow-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full"
                             disabled={!user}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="twitterAccessToken" className="block font-medium text-zinc-900 dark:text-white">Twitter Access Token</label>
-                        <input
-                            type="text"
-                            id="twitterAccessToken"
-                            name="twitterAccessToken"
-                            placeholder='Enter your Twitter access token'
-                            value={twitterAccessToken}
-                            onChange={(e) => setTwitterAccessToken(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            disabled={!user}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="linkedinAccessToken" className="block font-medium text-zinc-900 dark:text-white">LinkedIn Access Token</label>
-                        <input
-                            type="text"
-                            id="linkedinAccessToken"
-                            name="linkedinAccessToken"
-                            placeholder='Enter your LinkedIn access token'
-                            value={linkedinAccessToken}
-                            onChange={(e) => setLinkedinAccessToken(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            disabled={!user}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="instagramAccessToken" className="block font-medium text-zinc-900 dark:text-white">Instagram Access Token</label>
-                        <input
-                            type="text"
-                            id="instagramAccessToken"
-                            name="instagramAccessToken"
-                            placeholder='Enter your Instagram access token'
-                            value={instagramAccessToken}
-                            onChange={(e) => setInstagramAccessToken(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            disabled={!user}
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="shadow-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full"
-                        disabled={!user}
-                    >
-                        Save Settings
-                    </button>
-                </form>
+                        >
+                            Save Settings
+                        </button>
+                    </form>
+                )}
+                {activeTab === 'account' && <AccountSettings />}
             </div>
             <SubscriptionModal
                 isOpen={isSubscriptionModalOpen}
