@@ -24,7 +24,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.8.1",
+    "axios": "^1.8.2",
     "classnames": "^2.5.1",
     "copy-to-clipboard": "^3.3.3",
     "crypto-browserify": "^3.12.1",
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",
+    "axios": "^1.8.2",
     "concurrently": "^9.1.2",
     "postcss": "^8.4.0",
     "postcss-flexbugs-fixes": "^5.0.2",
