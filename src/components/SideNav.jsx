@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CalendarCog, Settings, MonitorCog } from 'lucide-react';
 import { LuShrink } from "react-icons/lu";
-import { RiExpandRightFill } from "react-icons/ri";
+import { RiLogoutCircleFill, RiExpandRightFill } from "react-icons/ri";
 import { useLocation, Link } from 'react-router-dom';
 import nextlogo from '../assets/next_noetics.png';
 import logomin from '../assets/next_noetics_ico.png';
@@ -24,16 +24,15 @@ const SideNav = ({ session }) => {
         <div className="absolute top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
       )}
 
-
       <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`text-white font-extrabold flex w-full text-3xl pt-2 focus:outline-none underline`}
-          style={{ zIndex: 10 }}
-        >
-          {isCollapsed ? <span className='flex justify-center w-full'> <RiExpandRightFill /></span> : <span className='flex justify-center  w-full'><LuShrink /></span>}
-        </button>
-        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-center w-full pt-4 '} gap-1 w-full px-1`}>
-<Link to="/" className="flex items-center justify-center w-full">
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className={`text-white font-extrabold flex w-full text-3xl pt-2 focus:outline-none underline`}
+        style={{ zIndex: 10 }}
+      >
+        {isCollapsed ? <span className='flex justify-center w-full'> <RiExpandRightFill /></span> : <span className='flex justify-center  w-full'><LuShrink /></span>}
+      </button>
+      <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-center w-full pt-4 '} gap-1 w-full px-1`}>
+        <Link to="/" className="flex items-center justify-center w-full">
           <img
             src={isCollapsed ? logomin : nextlogo}
             alt="Noetics.io Logo"
@@ -41,7 +40,7 @@ const SideNav = ({ session }) => {
             height={isCollapsed ? 40 : 300}
             className="rounded-full "
           />
-</Link>
+        </Link>
       </div>
       <div className="flex flex-col justify-start gap-1 items-start p-4">
         <div className={` ${isCollapsed ? 'hidden' : 'flex flex-nowrap justify-center w-full gap-1'}`}>
@@ -61,15 +60,19 @@ const SideNav = ({ session }) => {
           ))}
         </ul>
       
-          <ul className='mb-12'>
-            <li className="text-xs 2xl:text-base">
-              <Link to="/settings" className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/' ? 'active' : ''}`}>
-                <Settings className="mr-2" />
-                <span className={`${isCollapsed ? 'hidden' : 'block'}`}>Settings</span>
-              </Link>
-              {session && <Logout />}
-            </li>
-          </ul>
+        <ul className='mb-12'>
+          <li className="text-xs 2xl:text-base">
+            <Link to="/settings" className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/settings' ? 'active' : ''}`}>
+              <Settings className="mr-2" />
+              <span className={`${isCollapsed ? 'hidden' : 'block'}`}>Settings</span>
+            </Link>
+            {session && (
+              <div className={`flex mt-3 items-center ${isCollapsed ? 'justify-center' : 'justify-center'} p-1 font-medium hover:bg-gray-700 rounded`}>
+                {isCollapsed ? <RiLogoutCircleFill size={24} className="mr-2" /> : <Logout />}
+              </div>
+            )}
+          </li>
+        </ul>
       </nav>
     </aside>
   );
