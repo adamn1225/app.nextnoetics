@@ -1,5 +1,7 @@
 const stripe = require('stripe')(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
-const { supabase } = require('../lib/supabaseClient');
+const { createClient } = require('@supabase/supabase-js');
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 exports.handler = async (event) => {
   const sig = event.headers['stripe-signature'];
