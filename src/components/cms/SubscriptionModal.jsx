@@ -20,7 +20,7 @@ const SubscriptionModal = ({ isOpen, onClose }) => {
     },
     {
       name: 'Basic',
-      price: '$10/month',
+      price: '$12/month',
       limit: 10,
       features: [
         'Save up to 10 templates',
