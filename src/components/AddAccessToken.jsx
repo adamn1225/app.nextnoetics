@@ -30,7 +30,7 @@ const AddAccessToken = () => {
             return;
         }
 
-        const { error } = await supabase.from("user_tokens").insert([
+        const { error } = await supabase.from("user_access_tokens").insert([
             { user_id: userId, platform, access_token },
         ]);
 

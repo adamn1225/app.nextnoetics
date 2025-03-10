@@ -1,3 +1,4 @@
+// filepath: /home/adam-noah/app.nextnoetics/src/components/CalendarSmm.jsx
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -27,6 +28,7 @@ const CalendarSmm = () => {
     template_id: '',
   });
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
+  const [accessTokens, setAccessTokens] = useState({});
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -64,23 +66,43 @@ const CalendarSmm = () => {
 
     fetchTemplates();
 
-  const fetchSubscriptionPlan = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("plan")
-        .eq("user_id", user.id)
-        .single();
-      if (error) {
-        console.error("Error fetching subscription plan:", error);
-      } else {
-        setSubscriptionPlan(data.plan);
+    const fetchSubscriptionPlan = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("plan")
+          .eq("user_id", user.id)
+          .single();
+        if (error) {
+          console.error("Error fetching subscription plan:", error);
+        } else {
+          setSubscriptionPlan(data.plan);
+        }
       }
-    }
-  };
-  fetchSubscriptionPlan();
-}, []);
+    };
+    fetchSubscriptionPlan();
+
+    const fetchAccessTokens = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data, error } = await supabase
+          .from("user_access_tokens")
+          .select("platform, access_token")
+          .eq("user_id", user.id);
+        if (error) {
+          console.error("Error fetching access tokens:", error);
+        } else {
+          const tokens = data.reduce((acc, token) => {
+            acc[token.platform] = token.access_token;
+            return acc;
+          }, {});
+          setAccessTokens(tokens);
+        }
+      }
+    };
+    fetchAccessTokens();
+  }, [accessTokens]);
 
   const handleAddEvent = async (e) => {
     e.preventDefault();
@@ -290,7 +312,7 @@ const CalendarSmm = () => {
           formValues={formValues}
           handleChange={handleChange}
           handleSubmit={handleAddEvent}
-          templates={templates} // Updated prop name
+          templates={templates}
           setIsModalVisible={setIsModalVisible}
         />
       )}
@@ -301,7 +323,7 @@ const CalendarSmm = () => {
           handleChange={handleChange}
           handleSubmit={handleUpdateEvent}
           handleDelete={handleDeleteEvent}
-          templates={templates} // Updated prop name
+          templates={templates}
           setIsEventDetailsModalVisible={setIsEventDetailsModalVisible}
         />
       )}

@@ -4,6 +4,7 @@ import "./App.css";
 import SmmCards from "./components/SmmCards";
 import SideNav from "./components/SideNav";
 import CalendarSmm from "./components/CalendarSmm";
+import UserSettings from "./components/UserSettings";
 import SignupFree from "./components/SignupFree";
 import SignupPro from "./components/SignupPro";
 import SignupBasic from "./components/SignupBasic";
@@ -65,6 +66,7 @@ function App() {
         <SideNav session={session} />
         <Routes>
           <Route path="/calendar" element={<CalendarSmm />} />
+          <Route path="/settings" element={<UserSettings />} />
           <Route path="/signup-pro" element={<SignupPro />} />
           <Route path="/signup-basic" element={<SignupBasic />} />
           <Route path="/signup-free" element={<SignupFree />} />
