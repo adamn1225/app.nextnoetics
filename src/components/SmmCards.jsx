@@ -23,13 +23,13 @@ import SubscriptionModal from './cms/SubscriptionModal';
 import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
 import { Card, CardSettings } from './cms/user/Card';
-import EmojiComponent  from './cms/user/EmojiComponent';
+import EmojiComponent from './cms/user/EmojiComponent';
 
 const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState('Facebook');
   const [convertedData, setConvertedData] = useState(null);
-  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(true);
+  const [subscriptionModalIsOpen, setSubscriptionModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [tab, setTab] = useState('components');
   const [urls, setUrls] = useState(['']); // State for URLs
@@ -91,6 +91,8 @@ const SmmCards = ({ session }) => {
         if (error || !profile || profile.plan === 'freemium') {
           openSubscriptionModal();
         }
+      } else if (!session) {
+        openSubscriptionModal();
       }
       setIsLoading(false);
     };
@@ -105,88 +107,76 @@ const SmmCards = ({ session }) => {
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
       <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent }} >
-      <div className="grid grid-cols-[5fr_1fr] h-full w-full lg:mb-0">
-             
-        
-
-             
-                <>
-                {selectedCard === 'Facebook' && (
-                 <div className='flex flex-col justify-normal items-center h-full w-full'>
-                    <h1 className='text-blue-500 text-center py-5 text-2xl font-bold'>Facebook Image Card Preview</h1>
-                    <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
-                      <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
-                        <Element is={Card} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
-                      </Element>
-                    </Frame>
-                  </div>
-                )}
-                {selectedCard === 'Instagram' && (
-                <div className='flex flex-col justify-normal items-center h-full w-full'>
-                      <h1 className='text-rose-700 text-center py-5 text-xl font-bold'>Instagram Image Card Preview </h1>
-                    <Frame key={`instagram-${JSON.stringify(convertedData)}`}>
-                      <div className='flex justify-center items-start h-full w-full'>
-                        <div style={{ transform: 'scale(0.5)', transformOrigin: 'top' }}>
-                          <Element is={IgContainer} canvas>
-                            <Element is={Post} background={"#adaaaa"} containerType="instagram" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
-                          </Element>
-                        </div>
-                      </div>
-                    </Frame>
-                </div>
-                )}
-              </>
-
-        
-            <div className='pt-12 fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
-              <div className='flex w-furedjustify-center items-center border-b border-gray2000'>
-                <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'bg-teal-500 text-white' : 'bg-teal-600 opacity-90 text-white'}`}>Components</button>
-                <button onClick={() => setTab('settings')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'settings' ? 'bg-rose-500 text-white' : 'bg-rose-600 opacity-90 text-white'}`}>Settings</button>
-                <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-90 text-white'}`}>URL Converter</button>
+        <div className="grid grid-cols-[5fr_1fr] h-full w-full lg:mb-0">
+          <>
+            {selectedCard === 'Facebook' && (
+              <div className='flex flex-col justify-normal items-center h-full w-full'>
+                <h1 className='text-blue-500 text-center py-5 text-2xl font-bold'>Facebook Image Card Preview</h1>
+                <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
+                  <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
+                    <Element is={Card} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
+                  </Element>
+                </Frame>
               </div>
-           red
-            <div className='h-full w-full pt-8  bg-zinc-900'>
-              {tab === "components" && (
-                  <div className='flex px-4 flex-col justify-center items-center gap-1'>
-                    <h1 className='text-lg text-center font-semibold text-gray-50'>Select SM Card Type</h1>
-                    <select className='bg-white border border-gray-300 rounded-sm p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
-                      <option value="Facebook">Facebook Card</option>
-                      <option value="Instagram">Instagram Card</option>
-                    </select>
-                    <CardTools />
+            )}
+            {selectedCard === 'Instagram' && (
+              <div className='flex flex-col justify-normal items-center h-full w-full'>
+                <h1 className='text-rose-700 text-center py-5 text-xl font-bold'>Instagram Image Card Preview </h1>
+                <Frame key={`instagram-${JSON.stringify(convertedData)}`}>
+                  <div className='flex justify-center items-start h-full w-full'>
+                    <div style={{ transform: 'scale(0.5)', transformOrigin: 'top' }}>
+                      <Element is={IgContainer} canvas>
+                        <Element is={Post} background={"#adaaaa"} containerType="instagram" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
+                      </Element>
                     </div>
-                )}
-                  
-                  {tab === "settings" && ( 
-                   <div className='h-full w-full pt-8  bg-zinc-900'>
-                      <SettingsPanel />
-                    <span className='bg-white w-full mt-4'>
-                      <Layers expanded/>
-                    </span>
-                    <div className='relative bottom-2 flex flex-col gap-2 mt-12 h-full w-full'>
+                  </div>
+                </Frame>
+              </div>
+            )}
+          </>
+          <div className='pt-12 fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
+            <div className='flex w-full justify-center items-center border-b border-gray-200'>
+              <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'btn-gradient ' : 'btn-gradient opacity-90 '}`}>Components</button>
+              <button onClick={() => setTab('settings')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'settings' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-90 text-white'}`}>Settings</button>
+              <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-green-500 text-white' : 'bg-green-600 opacity-90 text-white'}`}>URL Converter</button>
+            </div>
+            <div className='h-full w-full pt-8 bg-zinc-900'>
+              {tab === "components" && (
+                <div className='flex px-4 flex-col justify-center items-center gap-1'>
+                  <h1 className='text-lg text-center font-semibold text-gray-50'>Select SM Card Type</h1>
+                  <select className='bg-white border border-gray-300 rounded-sm p-2' value={selectedCard} onChange={(e) => handleCardChange(e.target.value)}>
+                    <option value="Facebook">Facebook Card</option>
+                    <option value="Instagram">Instagram Card</option>
+                  </select>
+                  <CardTools />
+                </div>
+              )}
+              {tab === "settings" && (
+                <div className='h-full w-full pt-8 bg-zinc-900'>
+                  <SettingsPanel />
+                  <span className='bg-white w-full mt-4'>
+                    <Layers expanded />
+                  </span>
+                  <div className='relative bottom-2 flex flex-col gap-2 mt-12 h-full w-full'>
                     <button onClick={openModal} className="text-gradient font-bold border border-1 border-primary p-2 text-center mt-4 hover:bg-primary hover:text-white ">
                       Save Template
-                    </button>             
-                      <div className='w-full text-gray-950 p-4'>
-                        <StoredTemplates session={session} />
-                      </div>
+                    </button>
+                    <div className='w-full text-gray-950 p-4'>
+                      <StoredTemplates session={session} />
+                    </div>
                   </div>
-                   </div>
-                )}
-
                 </div>
-                  
-                                {tab === "urlConverter" && (
-          <UrlConverter onConvert={handleConvert} urls={urls} setUrls={setUrls} />
+              )}
+              {tab === "urlConverter" && (
+                <UrlConverter onConvert={handleConvert} urls={urls} setUrls={setUrls} />
               )}
             </div>
           </div>
-
-        <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
-          <Topbar openSubscriptionModal={openSubscriptionModal} />
-        </CustomModal>
-
-        <SubscriptionModal isOpen={subscriptionModalIsOpen} onClose={closeSubscriptionModal} />
+          <CustomModal isOpen={modalIsOpen} onClose={closeModal}>
+            <Topbar openSubscriptionModal={openSubscriptionModal} />
+          </CustomModal>
+          <SubscriptionModal isOpen={subscriptionModalIsOpen} onClose={closeSubscriptionModal} />
+        </div>
       </Editor>
     </div>
   );
