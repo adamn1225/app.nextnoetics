@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const SignupBasic = () => {
@@ -117,6 +117,9 @@ const SignupBasic = () => {
   return (
     <div className="w-full bg-gray-200 dark:bg-zinc-700 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-8 bg-white dark:bg-zinc-800 rounded shadow">
+      <p className='text-blue-500 text-base pb-5 underline '>
+          <Link className='flex items-center' to="/"><ChevronLeft /> Back to builder</Link>         
+        </p>
         <h1 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-secondary">Sign Up for Basic Plan</h1>
         {error && <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>}
         {successMessage && <p className="text-green-600 dark:text-green-400 mb-4">{successMessage}</p>}
@@ -193,6 +196,10 @@ const SignupBasic = () => {
             Sign Up
           </button>
         </form>
+        <p className='text-blue-500 underline'>
+          <Link to="/login">Already have an account? Log in</Link>         
+        </p>
+
         <p className="text-lg text-center mt-8">
           <Link className='underline text-normal' to="/privacy-policy">
             Privacy Policy

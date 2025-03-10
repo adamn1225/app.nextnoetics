@@ -33,13 +33,15 @@ const SideNav = ({ session }) => {
           {isCollapsed ? <span className='flex justify-center w-full'> <RiExpandRightFill /></span> : <span className='flex justify-center  w-full'><LuShrink /></span>}
         </button>
         <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-center w-full pt-4 '} gap-1 w-full px-1`}>
-        <img
-          src={isCollapsed ? logomin : nextlogo}
-          alt="Noetics.io Logo"
-          width={isCollapsed ? 40 : 400}
-          height={isCollapsed ? 40 : 300}
-          className="rounded-full "
-        />
+<Link to="/" className="flex items-center justify-center w-full">
+          <img
+            src={isCollapsed ? logomin : nextlogo}
+            alt="Noetics.io Logo"
+            width={isCollapsed ? 40 : 400}
+            height={isCollapsed ? 40 : 300}
+            className="rounded-full "
+          />
+</Link>
       </div>
       <div className="flex flex-col justify-start gap-1 items-start p-4">
         <div className={` ${isCollapsed ? 'hidden' : 'flex flex-nowrap justify-center w-full gap-1'}`}>
