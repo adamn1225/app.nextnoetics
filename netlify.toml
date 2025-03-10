@@ -3,6 +3,9 @@
   publish = "build"
   functions = "netlify/functions"
 
+[functions]
+  external_node_modules = ["stripe"]
+
 [build.environment]
   NODE_VERSION = "16"
   GO_VERSION = "1.18"

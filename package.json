@@ -1,6 +1,6 @@
 {
-  "name": "app-nextnoetics",
-  "version": "0.1.0",
+  "name": "noetics.io",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -52,6 +52,7 @@
     "react-scripts": "5.0.1",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
+    "stripe": "^8.222.0",
     "styled-components": "^6.1.15",
     "url": "^0.11.4",
     "util": "^0.12.5",
