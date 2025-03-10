@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { supabase } from '../lib/supabaseClient';
 
 const UserSettings = () => {
     const [email, setEmail] = useState('');
@@ -14,6 +15,15 @@ const UserSettings = () => {
     const [instagramAccessToken, setInstagramAccessToken] = useState('');
     const [successMessage, setSuccessMessage] = useState(null);
     const [error, setError] = useState(null);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setUser(user);
+        };
+        fetchUser();
+    }, []);
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -65,6 +75,7 @@ const UserSettings = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                             required
+                            disabled={!user}
                         />
                     </div>
                     <div className="relative">
@@ -78,6 +89,7 @@ const UserSettings = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             className="shadow-sm w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                             required
+                            disabled={!user}
                         />
                         <button
                             type="button"
@@ -98,6 +110,7 @@ const UserSettings = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="shadow-sm w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                             required
+                            disabled={!user}
                         />
                         <button
                             type="button"
@@ -117,6 +130,7 @@ const UserSettings = () => {
                             value={smmKey}
                             onChange={(e) => setSmmKey(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                            disabled={!user}
                         />
                     </div>
                     <div>
@@ -129,6 +143,7 @@ const UserSettings = () => {
                             value={facebookAccessToken}
                             onChange={(e) => setFacebookAccessToken(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                            disabled={!user}
                         />
                     </div>
                     <div>
@@ -141,6 +156,7 @@ const UserSettings = () => {
                             value={twitterAccessToken}
                             onChange={(e) => setTwitterAccessToken(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                            disabled={!user}
                         />
                     </div>
                     <div>
@@ -153,6 +169,7 @@ const UserSettings = () => {
                             value={linkedinAccessToken}
                             onChange={(e) => setLinkedinAccessToken(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                            disabled={!user}
                         />
                     </div>
                     <div>
@@ -165,11 +182,13 @@ const UserSettings = () => {
                             value={instagramAccessToken}
                             onChange={(e) => setInstagramAccessToken(e.target.value)}
                             className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                            disabled={!user}
                         />
                     </div>
                     <button
                         type="submit"
                         className="shadow-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full"
+                        disabled={!user}
                     >
                         Save Settings
                     </button>
