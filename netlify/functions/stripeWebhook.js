@@ -41,7 +41,7 @@ exports.handler = async (event) => {
       // Create profile
       const { error: profileError } = await supabase
         .from('profiles')
-        .insert([{ user_id: userId, email, name: email.split('@')[0], plan }]);
+        .insert([{ user_id: userId, email, name: email.split('@')[0], plan, subscription_id: session.subscription }]);
 
       if (profileError) {
         throw new Error(profileError.message);

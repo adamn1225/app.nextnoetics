@@ -61,9 +61,9 @@ const SideNav = ({ session }) => {
           ))}
         </ul>
       
-          <ul className='mb-24'>
+          <ul className='mb-12'>
             <li className="text-xs 2xl:text-base">
-              <Link to="/" className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/' ? 'active' : ''}`}>
+              <Link to="/settings" className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-2'}  p-2 font-medium hover:bg-gray-700 rounded ${currentPath === '/' ? 'active' : ''}`}>
                 <Settings className="mr-2" />
                 <span className={`${isCollapsed ? 'hidden' : 'block'}`}>Settings</span>
               </Link>

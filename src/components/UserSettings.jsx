@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import { supabase } from '../lib/supabaseClient';
+import SubscriptionModal from './cms/SubscriptionModal';
 
 const UserSettings = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [email] = useState('');
     const [smmKey, setSmmKey] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [facebookAccessToken, setFacebookAccessToken] = useState('');
     const [twitterAccessToken, setTwitterAccessToken] = useState('');
     const [linkedinAccessToken, setLinkedinAccessToken] = useState('');
@@ -16,6 +12,7 @@ const UserSettings = () => {
     const [successMessage, setSuccessMessage] = useState(null);
     const [error, setError] = useState(null);
     const [user, setUser] = useState(null);
+    const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -29,18 +26,11 @@ const UserSettings = () => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
-
-        if (password !== confirmPassword) {
-            setError('Passwords do not match');
-            return;
-        }
-
-        // 🚀 Save User Settings
         try {
             const response = await fetch('/.netlify/functions/saveUserSettings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, smmKey, facebookAccessToken, twitterAccessToken, linkedinAccessToken, instagramAccessToken }),
+                body: JSON.stringify({ email, smmKey, facebookAccessToken, twitterAccessToken, linkedinAccessToken, instagramAccessToken }),
             });
 
             const data = await response.json();
@@ -63,63 +53,18 @@ const UserSettings = () => {
                 <h1 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-secondary">User Settings</h1>
                 {error && <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>}
                 {successMessage && <p className="text-green-600 dark:text-green-400 mb-4">{successMessage}</p>}
+                {!user && (
+                    <div className="mb-4 text-center">
+                        <p className="text-red-600 dark:text-red-400 mb-2">Create an account to use the access token settings.</p>
+                        <button
+                            className="text-blue-500 hover:underline"
+                            onClick={() => setIsSubscriptionModalOpen(true)}
+                        >
+                            Sign Up
+                        </button>
+                    </div>
+                )}
                 <form onSubmit={handleSave} className="space-y-4">
-                    <div>
-                        <label htmlFor="email" className="block font-medium text-zinc-900 dark:text-white">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Enter a valid email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            required
-                            disabled={!user}
-                        />
-                    </div>
-                    <div className="relative">
-                        <label htmlFor="password" className="block font-medium text-zinc-900 dark:text-white">Password</label>
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            name="password"
-                            placeholder='At least 8 characters'
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="shadow-sm w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            required
-                            disabled={!user}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 top-1/3 right-0 pr-3 flex items-center text-zinc-500"
-                        >
-                            {showPassword ? <EyeOff /> : <Eye />}
-                        </button>
-                    </div>
-                    <div className="relative">
-                        <label htmlFor="confirmPassword" className="block font-medium text-zinc-900 dark:text-white">Confirm Password</label>
-                        <input
-                            type={showConfirmPassword ? 'text' : 'password'}
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            placeholder='Confirm your password'
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="shadow-sm w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                            required
-                            disabled={!user}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute inset-y-0 top-1/3 right-0 pr-3 flex items-center text-zinc-500"
-                        >
-                            {showConfirmPassword ? <EyeOff /> : <Eye />}
-                        </button>
-                    </div>
                     <div>
                         <label htmlFor="smmKey" className="block font-medium text-zinc-900 dark:text-white">SMM Key</label>
                         <input
@@ -194,6 +139,10 @@ const UserSettings = () => {
                     </button>
                 </form>
             </div>
+            <SubscriptionModal
+                isOpen={isSubscriptionModalOpen}
+                onClose={() => setIsSubscriptionModalOpen(false)}
+            />
         </div>
     );
 };
