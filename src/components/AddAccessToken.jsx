@@ -1,99 +1,77 @@
-import React, { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
+import React, { useState } from 'react';
+import { supabase } from '../lib/supabaseClient';
 
-const AddAccessToken = () => {
-    const [formValues, setFormValues] = useState({
-        platform: '',
-        access_token: '',
-    });
-    const [loading, setLoading] = useState(false);
-    const [userId, setUserId] = useState(null);
+const AddAccessToken = ({ onClose }) => {
+    const [platform, setPlatform] = useState('Facebook');
+    const [accessToken, setAccessToken] = useState('');
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null);
 
-    useEffect(() => {
-        const fetchUserId = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                setUserId(user.id);
-            }
-        };
-        fetchUserId();
-    }, []);
-
-    const handleAddToken = async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        const { platform, access_token } = formValues;
+        setError(null);
+        setSuccessMessage(null);
 
-        if (!userId) {
-            console.error("User not authenticated");
-            setLoading(false);
-            return;
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                setError('User not authenticated');
+                return;
+            }
+
+            const { error } = await supabase
+                .from('user_access_tokens')
+                .upsert({ user_id: user.id, platform, access_token: accessToken });
+
+            if (error) {
+                throw error;
+            }
+
+            setSuccessMessage('Access token saved successfully');
+            onClose();
+        } catch (saveError) {
+            console.error('Save Error:', saveError);
+            setError('Failed to save access token');
         }
-
-        const { error } = await supabase.from("user_access_tokens").insert([
-            { user_id: userId, platform, access_token },
-        ]);
-
-        setLoading(false);
-
-        if (error) {
-            console.error("Error adding access token:", error);
-        } else {
-            console.log("Access token added successfully");
-            setFormValues({ platform: '', access_token: '' });
-        }
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: value,
-        }));
     };
 
     return (
-        <form onSubmit={handleAddToken} className="space-y-4">
+        <form onSubmit={handleSave} className="space-y-4">
             <div>
-                <label htmlFor="platform" className="block text-sm font-medium text-gray-950 dark:text-primary">
-                    Platform
-                </label>
+                <label htmlFor="platform" className="block font-medium text-zinc-900 dark:text-white">Platform</label>
                 <select
                     id="platform"
                     name="platform"
-                    value={formValues.platform}
-                    onChange={handleChange}
-                    className="mt-1 block text-gray-950 dark:text-primary w-full border border-gray-300 rounded-md shadow-sm p-2"
-                    required
+                    value={platform}
+                    onChange={(e) => setPlatform(e.target.value)}
+                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                 >
-                    <option value="">Select Platform</option>
                     <option value="Facebook">Facebook</option>
                     <option value="Twitter">Twitter</option>
-                    <option value="Instagram">Instagram</option>
                     <option value="LinkedIn">LinkedIn</option>
-                    <option value="TikTok">TikTok</option>
+                    <option value="Instagram">Instagram</option>
                 </select>
             </div>
             <div>
-                <label htmlFor="access_token" className="block text-sm font-medium text-gray-950 dark:text-primary">
-                    Access Token
-                </label>
+                <label htmlFor="accessToken" className="block font-medium text-zinc-900 dark:text-white">Access Token</label>
                 <input
                     type="text"
-                    id="access_token"
-                    name="access_token"
-                    value={formValues.access_token}
-                    onChange={handleChange}
-                    className="mt-1 block text-gray-950 dark:text-primary w-full border border-gray-300 rounded-md shadow-sm p-2"
+                    id="accessToken"
+                    name="accessToken"
+                    placeholder="Enter your access token"
+                    value={accessToken}
+                    onChange={(e) => setAccessToken(e.target.value)}
+                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                     required
                 />
             </div>
+            {error && <p className="text-red-600 dark:text-red-400">{error}</p>}
+            {successMessage && <p className="text-green-600 dark:text-green-400">{successMessage}</p>}
             <button
                 type="submit"
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600"
-                disabled={loading}
+                className="shadow-md bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full"
             >
-                {loading ? 'Adding...' : 'Add Access Token'}
+                Save Access Token
             </button>
         </form>
     );

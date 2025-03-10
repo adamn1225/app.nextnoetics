@@ -20,6 +20,36 @@ const UserSettings = () => {
         const fetchUser = async () => {
             const { data: { user } } = await supabase.auth.getUser();
             setUser(user);
+
+            if (user) {
+                const { data, error } = await supabase
+                    .from('user_access_tokens')
+                    .select('platform, access_token')
+                    .eq('user_id', user.id);
+
+                if (error) {
+                    console.error('Error fetching access tokens:', error);
+                } else {
+                    data.forEach(token => {
+                        switch (token.platform) {
+                            case 'Facebook':
+                                setFacebookAccessToken(token.access_token);
+                                break;
+                            case 'Twitter':
+                                setTwitterAccessToken(token.access_token);
+                                break;
+                            case 'LinkedIn':
+                                setLinkedinAccessToken(token.access_token);
+                                break;
+                            case 'Instagram':
+                                setInstagramAccessToken(token.access_token);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
+            }
         };
         fetchUser();
     }, []);
