@@ -9,20 +9,22 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { userId, email } = JSON.parse(event.body);
+    const { email, password, organizationName } = JSON.parse(event.body);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'subscription', // or 'payment' for one-time
       line_items: [
         {
-          price: 'price_1R1DuAGdOysuZMcPy7JTOeoC', // Replace with your actual Stripe Price ID for Basic Plan
+          price: 'price_1R1DuAGdOysuZMcPy7JTOeoC', // Replace with your actual Stripe Price ID
           quantity: 1,
         },
       ],
       customer_email: email,
       metadata: {
-        userId, // Useful for later identifying the user
+        email,
+        password,
+        organizationName,
       },
       success_url: `${process.env.CLIENT_URL}/?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/signup-cancelled`,

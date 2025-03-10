@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
 import { Eye, EyeOff, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -24,80 +23,12 @@ const SignupBasic = () => {
       return;
     }
 
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (signUpError) {
-      if (signUpError.message.includes('duplicate key value violates unique constraint')) {
-        setError('An account with this email already exists.');
-      } else {
-        setError(signUpError.message);
-      }
-      return;
-    }
-
-    const userId = signUpData.user?.id;
-
-    if (!userId) {
-      setError('User creation failed.');
-      return;
-    }
-
-    // Create profile
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .insert([{ user_id: userId, email, name: email.split('@')[0], plan: 'basic' }]);
-
-    if (profileError) {
-      setError(profileError.message);
-      return;
-    }
-
-    // Create organization
-    const orgName = organizationName || `${email.split('@')[0]}'s Organization`;
-
-    const { data: orgData, error: orgError } = await supabase
-      .from('organizations')
-      .insert([{ name: orgName }])
-      .select()
-      .single();
-
-    if (orgError) {
-      setError(orgError.message);
-      return;
-    }
-
-    const organizationId = orgData.id;
-
-    // Update profile with organization_id
-    const { error: profileUpdateError } = await supabase
-      .from('profiles')
-      .update({ organization_id: organizationId })
-      .eq('user_id', userId);
-
-    if (profileUpdateError) {
-      setError(profileUpdateError.message);
-      return;
-    }
-
-    // Add to organization_members table
-    const { error: memberError } = await supabase
-      .from('organization_members')
-      .insert([{ organization_id: organizationId, user_id: userId, role: 'client' }]);
-
-    if (memberError) {
-      setError(memberError.message);
-      return;
-    }
-
     // 🚀 Stripe Checkout Call
     try {
       const response = await fetch('/.netlify/functions/createCheckoutSessionBasic', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, email }),
+        body: JSON.stringify({ email, password, organizationName }),
       });
 
       const data = await response.json();
@@ -117,7 +48,7 @@ const SignupBasic = () => {
   return (
     <div className="w-full bg-gray-200 dark:bg-zinc-700 min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-8 bg-white dark:bg-zinc-800 rounded shadow">
-      <p className='text-blue-500 text-base pb-5 underline '>
+        <p className='text-blue-500 text-base pb-5 underline '>
           <Link className='flex items-center' to="/"><ChevronLeft /> Back to builder</Link>         
         </p>
         <h1 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-secondary">Sign Up for Basic Plan</h1>
