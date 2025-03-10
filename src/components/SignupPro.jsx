@@ -31,55 +31,82 @@ const SignupPro = () => {
 
     if (signUpError) {
       setError(signUpError.message);
-    } else {
-      const userId = signUpData.user?.id;
+      return;
+    }
 
-      if (userId) {
-        // Create profile
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert([{ user_id: userId, email, name: email.split('@')[0], plan: 'pro' }]);
+    const userId = signUpData.user?.id;
 
-        if (profileError) {
-          setError(profileError.message);
-          return;
-        }
+    if (!userId) {
+      setError('User creation failed.');
+      return;
+    }
 
-        // Create organization if not provided
-        const orgName = organizationName || `${email.split('@')[0]}'s Organization`;
-        const { data: orgData, error: orgError } = await supabase
-          .from('organizations')
-          .insert([{ name: orgName }])
-          .select()
-          .single();
+    // Create profile
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .insert([{ user_id: userId, email, name: email.split('@')[0], plan: 'pro' }]);
 
-        if (orgError) {
-          setError(orgError.message);
-        } else {
-          const organizationId = orgData.id;
+    if (profileError) {
+      setError(profileError.message);
+      return;
+    }
 
-          // Update profile with organization_id
-          const { error: profileUpdateError } = await supabase
-            .from('profiles')
-            .update({ organization_id: organizationId })
-            .eq('user_id', userId);
+    // Create organization
+    const orgName = organizationName || `${email.split('@')[0]}'s Organization`;
 
-          if (profileUpdateError) {
-            setError(profileUpdateError.message);
-          } else {
-            // Insert into organization_members table
-            const { error: memberError } = await supabase
-              .from('organization_members')
-              .insert([{ organization_id: organizationId, user_id: userId, role: 'client' }]);
+    const { data: orgData, error: orgError } = await supabase
+      .from('organizations')
+      .insert([{ name: orgName }])
+      .select()
+      .single();
 
-            if (memberError) {
-              setError(memberError.message);
-            } else {
-              setSuccessMessage('Signup successful! Please check your email for the 6-digit token.');
-            }
-          }
-        }
+    if (orgError) {
+      setError(orgError.message);
+      return;
+    }
+
+    const organizationId = orgData.id;
+
+    // Update profile with organization_id
+    const { error: profileUpdateError } = await supabase
+      .from('profiles')
+      .update({ organization_id: organizationId })
+      .eq('user_id', userId);
+
+    if (profileUpdateError) {
+      setError(profileUpdateError.message);
+      return;
+    }
+
+    // Add to organization_members table
+    const { error: memberError } = await supabase
+      .from('organization_members')
+      .insert([{ organization_id: organizationId, user_id: userId, role: 'client' }]);
+
+    if (memberError) {
+      setError(memberError.message);
+      return;
+    }
+
+    // 🚀 Stripe Checkout Call
+    try {
+      const response = await fetch('/.netlify/functions/createCheckoutSession', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, email }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        window.location.href = data.url; // Redirect to Stripe Checkout
+      } else {
+        setError('Failed to start checkout session');
       }
+
+    } catch (checkoutError) {
+      console.error('Checkout Error:', checkoutError);
+      setError('Failed to initiate payment');
     }
   };
 
