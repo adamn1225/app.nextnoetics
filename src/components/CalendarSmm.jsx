@@ -265,12 +265,12 @@ const CalendarSmm = () => {
       `}</style>
       <div className="flex flex-col-reverse justify-center gap-4 mx-12">
         <div className="flex-1 ">
-          <h2 className="text-4xl font-semibold my-4 text-gray-800 dark:text-white text-center">
+          <h2 className="text-4xl font-semibold my-4 text-gray-800 text-center">
             Social Media Calendar
           </h2>
           <div className="flex items-end justify-between mb-10 w-full">
-            <div className="bg-white dark:bg-zinc-800 px-2 py-4 shadow-md mt-3 flex flex-col items-start justify-start gap-2 rounded-md">
-              <h2 className="text-base font-semibold text-center text-gray-800 dark:text-white">
+            <div className="bg-white px-2 py-4 shadow-md mt-3 flex flex-col items-start justify-start gap-2 rounded-md">
+              <h2 className="text-base font-semibold text-center text-gray-800 ">
                 Add an event to any of your social media platforms
               </h2>
               <button
@@ -280,8 +280,8 @@ const CalendarSmm = () => {
                 Add SMM Event
               </button>
             </div>
-            <div className="bg-white dark:bg-zinc-800 px-2 py-4 shadow-md mt-3 flex flex-col items-start justify-start gap-2 rounded-md">
-              <h2 className="text-lg font-semibold text-center text-gray-800 dark:text-white">
+            <div className="bg-white  px-2 py-4 shadow-md mt-3 flex flex-col items-start justify-start gap-2 rounded-md">
+              <h2 className="text-lg font-semibold text-center text-gray-800">
                 Connect to Your Social Media Platforms
               </h2>
               <button
@@ -292,7 +292,7 @@ const CalendarSmm = () => {
               </button>
             </div>
           </div>
-          <div className="p-1 text-nowrap rounded-lg text-gray-900  dark:text-foreground w-auto bg-white">
+          <div className="p-1 text-nowrap rounded-lg text-gray-900  w-auto bg-white">
             <div style={{ height: 500, width: '100%', backgroundColor: 'white' }}>
               <Calendar
                 localizer={localizer}

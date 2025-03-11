@@ -4,11 +4,11 @@ import { CircleX } from 'lucide-react';
 const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, templates }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-6 w-full max-w-lg">
-                <span className="text-gray-600 dark:text-gray-300 cursor-pointer float-right mb-2" onClick={() => setIsModalVisible(false)}><CircleX /></span>
+            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+                <span className="text-gray-600 cursor-pointer float-right mb-2" onClick={() => setIsModalVisible(false)}><CircleX /></span>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
                         <input
                             type="text"
                             id="title"
@@ -16,22 +16,22 @@ const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, 
                             value={formValues.title || ''}
                             onChange={handleChange}
                             required
-                            className="mt-1 p-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
                     <div>
-                        <label htmlFor="description" className="block text-sm font-medium text-gray-950 dark:text-primary dark:text-gray-300">Description</label>
+                        <label htmlFor="description" className="block text-sm font-medium text-gray-950">Description</label>
                         <textarea
                             id="description"
                             name="description"
                             value={formValues.description || ''}
                             onChange={handleChange}
                             required
-                            className="mt-1 p-1 text-gray-950 dark:text-primary block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 text-gray-950 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
                     <div>
-                        <label htmlFor="post_due_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Post Due Date</label>
+                        <label htmlFor="post_due_date" className="block text-sm font-medium text-gray-700">Post Due Date</label>
                         <input
                             type="datetime-local"
                             id="post_due_date"
@@ -39,18 +39,18 @@ const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, 
                             value={formValues.post_due_date || ''}
                             onChange={handleChange}
                             required
-                            className="mt-1 p-1 text-gray-950 dark:text-primary block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 text-gray-950 block w-full border border-gray-300  rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         />
                     </div>
                     <div>
-                        <label htmlFor="sm_platform" className="block text-sm font-medium text-gray-950 dark:text-primary dark:text-gray-300">Social Media Platform</label>
+                        <label htmlFor="sm_platform" className="block text-sm font-medium text-gray-950">Social Media Platform</label>
                         <select
                             id="sm_platform"
                             name="sm_platform"
                             value={formValues.sm_platform || 'Facebook'}
                             onChange={handleChange}
                             required
-                            className="mt-1 p-1 block w-full border text-gray-950 dark:text-primary border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 block w-full border text-gray-950 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="Facebook">Facebook</option>
                             <option value="Twitter">Twitter</option>
@@ -60,14 +60,14 @@ const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, 
                         </select>
                     </div>
                     <div>
-                        <label htmlFor="status" className="block text-sm font-medium text-gray-950 dark:text-primary">Status</label>
+                        <label htmlFor="status" className="block text-sm font-medium text-gray-950">Status</label>
                         <select
                             id="status"
                             name="status"
                             value={formValues.status || 'Draft'}
                             onChange={handleChange}
                             required
-                            className="mt-1 p-1 text-gray-950 dark:text-primary block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 text-gray-950 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="Draft">Draft</option>
                             <option value="Scheduled">Scheduled</option>
@@ -75,24 +75,24 @@ const EventForm = ({ formValues, handleChange, handleSubmit, setIsModalVisible, 
                         </select>
                     </div>
                     <div className="flex items-center">
-                        <label htmlFor="post_automatically" className="block text-sm font-medium  text-gray-950 dark:text-primary mr-2">Auto Post?</label>
+                        <label htmlFor="post_automatically" className="block text-sm font-medium  text-gray-950 mr-2">Auto Post?</label>
                         <input
                             type="checkbox"
                             id="post_automatically"
                             name="post_automatically"
                             checked={formValues.post_automatically || false}
                             onChange={handleChange}
-                            className="h-4 w-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded"
+                            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
                         />
                     </div>
                     <div>
-                        <label htmlFor="template_id" className="block text-sm font-medium  text-gray-950 dark:text-primary">Template</label>
+                        <label htmlFor="template_id" className="block text-sm font-medium  text-gray-950">Template</label>
                         <select
                             id="template_id"
                             name="template_id"
                             value={formValues.template_id || ''}
                             onChange={handleChange}
-                            className="mt-1 p-1 block w-full text-gray-950 dark:text-primary border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 p-1 block w-full text-gray-950 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option value="">None</option>
                             {templates.map((template) => (

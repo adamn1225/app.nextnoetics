@@ -1,6 +1,7 @@
-// filepath: /home/adam-noah/app.nextnoetics/src/components/cms/user/FetchImages.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const UNSPLASH_ACCESS_KEY = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
 const FetchImages = ({ onSelectImage }) => {
   const [images, setImages] = useState([]);
@@ -9,10 +10,15 @@ const FetchImages = ({ onSelectImage }) => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.post('/.netlify/functions/fetch-images', { query });
-        setImages(response.data);
+        const response = await axios.get('https://api.unsplash.com/search/photos', {
+          params: { query, per_page: 10 },
+          headers: {
+            Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
+          },
+        });
+        setImages(response.data.results);
       } catch (error) {
-        console.error('Error fetching Shutterstock images:', error);
+        console.error('Error fetching images:', error);
       }
     };
 
@@ -30,8 +36,8 @@ const FetchImages = ({ onSelectImage }) => {
       />
       <div className="grid grid-cols-2 gap-4">
         {images.map((image) => (
-          <div key={image.id} className="cursor-pointer" onClick={() => onSelectImage(image.assets.preview.url)}>
-            <img src={image.assets.preview.url} alt={image.description || 'Shutterstock Image'} className="w-full h-auto" />
+          <div key={image.id} className="cursor-pointer" onClick={() => onSelectImage(image.urls.small)}>
+            <img src={image.urls.small} alt={image.alt_description} className="w-full h-auto" />
           </div>
         ))}
       </div>

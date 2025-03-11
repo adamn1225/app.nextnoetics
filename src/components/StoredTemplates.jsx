@@ -62,7 +62,7 @@ const StoredTemplates = ({ session }) => {
   }
 
   return (
-    <div className='text-gray-950 w-full overflow-y-auto' style={{ maxHeight: 'calc(100vh - 200px)' }}>
+    <div className='text-white w-full overflow-y-auto' style={{ maxHeight: 'calc(100vh - 200px)' }}>
       <h2 className=' font-semibold'>Stored Templates</h2>
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -70,14 +70,14 @@ const StoredTemplates = ({ session }) => {
         {templates.map(template => (
           <li key={template.id} className="p-2 border border-gray-300 rounded mb-2">
             <div>
-                <h3 className="font-medium">{template.name}</h3>
-                <p>{template.description}</p>
+                <h3 className="font-medium text-white">{template.name}</h3>
+                <p className='text-white'>{template.description}</p>
               </div>
             <div className="flex justify-between items-center">
               
               <div className="flex gap-2">
                 <button
-                  className="text-sm px-1 py-1 border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+                  className="text-sm px-1 py-1 border bg-blue-500 hover:bg-blue-600 text-white"
                   onClick={() => loadTemplate(template)}
                 >
                   Load Template

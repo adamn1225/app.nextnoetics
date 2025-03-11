@@ -24,6 +24,7 @@ import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
 import { Card, CardSettings } from './cms/user/Card';
 import EmojiComponent from './cms/user/EmojiComponent';
+import InitializeCardSelection from './InitializeCardSelection';
 
 const SmmCards = ({ session }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -107,7 +108,12 @@ const SmmCards = ({ session }) => {
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
       <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent }} >
-        <div className="grid grid-cols-[5fr_1fr] h-full w-full lg:mb-0">
+        <InitializeCardSelection />
+        <div className="grid grid-cols-[1fr_4fr_1fr] h-full w-full lg:mb-0">
+          <div className="h-full w-[17rem] bg-gray-800 text-white z-20">
+            <h1 className='text-white text-lg font-semibold text-center py-2'>Component Settings</h1>
+            <SettingsPanel />
+          </div>
           <>
             {selectedCard === 'Facebook' && (
               <div className='flex flex-col justify-normal items-center h-full w-full'>
@@ -137,7 +143,6 @@ const SmmCards = ({ session }) => {
           <div className='pt-12 fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
             <div className='flex w-full justify-center items-center border-b border-gray-200'>
               <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'btn-gradient ' : 'btn-gradient opacity-90 '}`}>Components</button>
-              <button onClick={() => setTab('settings')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'settings' ? 'bg-blue-500 text-white' : 'bg-blue-600 opacity-90 text-white'}`}>Settings</button>
               <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-green-500 text-white' : 'bg-green-600 opacity-90 text-white'}`}>URL Converter</button>
             </div>
             <div className='h-full w-full pt-8 bg-zinc-900'>
@@ -149,11 +154,6 @@ const SmmCards = ({ session }) => {
                     <option value="Instagram">Instagram Card</option>
                   </select>
                   <CardTools />
-                </div>
-              )}
-              {tab === "settings" && (
-                <div className='h-full w-full pt-8 bg-zinc-900'>
-                  <SettingsPanel />
                   <span className='bg-white w-full mt-4'>
                     <Layers expanded />
                   </span>
