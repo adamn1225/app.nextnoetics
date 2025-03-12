@@ -6,7 +6,8 @@ const StoredTemplates = ({ session }) => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { actions } = useEditor();
+  const [editingTemplate, setEditingTemplate] = useState(null);
+  const { actions, query } = useEditor();
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -57,6 +58,38 @@ const StoredTemplates = ({ session }) => {
     }
   };
 
+  const editTemplate = (template) => {
+    loadTemplate(template);
+    setEditingTemplate(template);
+  };
+
+  const saveTemplate = async () => {
+    if (!editingTemplate) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const jsonData = query.serialize();
+
+      const { error } = await supabase
+        .from('templates')
+        .update({ sections: jsonData })
+        .eq('id', editingTemplate.id);
+
+      if (error) {
+        setError(error.message);
+      } else {
+        alert('Template saved successfully!');
+        setEditingTemplate(null);
+      }
+    } catch (e) {
+      setError('Invalid JSON data');
+    }
+
+    setLoading(false);
+  };
+
   if (!session) {
     return (<p></p>);
   }
@@ -83,6 +116,12 @@ const StoredTemplates = ({ session }) => {
                   Load Template
                 </button>
                 <button
+                  className="text-sm px-1 py-1 border bg-green-500 hover:bg-green-600 text-white"
+                  onClick={() => editTemplate(template)}
+                >
+                  Edit
+                </button>
+                <button
                   className="text-sm px-1 py-1 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
                   onClick={() => deleteTemplate(template.id)}
                 >
@@ -93,6 +132,16 @@ const StoredTemplates = ({ session }) => {
           </li>
         ))}
       </ul>
+      {editingTemplate && (
+        <div className="mt-4">
+          <button
+            className="text-sm px-1 py-1 border bg-yellow-500 hover:bg-yellow-600 text-white"
+            onClick={saveTemplate}
+          >
+            Save Edits
+          </button>
+        </div>
+      )}
     </div>
   );
 };

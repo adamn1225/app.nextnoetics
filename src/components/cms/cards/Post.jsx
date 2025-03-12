@@ -134,7 +134,7 @@ export const PostSettings = () => {
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          className="w-full text-gray-950"
+          className="w-full text-gray-50"
         />
         <button
           type="button"

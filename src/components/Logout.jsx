@@ -8,7 +8,7 @@ const Logout = () => {
       console.error('Error logging out:', error.message);
       alert('Error logging out. Please try again.');
     } else {
-      window.location.href = "https://nextnoetics.com/login"; // Redirect to login page after logout
+      window.location.href = "https://noetics.io/login"; // Redirect to login page after logout
     }
   };
 

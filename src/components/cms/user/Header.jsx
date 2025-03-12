@@ -6,7 +6,7 @@ import { Slider } from '@mui/material';
 import { AlignCenter, AlignLeft, AlignRight } from 'lucide-react';
 import { Rnd } from "react-rnd";
 
-export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle, tagName }) => {
+export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle, tagName, position }) => {
     const { connectors: { connect, drag }, actions: { setProp } } = useNode();
 
     const onResizeStop = (e, direction, ref, delta, position) => {
@@ -16,13 +16,22 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
         });
     };
 
+    const onDragStop = (e, d) => {
+        setProp(props => {
+            props.position = { x: d.x, y: d.y };
+        });
+    };
+
     return (
         <Rnd
+            size={{ width: 'auto', height: 'auto' }}
+            position={position}
             onResizeStop={onResizeStop}
+            onDragStop={onDragStop}
             style={{ zIndex: 1 }}
             enableResizing={{ top: false, right: true, bottom: true, left: true }}
             enableUserSelectHack={false}
-            disableDragging={false} // Disable horizontal dragging
+            disableDragging={false}
         >
             <div
                 ref={ref => { if (ref) connect(drag(ref)); }}
@@ -188,7 +197,7 @@ export const HeaderSettings = () => {
 
 Header.craft = {
     displayName: 'Text',
-    props: { text: 'Header', fontSize: '20px', textAlign: 'center', color: '#fff', fontWeight: 'normal', fontStyle: 'normal', tagName: 'p', },
+    props: { text: 'Header', fontSize: '20px', textAlign: 'center', color: '#fff', fontWeight: 'normal', fontStyle: 'normal', tagName: 'p', position: { x: 0, y: 0 } },
     related: {
         settings: HeaderSettings
     },
