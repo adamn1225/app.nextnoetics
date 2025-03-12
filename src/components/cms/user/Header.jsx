@@ -20,7 +20,8 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
         <Rnd
             onResizeStop={onResizeStop}
             style={{ zIndex: 1 }}
-            enableResizing={{ top: false, right: true, bottom: true, left: true }} // Enable vertical resizing only
+            enableResizing={{ top: false, right: true, bottom: true, left: true }}
+            enableUserSelectHack={false}
             disableDragging={false} // Disable horizontal dragging
         >
             <div
@@ -42,8 +43,8 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
     )
 };
 
-const HeaderSettings = () => {
-    const { actions: { setProp }, fontSize, color, fontWeight, fontStyle, tagName } = useNode((node) => ({
+export const HeaderSettings = () => {
+    const { actions: { setProp }, fontSize, color, fontWeight, fontStyle } = useNode((node) => ({
         fontSize: node.data.props.fontSize,
         textAlign: node.data.props.textAlign,
         color: node.data.props.color,
@@ -51,7 +52,7 @@ const HeaderSettings = () => {
         fontStyle: node.data.props.fontStyle,
         tagName: node.data.props.tagName
     }));
-    const [activeTab, setActiveTab] = useState('slider');
+    const [activeTab, setActiveTab] = useState('styling');
     const [unit, setUnit] = useState('px');
 
     const handleFontSizeChange = (value) => {
@@ -76,10 +77,6 @@ const HeaderSettings = () => {
         setProp((props) => props.fontStyle = e.target.value);
     };
 
-    const handleTagNameChange = (e) => {
-        setProp((props) => props.tagName = e.target.value);
-    };
-
     const handleTextAlignChange = (align) => {
         setProp((props) => props.textAlign = align);
     };
@@ -88,10 +85,10 @@ const HeaderSettings = () => {
         <div>
             <div className="flex justify-center space-x-2 text-gray-100">
                 <button
-                    onClick={() => setActiveTab('slider')}
-                    className={`px-2 py-1 rounded-md ${activeTab === 'slider' ? 'bg-gray-200 text-zinc-900' : 'bg-gray-400 text-zinc-900'}`}
+                    onClick={() => setActiveTab('styling')}
+                    className={`px-2 py-1 rounded-md ${activeTab === 'styling' ? 'bg-gray-200 text-zinc-900' : 'bg-gray-400 text-zinc-900'}`}
                 >
-                    Slider
+                    Styling
                 </button>
                 <button
                     onClick={() => setActiveTab('css')}
@@ -100,7 +97,7 @@ const HeaderSettings = () => {
                     Insert CSS
                 </button>
             </div>
-            <div className={activeTab === 'slider' ? 'space-y-2 mt-6' : 'hidden'}>
+            <div className={activeTab === 'styling' ? 'space-y-2 mt-6' : 'hidden'}>
                 <div className="flex items-center justify-center gap-1">
                     <div className="flex items-center justify-stretch w-full gap-2">
                         <label className="w-full font-semibold text-sm underline text-gray-100">Font Size
@@ -117,12 +114,12 @@ const HeaderSettings = () => {
                             value={fontSize ? parseInt(fontSize, 10) : 0}
                             onChange={(e) => handleFontSizeChange(e.target.value)}
                             type="number"
-                            className={`w-12 h-7 border border-gray-300 rounded-md py-2 px-1`}
+                            className={`w-12 h-7 border border-gray-300 text-zinc-900 rounded-md py-2 px-1`}
                         />
                         <select
                             value={unit}
                             onChange={handleUnitChange}
-                            className="border border-gray-300 bg-white rounded-md p-1"
+                            className="border border-gray-300 bg-white text-zinc-900 rounded-md p-1"
                         >
                             <option value="px">px</option>
                             <option value="em">em</option>
@@ -132,22 +129,9 @@ const HeaderSettings = () => {
                     </div>
                 </div>
                 <div className="flex justify-start items-center gap-3">
+
                     <div className="flex flex-col items-center justify-center gap-1">
-                        <label className="font-semibold text-normal underline text-gray-100">Tag</label>
-                        <select
-                            value={tagName}
-                            onChange={handleTagNameChange}
-                            className="border border-gray-300 py-1 rounded-sm text-zinc-900"
-                        >
-                            <option value="h1">h1</option>
-                            <option value="h2">h2</option>
-                            <option value="h3">h3</option>
-                            <option value="h4">h4</option>
-                            <option value="p">p</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col items-center justify-center gap-1">
-                        <label className="underline font-semibold text-normal text-gray-100">Font Weight</label>
+                        <label className=" font-semibold text-sm text-gray-100">Font Weight</label>
                         <select
                             value={fontWeight}
                             onChange={handleFontWeightChange}
@@ -160,7 +144,7 @@ const HeaderSettings = () => {
                         </select>
                     </div>
                     <div className="flex flex-col items-center justify-center gap-1">
-                        <label className="underline font-semibold text-sm text-gray-100">Font Style</label>
+                        <label className=" font-semibold text-sm text-gray-100">Font Style</label>
                         <select
                             value={fontStyle}
                             onChange={handleFontStyleChange}
@@ -171,8 +155,8 @@ const HeaderSettings = () => {
                             <option value="oblique">Oblique</option>
                         </select>
                     </div>
-                    <div className="flex flex-col items-start justify-center gap-1">
-                        <label className="underline text-sm font-semibold text-gray-100">Color</label>
+                    <div className="flex flex-col items-center justify-center gap-1">
+                        <label className=" text-sm font-semibold text-gray-100">Color</label>
                         <input className="w-6" type="color" value={color} onChange={handleColorChange} />
                     </div>
                 </div>

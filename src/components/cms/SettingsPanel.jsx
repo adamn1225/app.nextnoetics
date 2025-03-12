@@ -10,7 +10,7 @@ export const SettingsPanel = () => {
         if (currentNodeId) {
             selected = {
                 id: currentNodeId,
-                name: state.nodes[currentNodeId].data.name,
+                name: state.nodes[currentNodeId].data.displayName,
                 settings: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.settings,
                 isDeletable: query.node(currentNodeId).isDeletable()
             };
@@ -30,7 +30,7 @@ export const SettingsPanel = () => {
                 <div className=' px-6 py-3 shadow-sm '>
                 
                     <div className="flex items-center justify-center text-gray-white pb-2">
-                            <span className="px-2 py-1 underline underline-offset-4 text-center text-white text-base text-nowrap font-medium">{selected.name} Component Selected  </span>
+                            <span className="px-2 py-1 underline underline-offset-4 text-center text-white text-base text-nowrap font-medium">{selected.name} Settings </span>
                     </div>
                     {selected.settings && React.createElement(selected.settings)}</div>
                 {selected.isDeletable && (

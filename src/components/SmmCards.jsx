@@ -6,8 +6,8 @@ import { FbContainerSettings, FbContainer } from './cms/cards/FbContainer';
 import { SettingsPanel } from './cms/SettingsPanel';
 import { Container } from './cms/user/Container';
 import { Button, ButtonSettings } from './cms/user/Button';
-import { Post, PostTop, PostSettings } from './cms/cards/Post';
-import { Header } from './cms/user/Header';
+import { Post, PostSettings } from './cms/cards/Post';
+import { Header, HeaderSettings } from './cms/user/Header';
 import { TextArea } from './cms/user/TextArea';
 import { BackgroundImage } from './cms/user/BackgroundImage';
 import { ImageUpload, ImageUploadSettings } from './cms/user/ImageUpload';
@@ -23,7 +23,7 @@ import SubscriptionModal from './cms/SubscriptionModal';
 import Loader from './Loader';
 import { supabase } from '../lib/supabaseClient';
 import { Card, CardSettings } from './cms/user/Card';
-import EmojiComponent from './cms/user/EmojiComponent';
+import {EmojiComponent, EmojiSettings } from './cms/user/EmojiComponent'; // Ensure this import is correct
 import InitializeCardSelection from './InitializeCardSelection';
 
 const SmmCards = ({ session }) => {
@@ -107,7 +107,7 @@ const SmmCards = ({ session }) => {
 
   return (
     <div className='w-full h-screen bg-white dark:bg-gray-800 overflow-x-hidden'>
-      <Editor resolver={{ Post, PostSettings, Button, Header, ImageUploadSettings, ImageUpload, Container, PostTop, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent }} >
+      <Editor resolver={{ Post, PostSettings, Button, Header, HeaderSettings, ImageUploadSettings, ImageUpload, Container, TwoColumnContainer, ThreeColumnContainerSettings, TextArea, ThreeColumnContainer, TwoColumnContainerSettings, OneColumnContainer, OneColumnContainerSettings, FbContainerSettings, FbContainer, ButtonSettings, IgContainer, IgContainerSettings, BackgroundImage, Card, CardSettings, EmojiComponent, EmojiSettings }} >
         <InitializeCardSelection />
         <div className="grid grid-cols-[1fr_4fr_1fr] h-full w-full lg:mb-0">
           <div className="h-full w-[17rem] bg-gray-800 text-white z-20">
@@ -119,7 +119,7 @@ const SmmCards = ({ session }) => {
               <div className='flex flex-col justify-normal items-center h-full w-full'>
                 <h1 className='text-blue-500 text-center py-5 text-2xl font-bold'>Facebook Image Card Preview</h1>
                 <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
-                  <Element is={Post} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
+                  <Element is={Post} displayName="Canvas" containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
                     <Element is={Card} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
                   </Element>
                 </Frame>

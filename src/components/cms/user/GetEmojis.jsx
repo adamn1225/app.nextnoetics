@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useEditor } from "@craftjs/core";
-import EmojiComponent from './EmojiComponent';
+import {EmojiComponent} from './EmojiComponent';
 
 const GetEmojis = () => {
   const [emojis, setEmojis] = useState([]);

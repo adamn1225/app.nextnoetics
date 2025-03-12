@@ -1,37 +1,19 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import { useNode } from "@craftjs/core";
-import { Header } from "../user/Header";
 import defaultImage from "../../../assets/default-image.jpg";
 import { BackgroundImage } from "../user/BackgroundImage";
 import FetchImages from "../user/FetchImages";
 
-export const PostTop = ({ children }) => {
-  const { connectors: { connect } } = useNode();
-  return (
-    <div ref={connect} className="text-only flex flex-col gap-10">
-      {children}
-    </div>
-  );
-};
-
-PostTop.craft = {
-  rules: {
-    canMoveIn: (incomingNodes) => incomingNodes.every(incomingNode => 
-      incomingNode.data.type === Header
-    ),
-  },
-};
-
 export const Post = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, children }) => {
-  const { connectors: { connect, drag } } = useNode();
+  const { connectors: { connect } } = useNode();
   const ref = useRef(null);
 
   useEffect(() => {
     if (ref.current) {
-      connect(drag(ref.current));
+      connect((ref.current));
     }
-  }, [connect, drag]);
+  }, [connect]);
 
   const isFacebook = containerType === 'facebook';
 
@@ -193,7 +175,6 @@ export const PostSettings = () => {
 };
 
 Post.craft = {
-  displayName: "Canvas",
   props: {
     gap: 0,
     overlayOpacity: 0.7,
@@ -202,11 +183,8 @@ Post.craft = {
   related: {
     settings: PostSettings,
   },
+  displayName: "Canvas",
   rules: {
-    canDrop: () => true,
-    canDrag: () => true,
-    canMoveIn: () => true,
-    canMoveOut: () => true,
+    canDrag: () => false,
   },
-  isCanvas: true,
 };

@@ -46,4 +46,8 @@ export const BackgroundImage = ({ src = defaultImage, alt = '', width = 'auto', 
 
 BackgroundImage.craft = {
   displayName: 'Background Image',
+  rules: {
+    canDrag: () => true,
+    canMoveIn: () => true,
+  }
 };
