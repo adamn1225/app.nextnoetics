@@ -10,7 +10,7 @@ const Loader = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, repeat: Infinity, repeatType: 'reverse' }}
       >
-        Loading...
+        NEXTNOETICS
       </motion.div>
     </div>
   );

@@ -9,7 +9,7 @@ const GetEmojis = () => {
   const [selectedCategory, setSelectedCategory] = useState('food-drink');
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const emojisPerPage = 24;
+  const emojisPerPage = 16;
   const { connectors } = useEditor();
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const GetEmojis = () => {
           ))}
         </select>
       </div>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-2 justify-items-center">
         {currentEmojis.map((emoji) => (
           <div
             key={emoji.slug}
@@ -115,12 +115,12 @@ const GetEmojis = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center mt-4">
+      <div className="flex flex-wrap gap-2 justify-center mt-4">
         {Array.from({ length: Math.ceil(emojis.length / emojisPerPage) }, (_, index) => (
           <button
             key={index + 1}
             onClick={() => paginate(index + 1)}
-            className={`px-3 py-1 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            className={`px-2 py-1 mx-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
           >
             {index + 1}
           </button>

@@ -4,6 +4,7 @@ import { Element, useNode } from "@craftjs/core";
 import { TextArea } from "./TextArea";
 import { Header } from "./Header";
 import { Button } from "./Button";
+import {PostSettings} from '../cards/Post';
 
 export const CardTop = ({ children }) => {
     const { connectors: { connect } } = useNode();
@@ -53,7 +54,7 @@ export const Card = ({ containerType, h1, h2, background, padding = 0, borderCol
         style={containerStyles}
         className='w-full h-full'
     >          
-            <div className="flex flex-col items-center justify-evenly gap-y-16 w-[700px] max-w-full">
+            <div className="flex flex-col gap-12">
               <div className="">
                 <Element is={Header} text={h1 || "Company Logo"} id="title" background={background} fontSize={isFacebook ? 40 : 32} />
               </div>
@@ -102,7 +103,7 @@ Card.craft = {
         gap: 0
     },
     related: {
-        settings: CardSettings
+        settings: PostSettings
     },
     rules: {
         canDrag: () => true
