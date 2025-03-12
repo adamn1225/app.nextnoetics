@@ -29,7 +29,7 @@ export const Header = ({ text, fontSize, textAlign, color, fontWeight, fontStyle
             onResizeStop={onResizeStop}
             onDragStop={onDragStop}
             style={{ zIndex: 1 }}
-            enableResizing={{ top: false, right: true, bottom: true, left: true }}
+            enableResizing={{ top: false, right: true, bottom: false, left: true }}
             enableUserSelectHack={false}
             disableDragging={false}
         >
@@ -202,6 +202,6 @@ Header.craft = {
         settings: HeaderSettings
     },
     rules: {
-        canDrag: () => true
+        canDrag: () => false
     }
 };

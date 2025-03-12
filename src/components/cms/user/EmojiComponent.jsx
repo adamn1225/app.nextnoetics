@@ -3,8 +3,8 @@ import { useNode } from "@craftjs/core";
 import { Rnd } from "react-rnd";
 import { Slider } from '@mui/material';
 
-export const EmojiComponent = ({ emoji, width = 100 }) => {
-  const { connectors: { connect, drag } } = useNode();
+export const EmojiComponent = ({ emoji, width = 100, positions }) => {
+  const { connectors: { connect, drag }, actions: { setProp }  } = useNode();
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [size, setSize] = useState({ width, height: 'auto' });
 
@@ -12,22 +12,33 @@ export const EmojiComponent = ({ emoji, width = 100 }) => {
     setSize({ width, height: 'auto' });
   }, [width]);
 
+  const onResizeStop = (e, direction, ref, delta, position) => {
+    setProp(props => {
+        props.width = ref.style.width;
+        props.height = ref.style.height;
+    });
+};
+
+const onDragStop = (e, d) => {
+    setProp(props => {
+        props.positions = { x: d.x, y: d.y };
+    });
+};
+
   return (
     <Rnd
       size={size}
       position={position}
       bounds="parent"
+      onResizeStop={onResizeStop}
+      onDragStop={onDragStop}
+      style={{ zIndex: 1 }}
       dragHandleClassName="drag-handle"
       enableUserSelectHack={true}
       onDragStart={(e, d) => {
         console.log('Drag started at:', d.x, d.y);
       }}
       onDrag={(e, d) => {
-        setPosition({ x: d.x, y: d.y });
-      }}
-      onDragStop={(e, d) => {
-        // Handle drag stop event
-        console.log('Drag stopped at:', d.x, d.y);
         setPosition({ x: d.x, y: d.y });
       }}
       onResize={(e, direction, ref, delta, position) => {
