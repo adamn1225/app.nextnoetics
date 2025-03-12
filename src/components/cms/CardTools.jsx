@@ -1,7 +1,6 @@
 "use client";
 import React, { forwardRef, useState } from 'react';
 import { useEditor } from "@craftjs/core";
-import { Container } from "./user/Container";
 import { Header } from "./user/Header";
 import { ImageUpload } from "./user/ImageUpload";
 import { TwoColumnContainer } from "./user/gridlayouts/TwoColumnContainer";
