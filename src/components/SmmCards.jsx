@@ -119,7 +119,7 @@ const SmmCards = ({ session }) => {
               <div className='flex flex-col justify-normal items-center h-full w-full'>
                 <h1 className='text-blue-500 text-center py-5 text-2xl font-bold'>Facebook Image Card Preview</h1>
                 <Frame key={`facebook-${JSON.stringify(convertedData)}`}>
-                  <Element is={Post} displayName="Card" containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
+                  <Element is={Post} displayName="Canvas" containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} canvas>
                     <Element is={Card} containerType="facebook" h1={convertedData?.h1} h2={convertedData?.h2} img={convertedData?.img} />
                   </Element>
                 </Frame>

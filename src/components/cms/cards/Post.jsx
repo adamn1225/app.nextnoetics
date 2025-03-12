@@ -52,7 +52,7 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', contai
 };
 
 export const PostSettings = () => {
-  const { actions: { setProp }, background, padding, gap, img, objectFit, overlayColor, overlayOpacity } = useNode((node) => ({
+  const { actions: { setProp }, background, objectFit, overlayColor, overlayOpacity } = useNode((node) => ({
     background: node.data.props.background,
     padding: node.data.props.padding,
     height: node.data.props.height,
@@ -104,22 +104,7 @@ export const PostSettings = () => {
         <input type="color" value={background} onChange={(e) => setProp((props) => props.background = e.target.value)} className="w-full h-6 border border-gray-300 rounded-md" />
       </div>
       <div className="flex flex-col gap-2 mb-2">
-        <label className="block text-sm font-medium text-gray-100">Padding</label>
-        <input type="number" value={padding} onChange={(e) => setProp((props) => props.padding = e.target.value)} className="w-full h-6 border border-gray-300 rounded-md" />
-      </div>
-      <div className="flex flex-col gap-2 mb-2">
-        <label className="block text-sm font-medium text-gray-100">Gap</label>
-        <input type="number" value={gap} onChange={(e) => setProp((props) => props.gap = e.target.value)} className="w-full h-6 border border-gray-300 rounded-md" />
-      </div>
-      <div className="flex flex-col gap-2 mb-2">
-        <label className="block text-sm font-medium text-gray-100">Image URL</label>
-        <input
-          type="text"
-          value={img}
-          onChange={(e) => setProp((props) => props.img = e.target.value)}
-          className="w-full text-gray-950"
-        />
-        <span className="text-gray-950">
+        <span className="text-zinc-900">
           <button
             type="button"
             onClick={() => setShowImageLibrary(!showImageLibrary)}
@@ -158,7 +143,7 @@ export const PostSettings = () => {
           max="1"
           step="0.1"
           onChange={(e) => setProp((props) => props.overlayOpacity = e.target.value)}
-          className="w-full text-gray-950"
+          className="w-full text-zinc-900"
         />
         <label className="block text-sm font-medium text-gray-100">Object Fit</label>
         <select
