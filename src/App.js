@@ -12,6 +12,7 @@ import LoginPage from "./components/Login";
 import { supabase } from "./lib/supabaseClient"; // Ensure you have this import
 import TopNav from "./components/TopNav";
 import Loader from "./components/Loader"; // Import the Loader component
+import IntegrationDocs from "./components/IntegrationDocs";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -62,11 +63,12 @@ function App() {
   return (
     <div className="App">
       <TopNav session={session} />
-      <div className="flex">
+      <div className="flex h-screen">
         <SideNav session={session} />
         <Routes>
           <Route path="/calendar" element={<CalendarSmm />} />
           <Route path="/settings" element={<UserSettings />} />
+          <Route path="/docs" element={<IntegrationDocs />} />
           <Route path="/signup-pro" element={<SignupPro />} />
           <Route path="/signup-basic" element={<SignupBasic />} />
           <Route path="/signup-free" element={<SignupFree />} />

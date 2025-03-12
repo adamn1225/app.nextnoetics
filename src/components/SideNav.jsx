@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CalendarCog, Settings, MonitorCog } from 'lucide-react';
+import { CalendarCog, Settings, MonitorCog, ScrollText } from 'lucide-react';
 import { LuShrink } from "react-icons/lu";
 import { RiLogoutCircleFill, RiExpandRightFill } from "react-icons/ri";
 import { useLocation, Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import Logout from './Logout';
 const navItems = [
   { name: 'Dashboard', href: '/', icon: MonitorCog },
   { name: 'Calendar', href: '/calendar', icon: CalendarCog },
+  { name: 'Documentation', href: '/docs', icon: ScrollText },
 ];
 
 const SideNav = ({ session }) => {
@@ -19,9 +20,9 @@ const SideNav = ({ session }) => {
   const currentPath = location.pathname;
 
   return (
-    <aside className={`relative z-50 bg-gray-950 h-screen pb-28 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-44'} overflow-hidden relative z-50`}>
+    <aside className={`fixed left-0 z-50 bg-gray-950 h-screen pb-28 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-44'} overflow-hidden relative z-50`}>
       {loading && (
-        <div className="absolute top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
+        <div className="fixed top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
       )}
 
       <button
@@ -41,12 +42,6 @@ const SideNav = ({ session }) => {
             className="rounded-full "
           />
         </Link>
-      </div>
-      <div className="flex flex-col justify-start gap-1 items-start p-4">
-        <div className={` ${isCollapsed ? 'hidden' : 'flex flex-nowrap justify-center w-full gap-1'}`}>
-        </div>
-        <span className=" inline-flex justify-center w-full items-center">
-        </span>
       </div>
       <nav className="flex flex-col justify-between h-full pb-8  text-xs xl:text-base">
         <ul>

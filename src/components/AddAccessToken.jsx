@@ -47,9 +47,9 @@ const AddAccessToken = ({ onClose }) => {
                     className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                 >
                     <option value="Facebook">Facebook</option>
+                    <option value="Instagram">Instagram</option>
                     <option value="Twitter">Twitter</option>
                     <option value="LinkedIn">LinkedIn</option>
-                    <option value="Instagram">Instagram</option>
                 </select>
             </div>
             <div>

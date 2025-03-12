@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import SubscriptionModal from './cms/SubscriptionModal';
 import AccountSettings from './AccountSettings';
+import FbDocs from './SmmModals/FbDocs'; // Import the FbDocs component
+import IgDocs from './SmmModals/IgDocs'; // Import the IgDocs component
+import LinkedInDocs from './SmmModals/LinkedInDocs'; // Import the LinkedInDocs component
+import TwitterDocs from './SmmModals/TwitterDocs'; // Import the TwitterDocs component
 
 const UserSettings = () => {
     const [email] = useState('');
-    const [smmKey, setSmmKey] = useState('');
+    const [smmKey] = useState('');
     const [facebookAccessToken, setFacebookAccessToken] = useState('');
     const [twitterAccessToken, setTwitterAccessToken] = useState('');
     const [linkedinAccessToken, setLinkedinAccessToken] = useState('');
@@ -15,6 +19,10 @@ const UserSettings = () => {
     const [user, setUser] = useState(null);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('integration');
+    const [isFbDocsOpen, setIsFbDocsOpen] = useState(false); // State to control the FbDocs modal
+    const [isIgDocsOpen, setIsIgDocsOpen] = useState(false); // State to control the IgDocs modal
+    const [isLinkedInDocsOpen, setIsLinkedInDocsOpen] = useState(false); // State to control the LinkedInDocs modal
+    const [isTwitterDocsOpen, setIsTwitterDocsOpen] = useState(false); // State to control the TwitterDocs modal
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -115,19 +123,6 @@ const UserSettings = () => {
                 {activeTab === 'integration' && (
                     <form onSubmit={handleSave} className="space-y-4">
                         <div>
-                            <label htmlFor="smmKey" className="block font-medium text-zinc-900 dark:text-white">SMM Key</label>
-                            <input
-                                type="text"
-                                id="smmKey"
-                                name="smmKey"
-                                placeholder='Enter your SMM key'
-                                value={smmKey}
-                                onChange={(e) => setSmmKey(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
-                        </div>
-                        <div>
                             <label htmlFor="facebookAccessToken" className="block font-medium text-zinc-900 dark:text-white">Facebook Access Token</label>
                             <input
                                 type="text"
@@ -139,32 +134,13 @@ const UserSettings = () => {
                                 className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                                 disabled={!user}
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="twitterAccessToken" className="block font-medium text-zinc-900 dark:text-white">Twitter Access Token</label>
-                            <input
-                                type="text"
-                                id="twitterAccessToken"
-                                name="twitterAccessToken"
-                                placeholder='Enter your Twitter access token'
-                                value={twitterAccessToken}
-                                onChange={(e) => setTwitterAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="linkedinAccessToken" className="block font-medium text-zinc-900 dark:text-white">LinkedIn Access Token</label>
-                            <input
-                                type="text"
-                                id="linkedinAccessToken"
-                                name="linkedinAccessToken"
-                                placeholder='Enter your LinkedIn access token'
-                                value={linkedinAccessToken}
-                                onChange={(e) => setLinkedinAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
+                            <button
+                                type="button"
+                                className="text-blue-500 hover:underline mt-2"
+                                onClick={() => setIsFbDocsOpen(true)} // Open the FbDocs modal
+                            >
+                                How to get Facebook Access Token?
+                            </button>
                         </div>
                         <div>
                             <label htmlFor="instagramAccessToken" className="block font-medium text-zinc-900 dark:text-white">Instagram Access Token</label>
@@ -178,6 +154,53 @@ const UserSettings = () => {
                                 className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
                                 disabled={!user}
                             />
+                            <button
+                                type="button"
+                                className="text-blue-500 hover:underline mt-2"
+                                onClick={() => setIsIgDocsOpen(true)} // Open the IgDocs modal
+                            >
+                                How to get Instagram Access Token?
+                            </button>
+                        </div>
+                        <div>
+                            <label htmlFor="linkedinAccessToken" className="block font-medium text-zinc-900 dark:text-white">LinkedIn Access Token</label>
+                            <input
+                                type="text"
+                                id="linkedinAccessToken"
+                                name="linkedinAccessToken"
+                                placeholder='Enter your LinkedIn access token'
+                                value={linkedinAccessToken}
+                                onChange={(e) => setLinkedinAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                            <button
+                                type="button"
+                                className="text-blue-500 hover:underline mt-2"
+                                onClick={() => setIsLinkedInDocsOpen(true)} // Open the LinkedInDocs modal
+                            >
+                                How to get LinkedIn Access Token?
+                            </button>
+                        </div>
+                        <div>
+                            <label htmlFor="twitterAccessToken" className="block font-medium text-zinc-900 dark:text-white">Twitter Access Token</label>
+                            <input
+                                type="text"
+                                id="twitterAccessToken"
+                                name="twitterAccessToken"
+                                placeholder='Enter your Twitter access token'
+                                value={twitterAccessToken}
+                                onChange={(e) => setTwitterAccessToken(e.target.value)}
+                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                disabled={!user}
+                            />
+                            <button
+                                type="button"
+                                className="text-blue-500 hover:underline mt-2"
+                                onClick={() => setIsTwitterDocsOpen(true)} // Open the TwitterDocs modal
+                            >
+                                How to get Twitter Access Token?
+                            </button>
                         </div>
                         <button
                             type="submit"
@@ -193,6 +216,22 @@ const UserSettings = () => {
             <SubscriptionModal
                 isOpen={isSubscriptionModalOpen}
                 onClose={() => setIsSubscriptionModalOpen(false)}
+            />
+            <FbDocs
+                isOpen={isFbDocsOpen}
+                onClose={() => setIsFbDocsOpen(false)}
+            />
+            <IgDocs
+                isOpen={isIgDocsOpen}
+                onClose={() => setIsIgDocsOpen(false)}
+            />
+            <LinkedInDocs
+                isOpen={isLinkedInDocsOpen}
+                onClose={() => setIsLinkedInDocsOpen(false)}
+            />
+            <TwitterDocs
+                isOpen={isTwitterDocsOpen}
+                onClose={() => setIsTwitterDocsOpen(false)}
             />
         </div>
     );
