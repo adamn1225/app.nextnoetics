@@ -20,7 +20,7 @@ const SideNav = ({ session }) => {
   const currentPath = location.pathname;
 
   return (
-    <aside className={`relative left-0 top-0 z-50 bg-gray-950 h-full pb-12 -mt-12 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-44'} overflow-hidden h-screen relative z-50`}>
+    <aside className={`relative left-0 top-0 z-50 bg-gray-950 h-full pb-28 -mt-12 -pt-12 text-white transition-all duration-300 ${isCollapsed ? 'w-14' : 'w-44'} overflow-hidden h-[105vh] relative z-50`}>
       {loading && (
         <div className="fixed top-0 left-0 w-full h-1 bg-blue-700 animate-pulse"></div>
       )}
