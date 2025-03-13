@@ -5,33 +5,22 @@ import defaultImage from "../../../assets/default-image.jpg";
 import { BackgroundImage } from "../user/BackgroundImage";
 import FetchImages from "../user/FetchImages";
 
-export const IgContainer = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, instagramRatio = 'square', children }) => {
+export const TwitterContainer = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, children }) => {
   const { connectors: { connect } } = useNode();
   const ref = useRef(null);
 
   useEffect(() => {
     if (ref.current) {
-      connect(ref.current);
+      connect((ref.current));
     }
   }, [connect]);
 
+  const isTwitter = containerType === 'twitter';
+
   let width, height;
-  if (containerType === 'instagram') {
-    switch (instagramRatio) {
-      case 'landscape':
-        width = '780px';
-        height = '356px';
-        break;
-      case 'vertical':
-        width = '440px';
-        height = '580px';
-        break;
-      case 'square':
-      default:
-        width = '480px';
-        height = '480px';
-        break;
-    }
+  if (isTwitter) {
+    width = '1200px';
+    height = '675px';
   } else {
     width = '1150px';
     height = '900px';
@@ -71,8 +60,8 @@ export const IgContainer = ({ background, padding = 0, borderColor = 'gray-400',
   );
 };
 
-export const IgContainerSettings = () => {
-  const { actions: { setProp }, background, objectFit, overlayColor, overlayOpacity, instagramRatio } = useNode((node) => ({
+export const TwitterContainerSettings = () => {
+  const { actions: { setProp }, background, objectFit, overlayColor, overlayOpacity } = useNode((node) => ({
     background: node.data.props.background,
     padding: node.data.props.padding,
     height: node.data.props.height,
@@ -83,7 +72,6 @@ export const IgContainerSettings = () => {
     objectPosition: node.data.props.objectPosition,
     overlayColor: node.data.props.overlayColor,
     overlayOpacity: node.data.props.overlayOpacity,
-    instagramRatio: node.data.props.instagramRatio,
   }));
 
   const [showImageLibrary, setShowImageLibrary] = useState(false);
@@ -175,29 +163,19 @@ export const IgContainerSettings = () => {
           <option value="contain">Contain</option>
           <option value="cover">Cover</option>
         </select>
-        <label className="block text-sm font-medium text-gray-100">Instagram Ratio</label>
-        <select
-          value={instagramRatio}
-          onChange={(e) => setProp((props) => props.instagramRatio = e.target.value)}
-          className="w-full text-gray-950"
-        >
-          <option value="square">Square (1:1)</option>
-          <option value="landscape">Landscape (1.91:1)</option>
-          <option value="vertical">Vertical (4:5)</option>
-        </select>
       </div>
     </div>
   );
 };
 
-IgContainer.craft = {
+TwitterContainer.craft = {
   props: {
     gap: 0,
     overlayOpacity: 0.7,
     overlayColor: "#000000",
   },
   related: {
-    settings: IgContainerSettings,
+    settings: TwitterContainerSettings,
   },
   displayName: "Canvas",
   rules: {

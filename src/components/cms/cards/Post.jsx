@@ -5,7 +5,7 @@ import defaultImage from "../../../assets/default-image.jpg";
 import { BackgroundImage } from "../user/BackgroundImage";
 import FetchImages from "../user/FetchImages";
 
-export const Post = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, children }) => {
+export const Post = ({ background, padding = 0, borderColor = 'gray-400', containerType, img = defaultImage, alt, objectFit = 'contain', objectPosition = 'center', overlayColor = '#ffffff', overlayOpacity = 0.9, instagramRatio = 'square', children }) => {
   const { connectors: { connect } } = useNode();
   const ref = useRef(null);
 
@@ -16,17 +16,43 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', contai
   }, [connect]);
 
   const isFacebook = containerType === 'facebook';
+  const isInstagram = containerType === 'instagram';
+
+  let width, height;
+  if (isFacebook) {
+    width = '800px';
+    height = '400px';
+  } else if (isInstagram) {
+    switch (instagramRatio) {
+      case 'landscape':
+        width = '1080px';
+        height = '566px';
+        break;
+      case 'vertical':
+        width = '1080px';
+        height = '1350px';
+        break;
+      case 'square':
+      default:
+        width = '1080px';
+        height = '1080px';
+        break;
+    }
+  } else {
+    width = '1150px';
+    height = '900px';
+  }
 
   const containerStyles = {
     background,
     padding: `${padding}px`,
     borderColor,
-    height: isFacebook ? '400px' : '900px',
-    width: isFacebook ? '800px' : '1150px',
-    maxWidth: isFacebook ? '800px' : '1150px',
-    maxHeight: isFacebook ? '400px' : '900px',
+    width,
+    height,
+    maxWidth: width,
+    maxHeight: height,
   };
-  
+
   return (    
     <div
       ref={ref}
@@ -42,8 +68,8 @@ export const Post = ({ background, padding = 0, borderColor = 'gray-400', contai
         objectPosition={objectPosition} 
         overlayColor={overlayColor} 
         overlayOpacity={overlayOpacity} 
-        width={isFacebook ? '800px' : '1150px'} 
-        height={isFacebook ? '400px' : '900px'}
+        width={width} 
+        height={height}
       >
         <div className="flex justify-center w-full">{children}</div>
       </BackgroundImage>
@@ -63,6 +89,7 @@ export const PostSettings = () => {
     objectPosition: node.data.props.objectPosition,
     overlayColor: node.data.props.overlayColor,
     overlayOpacity: node.data.props.overlayOpacity,
+    instagramRatio: node.data.props.instagramRatio,
   }));
 
   const [showImageLibrary, setShowImageLibrary] = useState(false);

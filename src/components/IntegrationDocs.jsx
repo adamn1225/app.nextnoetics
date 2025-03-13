@@ -1,7 +1,6 @@
 import React from 'react';
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiFacebook, SiInstagram } from "react-icons/si";
-import { FaTwitter } from "react-icons/fa";
 
 const IntegrationDocs = () => {
   return (
