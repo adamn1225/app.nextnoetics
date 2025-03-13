@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LinkedInDocs = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -39,7 +40,8 @@ const LinkedInDocs = ({ isOpen, onClose }) => {
           <li>Response will return an <code className="bg-gray-200 px-1 rounded">access_token</code>. Copy this into your LinkedIn Access Token field.</li>
           <li>Note: Client Credentials grant gives you application-level access. If you want to post as a user, you'd use the Authorization Code flow.</li>
         </ol>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-between items-end gap-2">
+        <Link to="/docs" className="text-blue-500 underline">See full Documentation</Link>
           <button
             className="px-4 py-2 bg-gray-100 text-gray-900 rounded hover:bg-gray-200"
             onClick={onClose}

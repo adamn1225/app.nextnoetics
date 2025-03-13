@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TwitterDocs = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -33,7 +34,8 @@ const TwitterDocs = ({ isOpen, onClose }) => {
           </li>
           <li>Copy the Access Token and paste it into your Twitter Access Token field.</li>
         </ol>
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-between items-end gap-2">
+        <Link to="/docs" className="text-blue-500 underline">See full Documentation</Link>
           <button
             className="px-4 py-2 bg-gray-100 text-gray-900 rounded hover:bg-gray-200"
             onClick={onClose}

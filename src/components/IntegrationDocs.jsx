@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaLinkedin } from "react-icons/fa";
+import { SiFacebook, SiInstagram } from "react-icons/si";
+import { FaTwitter } from "react-icons/fa";
 
 const IntegrationDocs = () => {
   return (
@@ -7,16 +10,28 @@ const IntegrationDocs = () => {
         <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Setup Guides</h2>
         <ul className="space-y-2">
           <li>
-            <a href="#facebook" className="text-blue-500 hover:underline">Facebook</a>
+            <a href="#facebook" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
+              <SiFacebook className="mr-2" />
+              Facebook
+            </a>
           </li>
           <li>
-            <a href="#instagram" className="text-blue-500 hover:underline">Instagram</a>
+           
+            <a href="#instagram" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline"> 
+            <SiInstagram className="mr-2" /> 
+            Instagram</a>
           </li>
           <li>
-            <a href="#linkedin" className="text-blue-500 hover:underline">LinkedIn</a>
+            <a href="#linkedin" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
+             <FaLinkedin className="mr-2" />
+             LinkedIn
+            </a>
           </li>
           <li>
-            <a href="#twitter" className="text-blue-500 hover:underline">Twitter</a>
+            <a href="#twitter" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
+                <FaTwitter className="mr-2" />
+                Twitter
+            </a>
           </li>
         </ul>
       </nav>
