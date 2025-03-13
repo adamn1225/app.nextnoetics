@@ -15,21 +15,21 @@ const IntegrationDocs = () => {
             </a>
           </li>
           <li>
-           
-            <a href="#instagram" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline"> 
-            <SiInstagram className="mr-2" /> 
-            Instagram</a>
+            <a href="#instagram" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
+              <SiInstagram className="mr-2" />
+              Instagram
+            </a>
           </li>
           <li>
             <a href="#linkedin" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
-             <FaLinkedin className="mr-2" />
-             LinkedIn
+              <FaLinkedin className="mr-2" />
+              LinkedIn
             </a>
           </li>
           <li>
             <a href="#twitter" className="flex items-center text-blue-500 dark:text-gray-300 hover:underline">
-                <FaTwitter className="mr-2" />
-                Twitter
+              <FaTwitter className="mr-2" />
+              Twitter
             </a>
           </li>
         </ul>
@@ -48,7 +48,7 @@ const IntegrationDocs = () => {
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
           <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to Facebook for Developers.</li>
+            <li>Go to <a href="https://developers.facebook.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Facebook for Developers</a>.</li>
             <li>In My Apps, create a new app (choose "Business" type if posting as a page).</li>
             <li>Add the Facebook Login product and configure it (redirect URI optional for this case).</li>
             <li>Under Permissions and Features, request approval for:
@@ -102,7 +102,7 @@ const IntegrationDocs = () => {
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
           <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to LinkedIn Developers.</li>
+            <li>Go to <a href="https://www.linkedin.com/developers/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">LinkedIn Developers</a>.</li>
             <li>Create a new App (fill in company and details).</li>
             <li>In Products, add Sign In with LinkedIn and Share on LinkedIn.</li>
             <li>In Auth, get your:
@@ -137,7 +137,7 @@ const IntegrationDocs = () => {
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
           <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to Twitter Developer Portal.</li>
+            <li>Go to <a href="https://developer.twitter.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Twitter Developer Portal</a>.</li>
             <li>Create a Project and then an App.</li>
             <li>In Keys & Tokens, generate:
               <ul className="list-disc list-inside ml-4">

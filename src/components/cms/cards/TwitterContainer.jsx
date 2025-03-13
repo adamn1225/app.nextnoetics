@@ -19,8 +19,8 @@ export const TwitterContainer = ({ background, padding = 0, borderColor = 'gray-
 
   let width, height;
   if (isTwitter) {
-    width = '1200px';
-    height = '675px';
+    width = '700px';
+    height = '375px';
   } else {
     width = '1150px';
     height = '900px';
@@ -171,7 +171,7 @@ export const TwitterContainerSettings = () => {
 TwitterContainer.craft = {
   props: {
     gap: 0,
-    overlayOpacity: 0.7,
+    overlayOpacity: 0.5,
     overlayColor: "#000000",
   },
   related: {

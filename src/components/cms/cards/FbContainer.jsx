@@ -196,7 +196,7 @@ export const FbContainerSettings = () => {
 FbContainer.craft = {
   props: {
     gap: 0,
-    overlayOpacity: 0.7,
+    overlayOpacity: 0.5,
     overlayColor: "#000000",
   },
   related: {
