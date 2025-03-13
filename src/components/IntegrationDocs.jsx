@@ -5,8 +5,8 @@ import { FaTwitter } from "react-icons/fa";
 
 const IntegrationDocs = () => {
   return (
-    <div className="bg-gray-100 dark:bg-zinc-800  flex">
-      <nav className="w-64 bg-white h-screen dark:bg-zinc-900 p-6 shadow-lg">
+    <div className="bg-gray-100 dark:bg-zinc-800 overflow-y-auto h-[100vh] flex">
+      <nav className="w-64 bg-white h-[100vh] dark:bg-zinc-900 p-6 shadow-lg">
         <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Setup Guides</h2>
         <ul className="space-y-2">
           <li>

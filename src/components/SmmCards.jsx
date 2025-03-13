@@ -140,7 +140,7 @@ const SmmCards = ({ session }) => {
               </div>
             )}
           </>
-          <div className='pt-12 fixed right-0 top-0 z-10 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
+          <div className='pt-12 relative right-0 top-0 w-[20vw] max-w-[20vw] min-w-[20vw] bg-gray-950 h-full overflow-y-auto flex flex-col justify-start'>
             <div className='flex w-full justify-center items-center border-b border-gray-200'>
               <button onClick={() => setTab('components')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'components' ? 'btn-gradient ' : 'btn-gradient opacity-90 '}`}>Components</button>
               <button onClick={() => setTab('urlConverter')} className={`w-full p-2 rounded-t-sm text-sm ${tab === 'urlConverter' ? 'bg-green-500 text-white' : 'bg-green-600 opacity-90 text-white'}`}>URL Converter</button>

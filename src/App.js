@@ -63,7 +63,7 @@ function App() {
   return (
     <div className="App">
       <TopNav session={session} />
-      <div className="flex h-screen">
+      <div className="flex relative z-50">
         <SideNav session={session} />
         <Routes>
           <Route path="/calendar" element={<CalendarSmm />} />

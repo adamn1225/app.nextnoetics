@@ -16,8 +16,8 @@ const TopNav = () => {
 
   return (
     <>
-      <div className="w-full py-2 shadow-md bg-gray-950 text-white">
-        <div className="flex justify-start items-center gap-4 pl-4">
+      <div className="py-2 shadow-md bg-gray-950 text-white">
+        <div className="flex justify-end items-center gap-4 pr-4">
           <Link to="/login" className="bg-blue-500 px-2 py-1 rounded shadow-sm shadow-primary">Log In</Link>
           <button onClick={handleOpenModal} className="nn-gradient px-2 py-1 rounded shadow-sm shadow-primary">Create an Account</button>
         </div>
