@@ -3,6 +3,12 @@ import { FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SiFacebook, SiInstagram } from "react-icons/si";
 
 const IntegrationDocs = () => {
+  const handleSSO = (platform) => {
+    // Implement the SSO logic here
+    // This could involve redirecting to the OAuth endpoint for the platform
+    console.log(`SSO for ${platform}`);
+  };
+
   return (
     <div className="bg-gray-100 dark:bg-zinc-800 overflow-y-auto h-[100vh] flex">
       <nav className="w-64 bg-white h-[100vh] dark:bg-zinc-900 p-6 shadow-lg">
@@ -47,27 +53,13 @@ const IntegrationDocs = () => {
             <li>Manage Pages + Publish Pages permissions</li>
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
-          <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to <a href="https://developers.facebook.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Facebook for Developers</a>.</li>
-            <li>In My Apps, create a new app (choose "Business" type if posting as a page).</li>
-            <li>Add the Facebook Login product and configure it (redirect URI optional for this case).</li>
-            <li>Under Permissions and Features, request approval for:
-              <ul className="list-disc list-inside ml-4">
-                <li>pages_manage_posts</li>
-                <li>pages_read_engagement</li>
-              </ul>
-            </li>
-            <li>Go to <a href="https://developers.facebook.com/tools/explorer" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Graph API Explorer</a>.</li>
-            <li>Select your app and user, and generate a User Access Token.</li>
-            <li>Add these permissions when generating the token:
-              <ul className="list-disc list-inside ml-4">
-                <li>pages_manage_posts</li>
-                <li>pages_read_engagement</li>
-              </ul>
-            </li>
-            <li>Click Get Page Access Token (select the page you want to post on).</li>
-            <li>Copy the Page Access Token and paste it into your Facebook Access Token field.</li>
-          </ol>
+          <button
+            onClick={() => handleSSO('Facebook')}
+            className="bg-blue-500 text-white py-2 px-4 rounded mb-4"
+          >
+            <SiFacebook className="inline-block mr-2" />
+            Sign in with Facebook
+          </button>
         </section>
 
         <section id="instagram" className="mb-8">
@@ -80,17 +72,13 @@ const IntegrationDocs = () => {
             <li>Facebook Developer App setup as above</li>
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
-          <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Follow the Facebook Access Token steps above.</li>
-            <li>Ensure the <code className="bg-gray-200 px-1 rounded">instagram_basic</code> and <code className="bg-gray-200 px-1 rounded">instagram_content_publish</code> permissions are added.</li>
-            <li>In the Graph API Explorer, retrieve an Instagram Business Account ID:
-              <ul className="list-disc list-inside ml-4">
-                <li>Query: <code className="bg-gray-200 px-1 rounded">/me/accounts?fields=instagram_business_account</code></li>
-              </ul>
-            </li>
-            <li>Use the Page Access Token to post on Instagram via your app.</li>
-            <li>Paste the Page Access Token into the Instagram Access Token field.</li>
-          </ol>
+          <button
+            onClick={() => handleSSO('Instagram')}
+            className="bg-pink-500 text-white py-2 px-4 rounded mb-4"
+          >
+            <SiInstagram className="inline-block mr-2" />
+            Sign in with Instagram
+          </button>
         </section>
 
         <section id="linkedin" className="mb-8">
@@ -101,31 +89,13 @@ const IntegrationDocs = () => {
             <li>An App created in LinkedIn Developer Portal</li>
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
-          <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to <a href="https://www.linkedin.com/developers/" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">LinkedIn Developers</a>.</li>
-            <li>Create a new App (fill in company and details).</li>
-            <li>In Products, add Sign In with LinkedIn and Share on LinkedIn.</li>
-            <li>In Auth, get your:
-              <ul className="list-disc list-inside ml-4">
-                <li>Client ID</li>
-                <li>Client Secret</li>
-              </ul>
-            </li>
-            <li>Use Postman or a tool like curl to generate an Access Token:
-              <ul className="list-disc list-inside ml-4">
-                <li>Send a POST request to <code className="bg-gray-200 px-1 rounded">https://www.linkedin.com/oauth/v2/accessToken</code></li>
-                <li>Params:
-                  <ul className="list-disc list-inside ml-4">
-                    <li><code className="bg-gray-200 px-1 rounded">grant_type: client_credentials</code></li>
-                    <li><code className="bg-gray-200 px-1 rounded">client_id: your_client_id</code></li>
-                    <li><code className="bg-gray-200 px-1 rounded">client_secret: your_client_secret</code></li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            <li>Response will return an <code className="bg-gray-200 px-1 rounded">access_token</code>. Copy this into your LinkedIn Access Token field.</li>
-            <li>Note: Client Credentials grant gives you application-level access. If you want to post as a user, you'd use the Authorization Code flow.</li>
-          </ol>
+          <button
+            onClick={() => handleSSO('LinkedIn')}
+            className="bg-blue-700 text-white py-2 px-4 rounded mb-4"
+          >
+            <FaLinkedin className="inline-block mr-2" />
+            Sign in with LinkedIn
+          </button>
         </section>
 
         <section id="twitter" className="mb-8">
@@ -136,25 +106,13 @@ const IntegrationDocs = () => {
             <li>A Project & App created</li>
           </ul>
           <p className="mb-2 text-gray-700 dark:text-gray-300">✅ <strong>Steps:</strong></p>
-          <ol className="list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300 space-y-2">
-            <li>Go to <a href="https://developer.twitter.com" target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">Twitter Developer Portal</a>.</li>
-            <li>Create a Project and then an App.</li>
-            <li>In Keys & Tokens, generate:
-              <ul className="list-disc list-inside ml-4">
-                <li>API Key</li>
-                <li>API Key Secret</li>
-                <li>Bearer Token</li>
-              </ul>
-            </li>
-            <li>Under User authentication settings, enable OAuth 1.0a.</li>
-            <li>Generate:
-              <ul className="list-disc list-inside ml-4">
-                <li>Access Token</li>
-                <li>Access Token Secret</li>
-              </ul>
-            </li>
-            <li>Copy the Access Token and paste it into your Twitter Access Token field.</li>
-          </ol>
+          <button
+            onClick={() => handleSSO('Twitter')}
+            className="bg-blue-400 text-white py-2 px-4 rounded mb-4"
+          >
+            <FaTwitter className="inline-block mr-2" />
+            Sign in with Twitter
+          </button>
         </section>
       </div>
     </div>
