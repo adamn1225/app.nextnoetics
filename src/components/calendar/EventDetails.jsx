@@ -1,23 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { CircleX } from 'lucide-react';
 
-const EventDetails = ({ formValues, handleChange, handleUpdateEvent, setIsEventDetailsModalVisible, templates }) => {
-
-    const [selectedEvent, setSelectedEvent] = useState(null);
-    const [events, setEvents] = useState([]);
-
+const EventDetails = ({ formValues, handleChange, handleUpdateEvent, setIsEventDetailsModalVisible, templates, selectedEvent, events, setEvents }) => {
     const handleDeleteEvent = async () => {
         const { error } = await supabase.from("smm_calendar").delete().eq("id", selectedEvent.id);
-    
+
         if (error) {
-          console.error("Error deleting event:", error);
+            console.error("Error deleting event:", error);
         } else {
-          setEvents(events.filter((event) => event.id !== selectedEvent.id));
-          setIsEventDetailsModalVisible(false);
-          setSelectedEvent(null);
+            setEvents(events.filter((event) => event.id !== selectedEvent.id));
+            setIsEventDetailsModalVisible(false);
         }
-      };
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">

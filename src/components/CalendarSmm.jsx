@@ -46,7 +46,7 @@ const CalendarSmm = () => {
     if (!user) return;
 
     const fetchEvents = async () => {
-      const { data, error } = await supabase.from("smm_calendar").select("*");
+      const { data, error } = await supabase.from("smm_calendar").select("*").eq("user_id", user.id);
       if (error) {
         console.error("Error fetching events:", error);
       } else {
@@ -194,7 +194,6 @@ const CalendarSmm = () => {
     }));
   };
 
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -297,9 +296,12 @@ const CalendarSmm = () => {
         <EventDetails
           formValues={formValues}
           handleChange={handleChange}
-          handleSubmit={handleUpdateEvent}
+          handleUpdateEvent={handleUpdateEvent}
           templates={templates}
           setIsEventDetailsModalVisible={setIsEventDetailsModalVisible}
+          selectedEvent={selectedEvent}
+          events={events}
+          setEvents={setEvents}
         />
       )}
 
