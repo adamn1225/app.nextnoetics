@@ -179,18 +179,6 @@ const CalendarSmm = () => {
     }
   };
 
-  const handleDeleteEvent = async () => {
-    const { error } = await supabase.from("smm_calendar").delete().eq("id", selectedEvent.id);
-
-    if (error) {
-      console.error("Error deleting event:", error);
-    } else {
-      setEvents(events.filter((event) => event.id !== selectedEvent.id));
-      setIsEventDetailsModalVisible(false);
-      setSelectedEvent(null);
-    }
-  };
-
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     setFormValues(event);
@@ -205,7 +193,8 @@ const CalendarSmm = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
-  
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -309,7 +298,6 @@ const CalendarSmm = () => {
           formValues={formValues}
           handleChange={handleChange}
           handleSubmit={handleUpdateEvent}
-          handleDelete={handleDeleteEvent}
           templates={templates}
           setIsEventDetailsModalVisible={setIsEventDetailsModalVisible}
         />
