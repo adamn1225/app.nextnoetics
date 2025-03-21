@@ -205,7 +205,6 @@ const CalendarSmm = () => {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
