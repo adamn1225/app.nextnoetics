@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { supabase } from "../lib/supabaseClient"; // Ensure the correct path to supabaseClient
 import { useNavigate } from "react-router-dom";
@@ -177,6 +176,7 @@ const LoginPage = () => {
             <Link className='underline text-sm text-blue-500 hover:text-blue-500 dark:hover:text-blue-400 dark:text-blue-300' to="/privacy-policy">
               Privacy Policy
             </Link>
+         
           </p>
         </form>
       </div>

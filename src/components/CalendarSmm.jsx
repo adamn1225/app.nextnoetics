@@ -1,4 +1,3 @@
-// filepath: /home/adam-noah/app.nextnoetics/src/components/CalendarSmm.jsx
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
@@ -28,9 +27,24 @@ const CalendarSmm = () => {
     template_id: '',
   });
   const [subscriptionPlan, setSubscriptionPlan] = useState(null);
-  const [accessTokens, setAccessTokens] = useState({});
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error('Error fetching session:', error);
+        return;
+      }
+      setUser(session.user);
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
     const fetchEvents = async () => {
       const { data, error } = await supabase.from("smm_calendar").select("*");
       if (error) {
@@ -43,20 +57,12 @@ const CalendarSmm = () => {
         })));
       }
     };
-    fetchEvents();
 
-    const fetchTemplates = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        console.error("User not authenticated");
-        return;
-      }
-    
+    const fetchTemplates = async (userId) => {
       const { data, error } = await supabase
         .from("templates")
         .select("id, name")
-        .eq("user_id", user.id);
-    
+        .eq("user_id", userId);
       if (error) {
         console.error("Error fetching templates:", error);
       } else {
@@ -64,50 +70,31 @@ const CalendarSmm = () => {
       }
     };
 
-    fetchTemplates();
-
-    const fetchSubscriptionPlan = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("plan")
-          .eq("user_id", user.id)
-          .single();
-        if (error) {
-          console.error("Error fetching subscription plan:", error);
-        } else {
-          setSubscriptionPlan(data.plan);
-        }
+    const fetchSubscriptionPlan = async (userId) => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("user_id", userId)
+        .single();
+      if (error) {
+        console.error("Error fetching subscription plan:", error);
+      } else {
+        setSubscriptionPlan(data.plan);
       }
     };
-    fetchSubscriptionPlan();
 
-    const fetchAccessTokens = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data, error } = await supabase
-          .from("user_access_tokens")
-          .select("platform, access_token")
-          .eq("user_id", user.id);
-        if (error) {
-          console.error("Error fetching access tokens:", error);
-        } else {
-          const tokens = data.reduce((acc, token) => {
-            acc[token.platform] = token.access_token;
-            return acc;
-          }, {});
-          setAccessTokens(tokens);
-        }
-      }
+    const initializeData = async () => {
+      await fetchEvents();
+      await fetchTemplates(user.id);
+      await fetchSubscriptionPlan(user.id);
     };
-    fetchAccessTokens();
-  }, [accessTokens]);
+
+    initializeData();
+  }, [user]);
 
   const handleAddEvent = async (e) => {
     e.preventDefault();
     const { title, description, post_due_date, sm_platform, status, post_automatically, template_id } = formValues;
-    const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       console.error("User not authenticated");
       return;
@@ -156,7 +143,7 @@ const CalendarSmm = () => {
       console.error("Error adding event:", error);
     } else {
       if (data) {
-        setEvents([...data, ...events.map((event) => ({
+        setEvents([...events, ...data.map((event) => ({
           ...event,
           start: new Date(event.post_due_date),
           end: new Date(event.post_due_date),

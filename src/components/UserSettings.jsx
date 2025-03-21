@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import SubscriptionModal from './cms/SubscriptionModal';
 import AccountSettings from './AccountSettings';
-import FbDocs from './SmmModals/FbDocs'; // Import the FbDocs component
-import IgDocs from './SmmModals/IgDocs'; // Import the IgDocs component
-import LinkedInDocs from './SmmModals/LinkedInDocs'; // Import the LinkedInDocs component
-import TwitterDocs from './SmmModals/TwitterDocs'; // Import the TwitterDocs component
+import FbDocs from './SmmModals/FbDocs';
+import IgDocs from './SmmModals/IgDocs';
+import LinkedInDocs from './SmmModals/LinkedInDocs';
+import TwitterDocs from './SmmModals/TwitterDocs';
+import { Eye, EyeOff } from 'lucide-react';
 
 const UserSettings = () => {
-    const [email] = useState('');
-    const [smmKey] = useState('');
     const [facebookAccessToken, setFacebookAccessToken] = useState('');
     const [twitterAccessToken, setTwitterAccessToken] = useState('');
     const [linkedinAccessToken, setLinkedinAccessToken] = useState('');
@@ -19,21 +18,31 @@ const UserSettings = () => {
     const [user, setUser] = useState(null);
     const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('integration');
-    const [isFbDocsOpen, setIsFbDocsOpen] = useState(false); // State to control the FbDocs modal
-    const [isIgDocsOpen, setIsIgDocsOpen] = useState(false); // State to control the IgDocs modal
-    const [isLinkedInDocsOpen, setIsLinkedInDocsOpen] = useState(false); // State to control the LinkedInDocs modal
-    const [isTwitterDocsOpen, setIsTwitterDocsOpen] = useState(false); // State to control the TwitterDocs modal
+    const [isFbDocsOpen, setIsFbDocsOpen] = useState(false);
+    const [isIgDocsOpen, setIsIgDocsOpen] = useState(false);
+    const [isLinkedInDocsOpen, setIsLinkedInDocsOpen] = useState(false);
+    const [isTwitterDocsOpen, setIsTwitterDocsOpen] = useState(false);
+    const [showTokens, setShowTokens] = useState({
+        facebook: false,
+        instagram: false,
+        linkedin: false,
+        twitter: false,
+    });
 
     useEffect(() => {
         const fetchUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
-            setUser(user);
+            const { data: { session }, error } = await supabase.auth.getSession();
+            if (error) {
+                console.error('Error fetching session:', error);
+                return;
+            }
+            setUser(session.user);
 
-            if (user) {
+            if (session.user) {
                 const { data, error } = await supabase
                     .from('user_access_tokens')
                     .select('platform, access_token')
-                    .eq('user_id', user.id);
+                    .eq('user_id', session.user.id);
 
                 if (error) {
                     console.error('Error fetching access tokens:', error);
@@ -59,6 +68,7 @@ const UserSettings = () => {
                 }
             }
         };
+
         fetchUser();
     }, []);
 
@@ -66,26 +76,69 @@ const UserSettings = () => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
+
         try {
-            const response = await fetch('/.netlify/functions/saveUserSettings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, smmKey, facebookAccessToken, twitterAccessToken, linkedinAccessToken, instagramAccessToken }),
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                setSuccessMessage('Settings saved successfully');
-            } else {
-                setError('Failed to save settings');
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                setError('User not authenticated');
+                return;
             }
 
+            const platforms = [
+                { platform: 'Facebook', token: facebookAccessToken },
+                { platform: 'Twitter', token: twitterAccessToken },
+                { platform: 'LinkedIn', token: linkedinAccessToken },
+                { platform: 'Instagram', token: instagramAccessToken },
+            ];
+
+            for (const { platform, token } of platforms) {
+                if (token) {
+                    const { data: existingToken, error: fetchError } = await supabase
+                        .from('user_access_tokens')
+                        .select('id')
+                        .eq('user_id', user.id)
+                        .eq('platform', platform)
+                        .single();
+
+                    if (fetchError && fetchError.code !== 'PGRST116') {
+                        throw fetchError;
+                    }
+
+                    let upsertError;
+                    if (existingToken) {
+                        // Update the existing access token
+                        const { error } = await supabase
+                            .from('user_access_tokens')
+                            .update({ access_token: token })
+                            .eq('id', existingToken.id);
+                        upsertError = error;
+                    } else {
+                        // Insert a new access token
+                        const { error } = await supabase
+                            .from('user_access_tokens')
+                            .insert({ user_id: user.id, platform, access_token: token });
+                        upsertError = error;
+                    }
+
+                    if (upsertError) {
+                        throw upsertError;
+                    }
+                }
+            }
+
+            setSuccessMessage('Settings saved successfully');
         } catch (saveError) {
             console.error('Save Error:', saveError);
             setError('Failed to save settings');
         }
-    }
+    };
+
+    const toggleShowToken = (platform) => {
+        setShowTokens((prev) => ({
+            ...prev,
+            [platform]: !prev[platform],
+        }));
+    };
 
     return (
         <div className="bg-gray-200 dark:bg-zinc-700 min-h-screen flex items-center justify-center w-full">
@@ -124,16 +177,25 @@ const UserSettings = () => {
                     <form onSubmit={handleSave} className="space-y-4">
                         <div>
                             <label htmlFor="facebookAccessToken" className="block font-medium text-zinc-900 dark:text-white">Facebook Access Token</label>
-                            <input
-                                type="text"
-                                id="facebookAccessToken"
-                                name="facebookAccessToken"
-                                placeholder='Enter your Facebook access token'
-                                value={facebookAccessToken}
-                                onChange={(e) => setFacebookAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showTokens.facebook ? 'text' : 'password'}
+                                    id="facebookAccessToken"
+                                    name="facebookAccessToken"
+                                    placeholder='Enter your Facebook access token'
+                                    value={facebookAccessToken}
+                                    onChange={(e) => setFacebookAccessToken(e.target.value)}
+                                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                    disabled={!user}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-2 top-2"
+                                    onClick={() => toggleShowToken('facebook')}
+                                >
+                                    {showTokens.facebook ? <EyeOff /> : <Eye />}
+                                </button>
+                            </div>
                             <button
                                 type="button"
                                 className="text-blue-500 hover:underline mt-2"
@@ -144,16 +206,25 @@ const UserSettings = () => {
                         </div>
                         <div>
                             <label htmlFor="instagramAccessToken" className="block font-medium text-zinc-900 dark:text-white">Instagram Access Token</label>
-                            <input
-                                type="text"
-                                id="instagramAccessToken"
-                                name="instagramAccessToken"
-                                placeholder='Enter your Instagram access token'
-                                value={instagramAccessToken}
-                                onChange={(e) => setInstagramAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showTokens.instagram ? 'text' : 'password'}
+                                    id="instagramAccessToken"
+                                    name="instagramAccessToken"
+                                    placeholder='Enter your Instagram access token'
+                                    value={instagramAccessToken}
+                                    onChange={(e) => setInstagramAccessToken(e.target.value)}
+                                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                    disabled={!user}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-2 top-2"
+                                    onClick={() => toggleShowToken('instagram')}
+                                >
+                                    {showTokens.instagram ? <EyeOff /> : <Eye />}
+                                </button>
+                            </div>
                             <button
                                 type="button"
                                 className="text-blue-500 hover:underline mt-2"
@@ -164,16 +235,25 @@ const UserSettings = () => {
                         </div>
                         <div>
                             <label htmlFor="linkedinAccessToken" className="block font-medium text-zinc-900 dark:text-white">LinkedIn Access Token</label>
-                            <input
-                                type="text"
-                                id="linkedinAccessToken"
-                                name="linkedinAccessToken"
-                                placeholder='Enter your LinkedIn access token'
-                                value={linkedinAccessToken}
-                                onChange={(e) => setLinkedinAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showTokens.linkedin ? 'text' : 'password'}
+                                    id="linkedinAccessToken"
+                                    name="linkedinAccessToken"
+                                    placeholder='Enter your LinkedIn access token'
+                                    value={linkedinAccessToken}
+                                    onChange={(e) => setLinkedinAccessToken(e.target.value)}
+                                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                    disabled={!user}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-2 top-2"
+                                    onClick={() => toggleShowToken('linkedin')}
+                                >
+                                    {showTokens.linkedin ? <EyeOff /> : <Eye />}
+                                </button>
+                            </div>
                             <button
                                 type="button"
                                 className="text-blue-500 hover:underline mt-2"
@@ -184,16 +264,25 @@ const UserSettings = () => {
                         </div>
                         <div>
                             <label htmlFor="twitterAccessToken" className="block font-medium text-zinc-900 dark:text-white">Twitter Access Token</label>
-                            <input
-                                type="text"
-                                id="twitterAccessToken"
-                                name="twitterAccessToken"
-                                placeholder='Enter your Twitter access token'
-                                value={twitterAccessToken}
-                                onChange={(e) => setTwitterAccessToken(e.target.value)}
-                                className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
-                                disabled={!user}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showTokens.twitter ? 'text' : 'password'}
+                                    id="twitterAccessToken"
+                                    name="twitterAccessToken"
+                                    placeholder='Enter your Twitter access token'
+                                    value={twitterAccessToken}
+                                    onChange={(e) => setTwitterAccessToken(e.target.value)}
+                                    className="w-full p-2 border rounded bg-zinc-100 text-zinc-900"
+                                    disabled={!user}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-2 top-2"
+                                    onClick={() => toggleShowToken('twitter')}
+                                >
+                                    {showTokens.twitter ? <EyeOff /> : <Eye />}
+                                </button>
+                            </div>
                             <button
                                 type="button"
                                 className="text-blue-500 hover:underline mt-2"

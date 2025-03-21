@@ -1,6 +1,14 @@
 const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseServiceRoleKey) {
+  throw new Error('Missing Supabase environment variables');
+}
+
+const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -11,29 +19,35 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { email, facebookAccessToken, twitterAccessToken, linkedinAccessToken, instagramAccessToken } = JSON.parse(event.body);
+    const { accessToken, facebookAccessToken, twitterAccessToken, linkedinAccessToken, instagramAccessToken } = JSON.parse(event.body);
+
+    // Fetch the user from Supabase using the access token
+    const { data: { user }, error: userError } = await supabase.auth.getUser(accessToken);
+    if (userError || !user) {
+      throw new Error('User not found');
+    }
 
     // Insert user access tokens into the user_access_tokens table
     const { error } = await supabase
       .from('user_access_tokens')
       .insert([
         {
-          user_id: email, // Assuming email is used as user_id
+          user_id: user.id,
           platform: 'facebook',
           access_token: facebookAccessToken,
         },
         {
-          user_id: email,
+          user_id: user.id,
           platform: 'twitter',
           access_token: twitterAccessToken,
         },
         {
-          user_id: email,
+          user_id: user.id,
           platform: 'linkedin',
           access_token: linkedinAccessToken,
         },
         {
-          user_id: email,
+          user_id: user.id,
           platform: 'instagram',
           access_token: instagramAccessToken,
         },

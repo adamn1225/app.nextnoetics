@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library
 
 const SignupFree = () => {
   const [email, setEmail] = useState('');
@@ -35,10 +36,13 @@ const SignupFree = () => {
       const userId = signUpData.user?.id;
 
       if (userId) {
+        // Generate a unique subscription_id
+        const subscriptionId = uuidv4();
+
         // Create profile
         const { error: profileError } = await supabase
           .from('profiles')
-          .insert([{ user_id: userId, email, name: email.split('@')[0], plan: 'free' }]);
+          .insert([{ user_id: userId, email, name: email.split('@')[0], plan: 'free', subscription_id: subscriptionId }]);
 
         if (profileError) {
           setError(profileError.message);
